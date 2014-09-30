@@ -1,35 +1,37 @@
+var sinon = require('sinon');
+var sandbox = sinon.sandbox.create();
+
 var EventEmitter = function () {
     this._events = [];
-};
 
-EventEmitter.prototype = {
-
-    /**
-     * @param {Function} handler
-     */
-    addListener: function (handler) {
+    this.addListener = function (handler) {
         this._assertFunction(handler);
 
         var index = this._events.indexOf(handler);
         if (index >= 0) {
             this._events.push(handler);
         }
-    },
+    };
 
-    /**
-     * @param {Function} handler
-     */
-    removeListener: function (handler) {
-        this._assertFunction(handler);
-    },
+    this.removeListener = function (handler) {
+        var index = this._events.indexOf(handler);
 
-    /**
-     * @param {Function} handler
-     */
-    hasListener: function (handler) {
+        if (index >= 0) {
+            this._events.splice(index, 1);
+        }
+    };
+
+    this.hasListener = function (handler) {
         this._assertFunction(handler);
         return this._events.indexOf(handler) >= 0;
-    },
+    };
+
+    this.addListener = sandbox.spy(this, 'addListener');
+    this.removeListener = sandbox.spy(this, 'removeListener');
+    this.hasListener = sandbox.spy(this, 'hasListener');
+};
+
+EventEmitter.prototype = {
 
     willTrigger: function () {
         return this._events.length > 0;
@@ -46,6 +48,7 @@ EventEmitter.prototype = {
 
     _reset: function () {
         this._events = [];
+        sandbox.reset();
     },
 
     _assertFunction: function (func) {

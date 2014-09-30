@@ -1,0 +1,7 @@
+{
+    "name": "sinon-chrome",
+    "version": "0.0.1",
+    "dependencies": {
+        "sinon": "^1.10.3"
+    }
+}

@@ -1,3 +1,7 @@
+/**
+ * Chrome.* API mocks with sinon.
+ */
+
 var fs = require('fs');
 var path = require('path');
 var sinon = require('sinon');
@@ -66,6 +70,7 @@ var chrome = {
     get tabs() {
         return getter('tabs',  {
             get: ONE_ARG,
+            getCurrent: ONE_ARG,
             query: ONE_ARG,
             onUpdated: MANY_ARGS,
             onRemoved: MANY_ARGS,

@@ -1,6 +1,7 @@
 {
     "name": "sinon-chrome",
     "version": "0.0.1",
+    "main": "src/chrome.js",
     "dependencies": {
         "sinon": "^1.10.3"
     }

@@ -4,22 +4,10 @@ var sinon = require('sinon');
 var EventEmitter = require('./event');
 var sandbox = sinon.sandbox.create();
 
-// var accessor = function () {
-//     return {
-//         get: sandbox.stub(),
-//         set: sandbox.stub()
-//     }
-// };
-
-// var getEmitter = function () {
-//     return new EventEmitter();
-// };
-
 var NO_ARGS = 0;
 var ONE_ARG = 1;
 var MANY_ARGS = 2;
 var NO_CALLBACK = 3;
-
 
 var cache = {};
 
@@ -31,7 +19,7 @@ function getter(prop, methods) {
         return cache[prop];
     }
     cache[prop] = {};
-    Object.keys(methods).forEach(function(k) {
+    Object.keys(methods || {}).forEach(function(k) {
         if (k.substring(0, 2) === 'on') {
             // event
             var emitter = new EventEmitter();
@@ -109,7 +97,48 @@ var chrome = {
             onCompleted: NO_ARGS,
             onErrorOccurred: NO_ARGS
         });
-    }
+    },
+    get extension() {
+        return getter('extension', {});
+    },
+    get contextMenus() {
+        return getter('contextMenus', {});
+    },
+    get management() {
+        return getter('management', {});
+    },
+    get webNavigation() {
+        return getter('webNavigation', {});
+    },
+    get cookies() {
+        return getter('cookies', {});
+    },
+    get storage() {
+        return getter('storage', {});
+    },
+    get history() {
+        return getter('history', {});
+    },
+    get i18n() {
+        return getter('i18n', {});
+    },
+    storage: {
+        get local() {
+            return getter('storage.local', {
+                get: ONE_ARG,
+                set: ONE_ARG
+            });
+        },
+        get sync() {
+            return getter('storage.sync', {
+                get: ONE_ARG,
+                set: ONE_ARG
+            });
+        }
+    },
+    get history() {
+        return getter('history', {});
+    },
 };
 
 module.exports = chrome;
@@ -136,18 +165,6 @@ module.exports = chrome;
         onEnabled: getEmitter(),
         onDisabled:getEmitter()
     },
-    // tabs: {
-    //     update: sandbox.stub(),
-    //     create: sandbox.stub(),
-    //     get: sandbox.stub(),
-    //     reload: sandbox.stub(),
-    //     sendMessage: sandbox.stub(),
-    //     remove: sandbox.stub(),
-    //     getCurrent: sandbox.stub(),
-    //     onActivated: getEmitter(),
-    //     onUpdated: getEmitter(),
-    //     onCreated: getEmitter()
-    // },
     webRequest: {
         onBeforeRequest: getEmitter(),
         onCompleted: getEmitter(),

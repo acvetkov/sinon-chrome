@@ -1,6 +1,6 @@
 #sinon-chrome
 ## What is it?
-Library for mocking [chrome.* extension API](https://developer.chrome.com/extensions) via [SinonJS](http://sinonjs.org).
+Library for mocking [chrome.* extension API](https://developer.chrome.com/extensions) via [SinonJS](http://sinonjs.org) stubs.
 
 ## Why this is needed?
 To run chrome extension unit-tests under [nodejs](http://nodejs.org).

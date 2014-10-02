@@ -113,13 +113,17 @@ var chrome = {
         return getter('management', {});
     },
     get webNavigation() {
-        return getter('webNavigation', {});
+        return getter('webNavigation', {
+            onCommitted: ONE_ARG
+        });
     },
     get cookies() {
         return getter('cookies', {});
     },
     get history() {
-        return getter('history', {});
+        return getter('history', {
+            deleteUrl: NO_ARGS
+        });
     },
     get i18n() {
         return getter('i18n', {});

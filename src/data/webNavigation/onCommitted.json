@@ -1,0 +1,11 @@
+{
+    "frameId": 0,
+    "processId": 104,
+    "tabId": 83,
+    "timeStamp": 1412249369428.2639,
+    "transitionQualifiers": [
+        "client_redirect"
+    ],
+    "transitionType": "link",
+    "url": "http://google.com"
+}

@@ -11,7 +11,7 @@ npm i sinon-chrome
 ````
 
 ## How to use?
-Assume you have chrome extension /background.js/ retrieving current tab title:
+Assume you have chrome extension *background.js* retrieving current tab title:
 ````js
 function getTitle(ccallback) {
   chrome.tabs.getCurrent(funciton (tab) {
@@ -20,7 +20,7 @@ function getTitle(ccallback) {
 }
 ````
 
-Now lets write unit-test /test.js/ using [mocha](http://visionmedia.github.io/mocha) and [chai](http://chaijs.com):
+Now lets write unit-test *test.js* using [mocha](http://visionmedia.github.io/mocha) and [chai](http://chaijs.com):
 ````js
 var vm = require('vm');
 var fs = require('fs');

@@ -10,7 +10,7 @@ To run chrome extension unit-tests under [nodejs](http://nodejs.org).
 npm i sinon-chrome
 ````
 
-### How to use?
+## How to use?
 Assume you have chrome extension /background.js/ retrieving current tab title:
 ````js
 function getTitle(ccallback) {

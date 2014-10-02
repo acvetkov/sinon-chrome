@@ -118,9 +118,6 @@ var chrome = {
     get cookies() {
         return getter('cookies', {});
     },
-    get storage() {
-        return getter('storage', {});
-    },
     get history() {
         return getter('history', {});
     },
@@ -140,10 +137,7 @@ var chrome = {
                 set: ONE_ARG
             });
         }
-    },
-    get history() {
-        return getter('history', {});
-    },
+    }
 };
 
 module.exports = chrome;

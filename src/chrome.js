@@ -72,6 +72,7 @@ var chrome = {
             get: ONE_ARG,
             getCurrent: ONE_ARG,
             query: ONE_ARG,
+            update: ONE_ARG,
             onUpdated: MANY_ARGS,
             onRemoved: MANY_ARGS,
             onReplaced: MANY_ARGS,

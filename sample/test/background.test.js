@@ -1,9 +1,8 @@
 var fs = require('fs');
-var path = require('path');
-var expect = require('chai').expect;
 var sinon = require('sinon');
 var chrome = require('sinon-chrome');
-var jsdom = require("jsdom");
+var jsdom = require('jsdom');
+var expect = require('chai').expect;
 
 var window;
 

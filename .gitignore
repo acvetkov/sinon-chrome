@@ -1,2 +1,2 @@
 .idea
-samples/**/node_modules
+/sample/node_modules

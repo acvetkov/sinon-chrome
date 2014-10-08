@@ -6,6 +6,7 @@ function assertFunction(func) {
 
 var EventEmitter = function () {
     this._events = [];
+    this.isAsync = false;
 
     this.addListener = function (handler) {
         assertFunction(handler);
@@ -28,28 +29,37 @@ var EventEmitter = function () {
 
 EventEmitter.prototype = {
     /**
-     * Similar to sinon's yieldsAsync: store data to pass to handler when event triggered
+     * Similar to sinon's yields: store data to pass to handler when event triggered
      */
-    yieldsAsync: function() {
+    yields: function() {
+        this.isAsync = false;
         this.data = new Array(arguments.length);
         for (var i = 0; i < arguments.length; i++) {
             this.data[i] = arguments[i];
         }
     },
+    /**
+     * Same as yields. Actually sync OR async depends on trigger OR triggerAsync
+     */
+    yieldsAsync: function() {
+        this.yields.apply(this, arguments);
+        this.isAsync = true;
+    },
 
     trigger: function () {
         var args = arguments.length ? [].slice.call(arguments) : this.data;
+        if (this.isAsync) {
+            process.nextTick(this.executeListeners.bind(this, args));
+        } else {
+            this.executeListeners.call(this, args);
+        }
+    },
+
+    executeListeners: function(args) {
         this._events.forEach(function (handler) {
             assertFunction(handler);
             handler.apply(null, args);
         });
-    },
-
-    triggerAsync: function () {
-        var args = arguments.length ? [].slice.call(arguments) : this.data;
-        process.nextTick(function() {
-            this.trigger.apply(this, args);
-        }.bind(this));
     },
 
     removeListeners: function() {

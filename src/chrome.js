@@ -1,5 +1,5 @@
 /**
- * Chrome.* API mocks with sinon.
+ * Chrome.* API stubs with sinonjs
  */
 
 var fs = require('fs');
@@ -8,12 +8,17 @@ var sinon = require('sinon');
 var EventEmitter = require('./event');
 var sandbox = sinon.sandbox.create();
 
-var NO_ARGS = 0;
-var ONE_ARG = 1;
-var MANY_ARGS = 2;
-var NO_CALLBACK = 3;
+// callback signatures
+var CB_NO_ARGS = 0;
+var CB_ONE_ARG = 1;
+var CB_MANY_ARGS = 2;
+var NO_CB = 3;
 
+// closure vars
 var cache = {};
+var config = {
+    isAsync: false
+};
 
 /**
  * Lazy getter for methods
@@ -26,27 +31,27 @@ function getter(prop, methods) {
     Object.keys(methods || {}).forEach(function(k) {
         // stub whole event or single method
         cache[prop][k] = k.substring(0, 2) === 'on' ? chrome._stubEvent() : sandbox.stub();
-        if (methods[k] !== NO_CALLBACK) {
+        if (methods[k] !== NO_CB) {
             // data passed to callback
             var data;
-            if (methods[k] === NO_ARGS) {
+            if (methods[k] === CB_NO_ARGS) {
                 data = [];
             } else {
                 var filename = path.resolve(__dirname, path.join('data', prop, k + '.json'));
                 if (fs.existsSync(filename)) {
                     // read data from file
                     data = require(filename);
-                    if (methods[k] === ONE_ARG) {
+                    if (methods[k] === CB_ONE_ARG) {
                         data = [data];
                     }
-                    // add latest callback argument for onMessage
+                    // add latest callback argument (sendResponse) for onMessage
                     // otherwise have an error `TypeError: stub expected to yield, but no callback was passed`
                     if (k === 'onMessage') {
                         data.push(sandbox.spy());
                     }
                 }
             }
-            cache[prop][k].yieldsAsync.apply(cache[prop][k], data);
+            cache[prop][k][config.isAsync ? 'yieldsAsync' : 'yields'].apply(cache[prop][k], data);
         }
     });
     return cache[prop];
@@ -84,46 +89,59 @@ var chrome = {
             }
         }
     },
+    /**
+     * Configure
+     * @param  {object} aConfig config
+     * @param  {bool} aConfig.isAsync is all calls async
+     */
+    _configure: function(aConfig) {
+        aConfig = aConfig || {};
+        Object.keys(aConfig).forEach(function(key) {
+            config = aConfig[key];
+        });
+    },
     get _sandbox() {
         return sandbox;
     },
     // ------ chrome.* API stubs ------
     get tabs() {
         return getter('tabs',  {
-            get: ONE_ARG,
-            getCurrent: ONE_ARG,
-            query: ONE_ARG,
-            update: ONE_ARG,
-            onUpdated: MANY_ARGS,
-            onRemoved: MANY_ARGS,
-            onReplaced: MANY_ARGS,
+            get: CB_ONE_ARG,
+            getCurrent: CB_ONE_ARG,
+            query: CB_ONE_ARG,
+            update: CB_ONE_ARG,
+            onCreated: CB_MANY_ARGS,
+            onUpdated: CB_MANY_ARGS,
+            onRemoved: CB_MANY_ARGS,
+            onReplaced: CB_MANY_ARGS,
         });
     },
     get runtime() {
         return getter('runtime',  {
-            onMessage: MANY_ARGS
+            onMessage: CB_MANY_ARGS,
+            sendMessage: CB_NO_ARGS
         });
     },
     get windows() {
         return getter('windows',  {
-            getAll: ONE_ARG
+            getAll: CB_ONE_ARG
         });
     },
     get browserAction() {
         return getter('browserAction',  {
-            setIcon: NO_ARGS,
-            setTitle: NO_CALLBACK,
-            setBadgeText: NO_CALLBACK,
-            setBadgeBackgroundColor: NO_CALLBACK,
-            getTitle: MANY_ARGS,
-            onClicked: ONE_ARG
+            setIcon: CB_NO_ARGS,
+            setTitle: NO_CB,
+            setBadgeText: NO_CB,
+            setBadgeBackgroundColor: NO_CB,
+            getTitle: CB_MANY_ARGS,
+            onClicked: CB_ONE_ARG
         });
     },
     get webRequest() {
         return getter('webRequest',  {
-            onBeforeRequest: NO_ARGS,
-            onCompleted: NO_ARGS,
-            onErrorOccurred: NO_ARGS
+            onBeforeRequest: CB_NO_ARGS,
+            onCompleted: CB_NO_ARGS,
+            onErrorOccurred: CB_NO_ARGS
         });
     },
     get extension() {
@@ -137,7 +155,7 @@ var chrome = {
     },
     get webNavigation() {
         return getter('webNavigation', {
-            onCommitted: ONE_ARG
+            onCommitted: CB_ONE_ARG
         });
     },
     get cookies() {
@@ -145,7 +163,7 @@ var chrome = {
     },
     get history() {
         return getter('history', {
-            deleteUrl: NO_ARGS
+            deleteUrl: CB_NO_ARGS
         });
     },
     get i18n() {
@@ -154,14 +172,14 @@ var chrome = {
     storage: {
         get local() {
             return getter('storage.local', {
-                get: ONE_ARG,
-                set: ONE_ARG
+                get: CB_ONE_ARG,
+                set: CB_ONE_ARG
             });
         },
         get sync() {
             return getter('storage.sync', {
-                get: ONE_ARG,
-                set: ONE_ARG
+                get: CB_ONE_ARG,
+                set: CB_ONE_ARG
             });
         }
     }

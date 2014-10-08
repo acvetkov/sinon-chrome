@@ -1,6 +1,3 @@
-var sinon = require('sinon');
-var sandbox = sinon.sandbox.create();
-
 function assertFunction(func) {
     if (typeof func !== "function") {
         throw new Error("Type error. Passed argument is not a function");
@@ -31,9 +28,9 @@ var EventEmitter = function () {
 
 EventEmitter.prototype = {
     /**
-     * Similar to sinon's yields: store data to pass to handler when event triggered
+     * Similar to sinon's yieldsAsync: store data to pass to handler when event triggered
      */
-    yields: function() {
+    yieldsAsync: function() {
         this.data = new Array(arguments.length);
         for (var i = 0; i < arguments.length; i++) {
             this.data[i] = arguments[i];
@@ -42,18 +39,21 @@ EventEmitter.prototype = {
 
     trigger: function () {
         var args = arguments.length ? [].slice.call(arguments) : this.data;
-        var self = this;
-        process.nextTick(function() {
-            self._events.forEach(function (handler) {
-                assertFunction(handler);
-                handler.apply(null, args);
-            })
+        this._events.forEach(function (handler) {
+            assertFunction(handler);
+            handler.apply(null, args);
         });
     },
 
-    _reset: function () {
-        this._events = [];
-        sandbox.reset();
+    triggerAsync: function () {
+        var args = arguments.length ? [].slice.call(arguments) : this.data;
+        process.nextTick(function() {
+            this.trigger.apply(this, args);
+        }.bind(this));
+    },
+
+    removeListeners: function() {
+       this._events = [];
     }
 };
 

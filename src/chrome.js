@@ -24,18 +24,8 @@ function getter(prop, methods) {
     }
     cache[prop] = {};
     Object.keys(methods || {}).forEach(function(k) {
-        if (k.substring(0, 2) === 'on') {
-            // event
-            var emitter = new EventEmitter();
-            emitter.addListener = sandbox.spy(emitter, 'addListener');
-            emitter.removeListener = sandbox.spy(emitter, 'removeListener');
-            emitter.hasListener = sandbox.spy(emitter, 'hasListener');
-            cache[prop][k] = emitter;
-        } else {
-            // method
-            cache[prop][k] = sandbox.stub();
-        }
-
+        // stub whole event or single method
+        cache[prop][k] = k.substring(0, 2) === 'on' ? chrome._stubEvent() : sandbox.stub();
         if (methods[k] !== NO_CALLBACK) {
             // data passed to callback
             var data;
@@ -49,24 +39,55 @@ function getter(prop, methods) {
                     if (methods[k] === ONE_ARG) {
                         data = [data];
                     }
+                    // add latest callback argument for onMessage
+                    // otherwise have an error `TypeError: stub expected to yield, but no callback was passed`
                     if (k === 'onMessage') {
                         data.push(sandbox.spy());
                     }
                 }
             }
-            cache[prop][k].yields.apply(cache[prop][k], data);
+            cache[prop][k].yieldsAsync.apply(cache[prop][k], data);
         }
     });
     return cache[prop];
 }
 
 /**
+ * Add `reset` method to event emitter
+ */
+EventEmitter.prototype.reset = function() {
+    this.removeListeners();
+    this.addListener.reset();
+    this.removeListener.reset();
+    this.hasListener.reset();
+};
+
+/**
  * chrome.* APi mocks
  */
 var chrome = {
+    _stubEvent: function() {
+        var emitter = new EventEmitter();
+        emitter.addListener = sandbox.spy(emitter, 'addListener');
+        emitter.removeListener = sandbox.spy(emitter, 'removeListener');
+        emitter.hasListener = sandbox.spy(emitter, 'hasListener');
+        return emitter;
+    },
+    /**
+     * Reset all stubs
+     * See https://github.com/cjohansen/Sinon.JS/issues/572
+     */
+    _reset: function() {
+        for (var prop in cache) {
+            for (var method in cache[prop]) {
+                cache[prop][method].reset();
+            }
+        }
+    },
     get _sandbox() {
         return sandbox;
     },
+    // ------ chrome.* API stubs ------
     get tabs() {
         return getter('tabs',  {
             get: ONE_ARG,
@@ -94,7 +115,8 @@ var chrome = {
             setTitle: NO_CALLBACK,
             setBadgeText: NO_CALLBACK,
             setBadgeBackgroundColor: NO_CALLBACK,
-            getTitle: MANY_ARGS
+            getTitle: MANY_ARGS,
+            onClicked: ONE_ARG
         });
     },
     get webRequest() {

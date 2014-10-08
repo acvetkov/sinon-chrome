@@ -1,9 +1,0 @@
-{
-  "name": "Sample",
-  "version": "1.0.0",
-  "devDependencies": {
-    "sinon-chrome": "*",
-    "mocha": "^1.21.4",
-    "chai": "^1.9.2"
-  }
-}

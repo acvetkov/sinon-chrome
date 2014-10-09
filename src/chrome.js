@@ -34,7 +34,7 @@ function getter(prop, methods) {
         // stub whole event or single method
         cache[prop][k] = k.substring(0, 2) === 'on' ? chrome._stubEvent() : sandbox.stub();
 
-        if (CB_NO_ARGS, CB_ONE_ARG, CB_MANY_ARGS].indexOf(methods[k]) >= 0) {
+        if ([CB_NO_ARGS, CB_ONE_ARG, CB_MANY_ARGS].indexOf(methods[k]) >= 0) {
             var data;
             if (methods[k] === CB_NO_ARGS) {
                 data = [];

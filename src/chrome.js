@@ -83,11 +83,11 @@ var chrome = {
      * See https://github.com/cjohansen/Sinon.JS/issues/572
      */
     _reset: function() {
-        for (var prop in cache) {
-            for (var method in cache[prop]) {
-                cache[prop][method].reset();
+        (sandbox.fakes || []).forEach(function(fake) {
+            if (fake.reset) {
+                fake.reset();
             }
-        }
+        });
     },
     /**
      * Configure

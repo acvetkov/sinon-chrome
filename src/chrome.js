@@ -47,7 +47,8 @@ function getter(prop, methods) {
                     // add latest callback argument (sendResponse) for onMessage
                     // otherwise have an error `TypeError: stub expected to yield, but no callback was passed`
                     if (k === 'onMessage') {
-                        data.push(sandbox.spy());
+                        data.push(function() {});
+                        //data.push(sandbox.spy());
                     }
                 }
             }
@@ -73,21 +74,30 @@ EventEmitter.prototype.reset = function() {
 var chrome = {
     _stubEvent: function() {
         var emitter = new EventEmitter();
-        emitter.addListener = sandbox.spy(emitter, 'addListener');
-        emitter.removeListener = sandbox.spy(emitter, 'removeListener');
-        emitter.hasListener = sandbox.spy(emitter, 'hasListener');
+        sandbox.spy(emitter, 'addListener');
+        sandbox.spy(emitter, 'removeListener');
+        sandbox.spy(emitter, 'hasListener');
         return emitter;
     },
     /**
-     * Reset all stubs
+     * Reset all stubs and remove event listeners
      * See https://github.com/cjohansen/Sinon.JS/issues/572
      */
     _reset: function() {
+        // reset spies
         (sandbox.fakes || []).forEach(function(fake) {
-            if (fake.reset) {
+            if (typeof fake.reset === 'function') {
                 fake.reset();
             }
         });
+        // remove listeners
+        for (var prop in cache) {
+            for (var method in cache[prop]) {
+                if (cache[prop][method] instanceof EventEmitter) {
+                    cache[prop][method].removeListeners();
+                }
+            }
+         }
     },
     /**
      * Configure
@@ -99,9 +109,6 @@ var chrome = {
         Object.keys(aConfig).forEach(function(key) {
             config = aConfig[key];
         });
-    },
-    get _sandbox() {
-        return sandbox;
     },
     // ------ chrome.* API stubs ------
     get tabs() {

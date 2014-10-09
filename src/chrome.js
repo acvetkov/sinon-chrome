@@ -8,7 +8,7 @@ var sinon = require('sinon');
 var EventEmitter = require('./event');
 var sandbox = sinon.sandbox.create();
 
-// callback signatures
+// callback signatures:
 var CB_NO_ARGS = 0;
 var CB_ONE_ARG = 1;
 var CB_MANY_ARGS = 2;
@@ -19,6 +19,8 @@ var cache = {};
 var config = {
     isAsync: false
 };
+
+var noop = function() {};
 
 /**
  * Lazy getter for methods
@@ -31,12 +33,13 @@ function getter(prop, methods) {
     Object.keys(methods || {}).forEach(function(k) {
         // stub whole event or single method
         cache[prop][k] = k.substring(0, 2) === 'on' ? chrome._stubEvent() : sandbox.stub();
-        if (methods[k] !== NO_CB) {
-            // data passed to callback
+
+        if (CB_NO_ARGS, CB_ONE_ARG, CB_MANY_ARGS].indexOf(methods[k]) >= 0) {
             var data;
             if (methods[k] === CB_NO_ARGS) {
                 data = [];
             } else {
+                // try read response from file in `data/` directory
                 var filename = path.resolve(__dirname, path.join('data', prop, k + '.json'));
                 if (fs.existsSync(filename)) {
                     // read data from file
@@ -47,8 +50,7 @@ function getter(prop, methods) {
                     // add latest callback argument (sendResponse) for onMessage
                     // otherwise have an error `TypeError: stub expected to yield, but no callback was passed`
                     if (k === 'onMessage') {
-                        data.push(function() {});
-                        //data.push(sandbox.spy());
+                        data.push(noop);
                     }
                 }
             }
@@ -57,16 +59,6 @@ function getter(prop, methods) {
     });
     return cache[prop];
 }
-
-/**
- * Add `reset` method to event emitter
- */
-EventEmitter.prototype.reset = function() {
-    this.removeListeners();
-    this.addListener.reset();
-    this.removeListener.reset();
-    this.hasListener.reset();
-};
 
 /**
  * chrome.* APi mocks

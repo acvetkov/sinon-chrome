@@ -1,8 +1,13 @@
 {
-    "name": "sinon-chrome",
-    "version": "0.0.1",
-    "main": "src/chrome.js",
-    "dependencies": {
-        "sinon": "^1.10.3"
-    }
+  "name": "sinon-chrome",
+  "version": "0.0.1",
+  "main": "src/chrome.js",
+  "dependencies": {
+    "sinon": "^1.10.3"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-jscs": "^0.7.1"
+  }
 }

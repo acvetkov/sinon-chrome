@@ -102,29 +102,17 @@ var chrome = {
             config = aConfig[key];
         });
     },
-    // ------ chrome.* API stubs ------
-    get tabs() {
-        return getter('tabs',  {
-            get: CB_ONE_ARG,
-            getCurrent: CB_ONE_ARG,
-            query: CB_ONE_ARG,
-            update: CB_ONE_ARG,
-            onCreated: CB_MANY_ARGS,
-            onUpdated: CB_MANY_ARGS,
-            onRemoved: CB_MANY_ARGS,
-            onReplaced: CB_MANY_ARGS,
-        });
+    // ================ chrome.* API stubs =================
+    // https://developer.chrome.com/extensions/api_index
+    // =====================================================
+    get accessibilityFeatures() {
+        return getter('accessibilityFeatures', {});
     },
-    get runtime() {
-        return getter('runtime',  {
-            onMessage: CB_MANY_ARGS,
-            sendMessage: CB_NO_ARGS
-        });
+    get alarms() {
+        return getter('alarms', {});
     },
-    get windows() {
-        return getter('windows',  {
-            getAll: CB_ONE_ARG
-        });
+    get bookmarks() {
+        return getter('bookmarks', {});
     },
     get browserAction() {
         return getter('browserAction',  {
@@ -136,29 +124,60 @@ var chrome = {
             onClicked: CB_ONE_ARG
         });
     },
-    get webRequest() {
-        return getter('webRequest',  {
-            onBeforeRequest: CB_NO_ARGS,
-            onCompleted: CB_NO_ARGS,
-            onErrorOccurred: CB_NO_ARGS
-        });
+    get browsingData() {
+        return getter('browsingData', {});
     },
-    get extension() {
-        return getter('extension', {});
+    get commands() {
+        return getter('commands', {});
+    },
+    get contentSettings() {
+        return getter('contentSettings', {});
     },
     get contextMenus() {
         return getter('contextMenus', {});
     },
-    get management() {
-        return getter('management', {});
-    },
-    get webNavigation() {
-        return getter('webNavigation', {
-            onCommitted: CB_ONE_ARG
-        });
-    },
     get cookies() {
         return getter('cookies', {});
+    },
+    get debugger() {
+        return getter('debugger', {});
+    },
+    get declarativeContent() {
+        return getter('declarativeContent', {});
+    },
+    get desktopCapture() {
+        return getter('desktopCapture', {});
+    },
+    devtools: {
+        get inspectedWindow() {
+            return getter('devtools.inspectedWindow', {});
+        },
+        get inspectedWindow() {
+            return getter('devtools.network', {});
+        },
+        get inspectedWindow() {
+            return getter('devtools.panels', {});
+        }
+    },
+    get downloads() {
+        return getter('downloads', {});
+    },
+    enterprise: {
+        get platformKeys() {
+            return getter('enterprise.platformKeys', {});
+        }
+    },
+    get extension() {
+        return getter('extension', {});
+    },
+    get fileBrowserHandler() {
+        return getter('fileBrowserHandler', {});
+    },
+    get fontSettings() {
+        return getter('fontSettings', {});
+    },
+    get gcm() {
+        return getter('gcm', {});
     },
     get history() {
         return getter('history', {
@@ -167,6 +186,56 @@ var chrome = {
     },
     get i18n() {
         return getter('i18n', {});
+    },
+    get identity() {
+        return getter('identity', {});
+    },
+    get idle() {
+        return getter('idle', {});
+    },
+    input: {
+        get ime() {
+            return getter('ime', {});
+        }
+    },
+    get management() {
+        return getter('management', {});
+    },
+    get notifications() {
+        return getter('notifications', {});
+    },
+    get omnibox() {
+        return getter('omnibox', {});
+    },
+    get pageAction() {
+        return getter('pageAction', {});
+    },
+    get pageCapture() {
+        return getter('pageCapture', {});
+    },
+    get permissions() {
+        return getter('permissions', {});
+    },
+    get power() {
+        return getter('power', {});
+    },
+    get privacy() {
+        return getter('privacy', {});
+    },
+    get proxy() {
+        return getter('proxy', {});
+    },
+    get pushMessaging() {
+        return getter('pushMessaging', {});
+    },
+    get runtime() {
+        return getter('runtime',  {
+            onMessage: CB_MANY_ARGS,
+            sendMessage: CB_NO_ARGS
+        });
+    },
+    get sessions() {
+        return getter('sessions', {});
     },
     storage: {
         get local() {
@@ -181,75 +250,66 @@ var chrome = {
                 set: CB_ONE_ARG
             });
         }
+    },
+    system: {
+        get cpu() {
+            return getter('system.cpu', {});
+        },
+        get memory() {
+            return getter('system.memory', {});
+        },
+        get storage() {
+            return getter('system.storage', {});
+        }
+    },
+    get tabCapture() {
+        return getter('tabCapture', {});
+    },
+    get tabs() {
+        return getter('tabs',  {
+            get: CB_ONE_ARG,
+            getCurrent: CB_ONE_ARG,
+            query: CB_ONE_ARG,
+            update: CB_ONE_ARG,
+            onCreated: CB_MANY_ARGS,
+            onUpdated: CB_MANY_ARGS,
+            onRemoved: CB_MANY_ARGS,
+            onReplaced: CB_MANY_ARGS,
+        });
+    },
+    get topSites() {
+        return getter('topSites', {});
+    },
+    get tts() {
+        return getter('tts', {});
+    },
+    get ttsEngine() {
+        return getter('ttsEngine', {});
+    },
+    get types() {
+        return getter('types', {});
+    },
+    get webNavigation() {
+        return getter('webNavigation', {
+            onCommitted: CB_ONE_ARG
+        });
+    },
+    get webRequest() {
+        return getter('webRequest',  {
+            onBeforeRequest: CB_NO_ARGS,
+            onCompleted: CB_NO_ARGS,
+            onErrorOccurred: CB_NO_ARGS
+        });
+    },
+    get webstore() {
+        return getter('webstore', {});
+    },
+    get windows() {
+        return getter('windows',  {
+            getAll: CB_ONE_ARG
+        });
     }
 };
 
 module.exports = chrome;
-/*
-    runtime: {
-        onMessage: getEmitter(),
-        onMessageExternal: getEmitter(),
-        onConnect: getEmitter(),
-        sendMessage: sandbox.stub(),
-        getManifest: sandbox.stub(),
-        setUninstallUrl: sandbox.stub(),
-        //id: "12345678910111213141516"
-    },
-    extension: {
-        getBackgroundPage: sandbox.stub(),
-        getURL: sandbox.stub().returns("chrome-extension://key/"),
-        onMessage: getEmitter(),
-        onMessageExternal: getEmitter()
-    },
-    contextMenus: {},
-    management: {
-        uninstall: sandbox.stub(),
-        onUninstalled: getEmitter(),
-        onEnabled: getEmitter(),
-        onDisabled:getEmitter()
-    },
-    webRequest: {
-        onBeforeRequest: getEmitter(),
-        onCompleted: getEmitter(),
-        onErrorOccurred: getEmitter()
-    },
-    webNavigation: {
-        onCommitted: getEmitter(),
-        onCompleted: getEmitter()
-    },
-    cookies: {
-        get: sandbox.stub(),
-        getAll: sandbox.stub(),
-        set: sandbox.stub(),
-        remove: sandbox.stub(),
-        getAllCookieStores: sandbox.stub(),
-        onChanged: EventEmitter()
-    },
-    storage: {
-        local: accessor(),
-        sync: accessor()
-    },
-    history: {
-        search: sandbox.stub(),
-        getVisits: sandbox.stub(),
-        addUrl: sandbox.stub(),
-        deleteUrl: sandbox.stub(),
-        deleteRange: sandbox.stub(),
-        deleteAll: sandbox.stub(),
-        onVisited: getEmitter(),
-        onVisitRemoved: getEmitter()
-    },
-    i18n: {
-        getMessage: sandbox.stub(),
-        getUILanguage: sandbox.stub(),
-        getAcceptLanguages: sandbox.stub()
-    },
-    windows: {
-        create: sandbox.stub(),
-        remove: sandbox.stub(),
-        onFocusChanged: getEmitter(),
-        onCreated: getEmitter(),
-        getCurrent: sandbox.stub()
-    }
 
-};*/

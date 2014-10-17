@@ -152,10 +152,10 @@ var chrome = {
         get inspectedWindow() {
             return getter('devtools.inspectedWindow', {});
         },
-        get inspectedWindow() {
+        get network() {
             return getter('devtools.network', {});
         },
-        get inspectedWindow() {
+        get panels() {
             return getter('devtools.panels', {});
         }
     },

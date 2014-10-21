@@ -137,7 +137,9 @@ var chrome = {
         return getter('contextMenus', {});
     },
     get cookies() {
-        return getter('cookies', {});
+        return getter('cookies', {
+            onChanged: CB_MANY_ARGS
+        });
     },
     get debugger() {
         return getter('debugger', {});

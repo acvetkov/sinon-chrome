@@ -46,8 +46,20 @@ EventEmitter.prototype = {
         this.isAsync = true;
     },
 
+    /**
+     * Triggers event with specified arguments (arg1, arg2, ...)
+     */
     trigger: function () {
         var args = arguments.length ? [].slice.call(arguments) : this.data;
+        this.applyTrigger(args);
+    },
+
+    /**
+     * Triggers event using first argument as array for `apply` listener
+     * Useful when callback expects several arguments
+     * Example: chrome.tabs.onUpdate.applyTrigger(require('data.json'));
+     */
+    applyTrigger: function (args) {
         if (this.isAsync) {
             process.nextTick(this.executeListeners.bind(this, args));
         } else {

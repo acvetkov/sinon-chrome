@@ -2,25 +2,13 @@
  * Chrome.* API stubs with sinonjs
  */
 
-var fs = require('fs');
-var path = require('path');
 var sinon = require('sinon');
-var EventEmitter = require('./event');
+var ChromeEvent = require('./chrome-event');
+
 var sandbox = sinon.sandbox.create();
 
-// callback signatures:
-var CB_NO_ARGS = 0;
-var CB_ONE_ARG = 1;
-var CB_MANY_ARGS = 2;
-var NO_CB = 3;
-
-// closure vars
+// cache of touched props
 var cache = {};
-var config = {
-    isAsync: false
-};
-
-var noop = function() {};
 
 /**
  * Lazy getter for methods
@@ -30,31 +18,12 @@ function getter(prop, methods) {
         return cache[prop];
     }
     cache[prop] = {};
-    Object.keys(methods || {}).forEach(function(k) {
-        // stub whole event or single method
-        cache[prop][k] = k.substring(0, 2) === 'on' ? chrome._stubEvent() : sandbox.stub();
-
-        if ([CB_NO_ARGS, CB_ONE_ARG, CB_MANY_ARGS].indexOf(methods[k]) >= 0) {
-            var data;
-            if (methods[k] === CB_NO_ARGS) {
-                data = [];
-            } else {
-                // try read response from file in `data/` directory
-                var filename = path.resolve(__dirname, path.join('data', prop, k + '.json'));
-                if (fs.existsSync(filename)) {
-                    // read data from file
-                    data = require(filename);
-                    if (methods[k] === CB_ONE_ARG) {
-                        data = [data];
-                    }
-                    // add latest callback argument (sendResponse) for onMessage
-                    // otherwise have an error `TypeError: stub expected to yield, but no callback was passed`
-                    if (k === 'onMessage') {
-                        data.push(noop);
-                    }
-                }
-            }
-            cache[prop][k][config.isAsync ? 'yieldsAsync' : 'yields'].apply(cache[prop][k], data);
+    Object.keys(methods).forEach(function(m) {
+        if (methods[m] === 0) {
+            cache[prop][m] = sandbox.stub();
+        }
+        if (methods[m] === 1) {
+            cache[prop][m] = new ChromeEvent();
         }
     });
     return cache[prop];
@@ -64,18 +33,11 @@ function getter(prop, methods) {
  * chrome.* APi mocks
  */
 var chrome = {
-    _stubEvent: function() {
-        var emitter = new EventEmitter();
-        sandbox.spy(emitter, 'addListener');
-        sandbox.spy(emitter, 'removeListener');
-        sandbox.spy(emitter, 'hasListener');
-        return emitter;
-    },
     /**
      * Reset all stubs and remove event listeners
      * See https://github.com/cjohansen/Sinon.JS/issues/572
      */
-    _reset: function() {
+    reset: function() {
         // reset spies
         (sandbox.fakes || []).forEach(function(fake) {
             if (typeof fake.reset === 'function') {
@@ -85,236 +47,691 @@ var chrome = {
         // remove listeners
         for (var prop in cache) {
             for (var method in cache[prop]) {
-                if (cache[prop][method] instanceof EventEmitter) {
+                if (cache[prop][method] instanceof ChromeEvent) {
                     cache[prop][method].removeListeners();
                 }
             }
-         }
-    },
-    /**
-     * Configure
-     * @param  {object} aConfig config
-     * @param  {bool} aConfig.isAsync is all calls async
-     */
-    _configure: function(aConfig) {
-        aConfig = aConfig || {};
-        Object.keys(aConfig).forEach(function(key) {
-            config = aConfig[key];
-        });
+        }
     },
     // ================ chrome.* API stubs =================
     // https://developer.chrome.com/extensions/api_index
     // =====================================================
-    get accessibilityFeatures() {
-        return getter('accessibilityFeatures', {});
-    },
     get alarms() {
-        return getter('alarms', {});
+        return getter("alarms", {
+            clear: 0,
+            clearAll: 0,
+            create: 0,
+            get: 0,
+            getAll: 0,
+            onAlarm: 1
+        });
     },
+
+    get app() {
+        return getter("app", {
+            getDetails: 0,
+            getDetailsForFrame: 0,
+            getIsInstalled: 0,
+            installState: 0,
+            runningState: 0
+        });
+    },
+
     get bookmarks() {
-        return getter('bookmarks', {});
+        return getter("bookmarks", {
+            create: 0,
+            get: 0,
+            getChildren: 0,
+            getRecent: 0,
+            getSubTree: 0,
+            getTree: 0,
+            move: 0,
+            onChanged: 1,
+            onChildrenReordered: 1,
+            onCreated: 1,
+            onImportBegan: 1,
+            onImportEnded: 1,
+            onMoved: 1,
+            onRemoved: 1,
+            remove: 0,
+            removeTree: 0,
+            search: 0,
+            update: 0
+        });
     },
+
     get browserAction() {
-        return getter('browserAction',  {
-            setIcon: CB_NO_ARGS,
-            setTitle: NO_CB,
-            setBadgeText: NO_CB,
-            setBadgeBackgroundColor: NO_CB,
-            getTitle: CB_MANY_ARGS,
-            onClicked: CB_ONE_ARG
+        return getter("browserAction", {
+            disable: 0,
+            enable: 0,
+            getBadgeBackgroundColor: 0,
+            getBadgeText: 0,
+            getPopup: 0,
+            getTitle: 0,
+            onClicked: 1,
+            setBadgeBackgroundColor: 0,
+            setBadgeText: 0,
+            setIcon: 0,
+            setPopup: 0,
+            setTitle: 0
         });
     },
+
     get browsingData() {
-        return getter('browsingData', {});
+        return getter("browsingData", {
+            remove: 0,
+            removeAppcache: 0,
+            removeCache: 0,
+            removeCookies: 0,
+            removeDownloads: 0,
+            removeFileSystems: 0,
+            removeFormData: 0,
+            removeHistory: 0,
+            removeIndexedDB: 0,
+            removeLocalStorage: 0,
+            removePasswords: 0,
+            removePluginData: 0,
+            removeWebSQL: 0,
+            settings: 0
+        });
     },
-    get commands() {
-        return getter('commands', {});
-    },
+
     get contentSettings() {
-        return getter('contentSettings', {});
+        return getter("contentSettings", {
+            get cookies() {
+                return getter("contentSettings.cookies", {
+                    clear: 0,
+                    get: 0,
+                    getResourceIdentifiers: 0,
+                    set: 0
+                });
+            },
+            get images() {
+                return getter("contentSettings.images", {
+                    clear: 0,
+                    get: 0,
+                    getResourceIdentifiers: 0,
+                    set: 0
+                });
+            },
+            get javascript() {
+                return getter("contentSettings.javascript", {
+                    clear: 0,
+                    get: 0,
+                    getResourceIdentifiers: 0,
+                    set: 0
+                });
+            },
+            get notifications() {
+                return getter("contentSettings.notifications", {
+                    clear: 0,
+                    get: 0,
+                    getResourceIdentifiers: 0,
+                    set: 0
+                });
+            },
+            get plugins() {
+                return getter("contentSettings.plugins", {
+                    clear: 0,
+                    get: 0,
+                    getResourceIdentifiers: 0,
+                    set: 0
+                });
+            },
+            get popups() {
+                return getter("contentSettings.popups", {
+                    clear: 0,
+                    get: 0,
+                    getResourceIdentifiers: 0,
+                    set: 0
+                });
+            }
+        });
     },
+
     get contextMenus() {
-        return getter('contextMenus', {});
+        return getter("contextMenus", {
+            create: 0,
+            onClicked: 1,
+            remove: 0,
+            removeAll: 0,
+            update: 0
+        });
     },
+
     get cookies() {
-        return getter('cookies', {
-            onChanged: CB_MANY_ARGS
+        return getter("cookies", {
+            get: 0,
+            getAll: 0,
+            getAllCookieStores: 0,
+            onChanged: 1,
+            remove: 0,
+            set: 0
         });
     },
+
+    csi: sandbox.spy(),
+
     get debugger() {
-        return getter('debugger', {});
+        return getter("debugger", {
+            attach: 0,
+            detach: 0,
+            getTargets: 0,
+            onDetach: 1,
+            onEvent: 1,
+            sendCommand: 0
+        });
     },
+
     get declarativeContent() {
-        return getter('declarativeContent', {});
+        return getter("declarativeContent", {
+            PageStateMatcher: 0,
+            RequestContentScript: 0,
+            ShowPageAction: 0,
+            onPageChanged: 1
+        });
     },
+
     get desktopCapture() {
-        return getter('desktopCapture', {});
+        return getter("desktopCapture", {
+            cancelChooseDesktopMedia: 0,
+            chooseDesktopMedia: 0
+        });
     },
-    devtools: {
-        get inspectedWindow() {
-            return getter('devtools.inspectedWindow', {});
-        },
-        get network() {
-            return getter('devtools.network', {});
-        },
-        get panels() {
-            return getter('devtools.panels', {});
-        }
-    },
+
     get downloads() {
-        return getter('downloads', {});
+        return getter("downloads", {
+            acceptDanger: 0,
+            cancel: 0,
+            download: 0,
+            drag: 0,
+            erase: 0,
+            getFileIcon: 0,
+            onChanged: 1,
+            onCreated: 1,
+            onDeterminingFilename: 1,
+            onErased: 1,
+            open: 0,
+            pause: 0,
+            removeFile: 0,
+            resume: 0,
+            search: 0,
+            setShelfEnabled: 0,
+            show: 0,
+            showDefaultFolder: 0
+        });
     },
-    enterprise: {
-        get platformKeys() {
-            return getter('enterprise.platformKeys', {});
-        }
-    },
+
     get extension() {
-        return getter('extension', {
-            onMessageExternal: CB_MANY_ARGS
+        return getter("extension", {
+            connect: 0,
+            connectNative: 0,
+            getBackgroundPage: 0,
+            getURL: 0,
+            getViews: 0,
+            isAllowedFileSchemeAccess: 0,
+            isAllowedIncognitoAccess: 0,
+            onConnect: 1,
+            onConnectExternal: 1,
+            onMessage: 1,
+            onMessageExternal: 1,
+            onRequest: 1,
+            onRequestExternal: 1,
+            sendMessage: 0,
+            sendNativeMessage: 0,
+            sendRequest: 0,
+            setUpdateUrlData: 0
         });
     },
-    get fileBrowserHandler() {
-        return getter('fileBrowserHandler', {});
-    },
+
     get fontSettings() {
-        return getter('fontSettings', {});
+        return getter("fontSettings", {
+            clearDefaultFixedFontSize: 0,
+            clearDefaultFontSize: 0,
+            clearFont: 0,
+            clearMinimumFontSize: 0,
+            getDefaultFixedFontSize: 0,
+            getDefaultFontSize: 0,
+            getFont: 0,
+            getFontList: 0,
+            getMinimumFontSize: 0,
+            onDefaultFixedFontSizeChanged: 1,
+            onDefaultFontSizeChanged: 1,
+            onFontChanged: 1,
+            onMinimumFontSizeChanged: 1,
+            setDefaultFixedFontSize: 0,
+            setDefaultFontSize: 0,
+            setFont: 0,
+            setMinimumFontSize: 0
+        });
     },
+
     get gcm() {
-        return getter('gcm', {});
+        return getter("gcm", {
+            onMessage: 1,
+            onMessagesDeleted: 1,
+            onSendError: 1,
+            register: 0,
+            send: 0,
+            unregister: 0
+        });
     },
+
     get history() {
-        return getter('history', {
-            deleteUrl: CB_NO_ARGS
+        return getter("history", {
+            addUrl: 0,
+            deleteAll: 0,
+            deleteRange: 0,
+            deleteUrl: 0,
+            getVisits: 0,
+            onVisitRemoved: 1,
+            onVisited: 1,
+            search: 0
         });
     },
+
     get i18n() {
-        return getter('i18n', {});
+        return getter("i18n", {
+            getAcceptLanguages: 0,
+            getMessage: 0,
+            getUILanguage: 0
+        });
     },
+
     get identity() {
-        return getter('identity', {});
+        return getter("identity", {
+            getAuthToken: 0,
+            getProfileUserInfo: 0,
+            getRedirectURL: 0,
+            launchWebAuthFlow: 0,
+            onSignInChanged: 1,
+            removeCachedAuthToken: 0
+        });
     },
+
     get idle() {
-        return getter('idle', {});
+        return getter("idle", {
+            onStateChanged: 1,
+            queryState: 0,
+            setDetectionInterval: 0
+        });
     },
-    input: {
-        get ime() {
-            return getter('ime', {});
-        }
-    },
+
+    loadTimes: sandbox.spy(),
+
     get management() {
-        return getter('management', {});
+        return getter("management", {
+            createAppShortcut: 0,
+            generateAppForLink: 0,
+            get: 0,
+            getAll: 0,
+            getPermissionWarningsById: 0,
+            getPermissionWarningsByManifest: 0,
+            launchApp: 0,
+            onDisabled: 1,
+            onEnabled: 1,
+            onInstalled: 1,
+            onUninstalled: 1,
+            setEnabled: 0,
+            setLaunchType: 0,
+            uninstall: 0,
+            uninstallSelf: 0
+        });
     },
+
     get notifications() {
-        return getter('notifications', {});
+        return getter("notifications", {
+            clear: 0,
+            create: 0,
+            getAll: 0,
+            getPermissionLevel: 0,
+            onButtonClicked: 1,
+            onClicked: 1,
+            onClosed: 1,
+            onPermissionLevelChanged: 1,
+            onShowSettings: 1,
+            update: 0
+        });
     },
-    get omnibox() {
-        return getter('omnibox', {});
-    },
-    get pageAction() {
-        return getter('pageAction', {});
-    },
+
     get pageCapture() {
-        return getter('pageCapture', {});
+        return getter("pageCapture", {
+            saveAsMHTML: 0
+        });
     },
+
     get permissions() {
-        return getter('permissions', {});
+        return getter("permissions", {
+            contains: 0,
+            getAll: 0,
+            onAdded: 1,
+            onRemoved: 1,
+            remove: 0,
+            request: 0
+        });
     },
+
     get power() {
-        return getter('power', {});
+        return getter("power", {
+            releaseKeepAwake: 0,
+            requestKeepAwake: 0
+        });
     },
+
     get privacy() {
-        return getter('privacy', {});
+        return getter("privacy", {
+            get network() {
+                return getter("privacy.network", {
+                    get networkPredictionEnabled() {
+                        return getter("privacy.network.networkPredictionEnabled", {
+                            clear: 0,
+                            get: 0,
+                            onChange: 1,
+                            set: 0
+                        });
+                    }
+                });
+            },
+            get services() {
+                return getter("privacy.services", {
+                    get alternateErrorPagesEnabled() {
+                        return getter("privacy.services.alternateErrorPagesEnabled", {
+                            clear: 0,
+                            get: 0,
+                            onChange: 1,
+                            set: 0
+                        });
+                    },
+                    get autofillEnabled() {
+                        return getter("privacy.services.autofillEnabled", {
+                            clear: 0,
+                            get: 0,
+                            onChange: 1,
+                            set: 0
+                        });
+                    },
+                    get passwordSavingEnabled() {
+                        return getter("privacy.services.passwordSavingEnabled", {
+                            clear: 0,
+                            get: 0,
+                            onChange: 1,
+                            set: 0
+                        });
+                    },
+                    get safeBrowsingEnabled() {
+                        return getter("privacy.services.safeBrowsingEnabled", {
+                            clear: 0,
+                            get: 0,
+                            onChange: 1,
+                            set: 0
+                        });
+                    },
+                    get searchSuggestEnabled() {
+                        return getter("privacy.services.searchSuggestEnabled", {
+                            clear: 0,
+                            get: 0,
+                            onChange: 1,
+                            set: 0
+                        });
+                    },
+                    get spellingServiceEnabled() {
+                        return getter("privacy.services.spellingServiceEnabled", {
+                            clear: 0,
+                            get: 0,
+                            onChange: 1,
+                            set: 0
+                        });
+                    },
+                    get translationServiceEnabled() {
+                        return getter("privacy.services.translationServiceEnabled", {
+                            clear: 0,
+                            get: 0,
+                            onChange: 1,
+                            set: 0
+                        });
+                    }
+                });
+            },
+            get websites() {
+                return getter("privacy.websites", {
+                    get hyperlinkAuditingEnabled() {
+                        return getter("privacy.websites.hyperlinkAuditingEnabled", {
+                            clear: 0,
+                            get: 0,
+                            onChange: 1,
+                            set: 0
+                        });
+                    },
+                    get referrersEnabled() {
+                        return getter("privacy.websites.referrersEnabled", {
+                            clear: 0,
+                            get: 0,
+                            onChange: 1,
+                            set: 0
+                        });
+                    },
+                    get thirdPartyCookiesAllowed() {
+                        return getter("privacy.websites.thirdPartyCookiesAllowed", {
+                            clear: 0,
+                            get: 0,
+                            onChange: 1,
+                            set: 0
+                        });
+                    }
+                });
+            }
+        });
     },
+
     get proxy() {
-        return getter('proxy', {});
+        return getter("proxy", {
+            onProxyError: 1,
+            get settings() {
+                return getter("proxy.settings", {
+                    clear: 0,
+                    get: 0,
+                    onChange: 1,
+                    set: 0
+                });
+            }
+        });
     },
+
     get pushMessaging() {
-        return getter('pushMessaging', {});
+        return getter("pushMessaging", {
+            getChannelId: 0,
+            onMessage: 1
+        });
     },
+
     get runtime() {
-        return getter('runtime',  {
-            onMessage: CB_MANY_ARGS,
-            onMessageExternal: CB_MANY_ARGS,
-            sendMessage: CB_NO_ARGS
+        return getter("runtime", {
+            connect: 0,
+            connectNative: 0,
+            getBackgroundPage: 0,
+            getManifest: 0,
+            getPackageDirectoryEntry: 0,
+            getPlatformInfo: 0,
+            getURL: 0,
+            onBrowserUpdateAvailable: 1,
+            onConnect: 1,
+            onConnectExternal: 1,
+            onInstalled: 1,
+            onMessage: 1,
+            onMessageExternal: 1,
+            onRestartRequired: 1,
+            onStartup: 1,
+            onSuspend: 1,
+            onSuspendCanceled: 1,
+            onUpdateAvailable: 1,
+            reload: 0,
+            requestUpdateCheck: 0,
+            restart: 0,
+            sendMessage: 0,
+            sendNativeMessage: 0
         });
     },
+
     get sessions() {
-        return getter('sessions', {});
+        return getter("sessions", {
+            getDevices: 0,
+            getRecentlyClosed: 0,
+            onChanged: 1,
+            restore: 0
+        });
     },
-    storage: {
-        get local() {
-            return getter('storage.local', {
-                get: CB_ONE_ARG,
-                set: CB_ONE_ARG
-            });
-        },
-        get sync() {
-            return getter('storage.sync', {
-                get: CB_ONE_ARG,
-                set: CB_ONE_ARG
-            });
-        }
+
+    get storage() {
+        return getter("storage", {
+            get local() {
+                return getter("storage.local", {
+                    clear: 0,
+                    get: 0,
+                    getBytesInUse: 0,
+                    remove: 0,
+                    set: 0
+                });
+            },
+            get managed() {
+                return getter("storage.managed", {
+                    clear: 0,
+                    get: 0,
+                    getBytesInUse: 0,
+                    remove: 0,
+                    set: 0
+                });
+            },
+            onChanged: 1,
+            get sync() {
+                return getter("storage.sync", {
+                    clear: 0,
+                    get: 0,
+                    getBytesInUse: 0,
+                    remove: 0,
+                    set: 0
+                });
+            }
+        });
     },
-    system: {
-        get cpu() {
-            return getter('system.cpu', {});
-        },
-        get memory() {
-            return getter('system.memory', {});
-        },
-        get storage() {
-            return getter('system.storage', {});
-        }
-    },
+
     get tabCapture() {
-        return getter('tabCapture', {});
+        return getter("tabCapture", {
+            capture: 0,
+            getCapturedTabs: 0,
+            onStatusChanged: 1
+        });
     },
+
     get tabs() {
-        return getter('tabs',  {
-            get: CB_ONE_ARG,
-            getCurrent: CB_ONE_ARG,
-            query: CB_ONE_ARG,
-            update: CB_ONE_ARG,
-            onCreated: CB_MANY_ARGS,
-            onUpdated: CB_MANY_ARGS,
-            onRemoved: CB_MANY_ARGS,
-            onReplaced: CB_MANY_ARGS,
+        return getter("tabs", {
+            captureVisibleTab: 0,
+            connect: 0,
+            create: 0,
+            detectLanguage: 0,
+            duplicate: 0,
+            executeScript: 0,
+            get: 0,
+            getAllInWindow: 0,
+            getCurrent: 0,
+            getSelected: 0,
+            highlight: 0,
+            insertCSS: 0,
+            move: 0,
+            onActivated: 1,
+            onActiveChanged: 1,
+            onAttached: 1,
+            onCreated: 1,
+            onDetached: 1,
+            onHighlightChanged: 1,
+            onHighlighted: 1,
+            onMoved: 1,
+            onRemoved: 1,
+            onReplaced: 1,
+            onSelectionChanged: 1,
+            onUpdated: 1,
+            onZoomChange: 1,
+            query: 0,
+            reload: 0,
+            remove: 0,
+            sendMessage: 0,
+            sendRequest: 0,
+            update: 0
         });
     },
+
     get topSites() {
-        return getter('topSites', {});
+        return getter("topSites", {
+            get: 0
+        });
     },
+
     get tts() {
-        return getter('tts', {});
+        return getter("tts", {
+            getVoices: 0,
+            isSpeaking: 0,
+            onEvent: 1,
+            pause: 0,
+            resume: 0,
+            speak: 0,
+            stop: 0
+        });
     },
+
     get ttsEngine() {
-        return getter('ttsEngine', {});
+        return getter("ttsEngine", {
+            onPause: 1,
+            onResume: 1,
+            onSpeak: 1,
+            onStop: 1,
+            sendTtsEvent: 0
+        });
     },
-    get types() {
-        return getter('types', {});
-    },
+
     get webNavigation() {
-        return getter('webNavigation', {
-            onCommitted: CB_ONE_ARG
+        return getter("webNavigation", {
+            getAllFrames: 0,
+            getFrame: 0,
+            onBeforeNavigate: 1,
+            onCommitted: 1,
+            onCompleted: 1,
+            onCreatedNavigationTarget: 1,
+            onDOMContentLoaded: 1,
+            onErrorOccurred: 1,
+            onHistoryStateUpdated: 1,
+            onReferenceFragmentUpdated: 1,
+            onTabReplaced: 1
         });
     },
+
     get webRequest() {
-        return getter('webRequest',  {
-            onBeforeRequest: CB_NO_ARGS,
-            onCompleted: CB_NO_ARGS,
-            onErrorOccurred: CB_NO_ARGS
+        return getter("webRequest", {
+            handlerBehaviorChanged: 0,
+            onAuthRequired: 1,
+            onBeforeRedirect: 1,
+            onBeforeRequest: 1,
+            onBeforeSendHeaders: 1,
+            onCompleted: 1,
+            onErrorOccurred: 1,
+            onHeadersReceived: 1,
+            onResponseStarted: 1,
+            onSendHeaders: 1
         });
     },
-    get webstore() {
-        return getter('webstore', {});
-    },
+
     get windows() {
-        return getter('windows',  {
-            getAll: CB_ONE_ARG
+        return getter("windows", {
+            create: 0,
+            get: 0,
+            getAll: 0,
+            getCurrent: 0,
+            getLastFocused: 0,
+            onCreated: 1,
+            onFocusChanged: 1,
+            onRemoved: 1,
+            remove: 0,
+            update: 0
         });
     }
 };
 
 module.exports = chrome;
-

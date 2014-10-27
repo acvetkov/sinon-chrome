@@ -1,3 +1,7 @@
+/**
+ * Tests for popup page
+ * Using `jsdom` to load popup.html
+ */
 var fs = require('fs');
 var sinon = require('sinon');
 var chrome = require('sinon-chrome');
@@ -24,10 +28,7 @@ describe('popup page', function() {
                 wnd.console = console;
 
                 // fake tabs response
-                chrome.runtime.sendMessage.yields([
-                    {id: 1, title: 'tab 1'},
-                    {id: 2, title: 'tab 2'}
-                ]);
+                chrome.runtime.sendMessage.yields(require('./data/tabs.query.json'));
             },
             done: function (errors, wnd) {
                 if (errors) {
@@ -41,14 +42,14 @@ describe('popup page', function() {
     });
 
     afterEach(function() {
-        chrome._reset();
+        chrome.reset();
         window.close();
     });
 
     it('should request tabs and render response on startup', function() {
         sinon.assert.calledOnce(chrome.runtime.sendMessage);
-        var html = '<li><a href="#" data-id="1">tab 1</a></li><li><a href="#" data-id="2">tab 2</a></li>';
-        assert(window.document.getElementById('tabs').innerHTML === html);
+        var html = '<li><a href="#" data-id="42">Extensions</a></li><li><a href="#" data-id="81">Google</a></li>';
+        assert.equal(window.document.getElementById('tabs').innerHTML, html);
     });
 
 });

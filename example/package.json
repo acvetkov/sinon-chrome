@@ -5,6 +5,7 @@
     "sinon-chrome": "^0.1.0",
     "mocha": "^1.21.4",
     "chai": "^1.9.2",
-    "jsdom": "^1.0.1"
+    "jsdom": "^1.0.1",
+    "browserify": "^6.2.0"
   }
 }

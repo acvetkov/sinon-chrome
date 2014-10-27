@@ -20,7 +20,6 @@ describe('popup page', function() {
             src: [fs.readFileSync('src/popup.js', 'utf-8')],
             created: function (errors, wnd) {
                 if (errors) {
-                    console.log(errors);
                     return done(true);
                 }
                 // attach `chrome` to window
@@ -32,7 +31,6 @@ describe('popup page', function() {
             },
             done: function (errors, wnd) {
                 if (errors) {
-                    console.log(errors);
                     return done(true);
                 }
                 window = wnd;

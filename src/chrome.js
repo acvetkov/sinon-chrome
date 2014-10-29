@@ -170,7 +170,9 @@ var chrome = {
         }
     },
     get extension() {
-        return getter('extension', {});
+        return getter('extension', {
+            onMessageExternal: CB_MANY_ARGS
+        });
     },
     get fileBrowserHandler() {
         return getter('fileBrowserHandler', {});
@@ -233,6 +235,7 @@ var chrome = {
     get runtime() {
         return getter('runtime',  {
             onMessage: CB_MANY_ARGS,
+            onMessageExternal: CB_MANY_ARGS,
             sendMessage: CB_NO_ARGS
         });
     },

@@ -1,30 +1,29 @@
-// retrieves opened tabs list
-function getOpenedTabs(callback) {
-    chrome.tabs.query({windowId: chrome.windows.WINDOW_ID_CURRENT}, callback);
-}
 
-// updates browserAction badge
-function updateBadge(tabs) {
-    chrome.browserAction.setBadgeText({text: String(tabs.length)});
-}
+// display number of opened tabs in button badge
+chrome.tabs.query({windowId: chrome.windows.WINDOW_ID_CURRENT}, function(tabs) {
+    chrome.browserAction.setBadgeText({text: String(tabs.length)})
+});
 
-// listen to message from popup
+// listen IP request
 chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
-    if (data === 'get-tabs') {
-        getOpenedTabs(sendResponse);
+    if (data === 'get-ip') {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "http://httpbin.org/ip");
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState == 4) {
+            if (xhr.status === 200) {
+                try {
+                    var data = JSON.parse(xhr.responseText);
+                } catch(e) {
+                    data = null;
+                }
+                sendResponse(data && data.origin);
+            } else {
+                sendResponse(null);
+            }
+          }
+        }
+        xhr.send();
         return true;
     }
 });
-
-// listen to new tab creation and update badge counter
-chrome.tabs.onCreated.addListener(function() {
-    getOpenedTabs(updateBadge);
-});
-
-// listen to tab removal and update badge counter
-chrome.tabs.onRemoved.addListener(function() {
-    getOpenedTabs(updateBadge);
-});
-
-// update badge counter on startup
-getOpenedTabs(updateBadge);

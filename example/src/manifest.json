@@ -1,9 +1,10 @@
 {
-  "name": "Opened Tabs List",
-  "description": "A browser action that displays opened tabs list",
+  "name": "Your IP and Opened Tabs",
+  "description": "Popup displays your IP address and opened tabs list",
   "version": "1.0",
   "permissions": [
-    "tabs"
+    "tabs",
+    "http://httpbin.org/ip"
   ],
   "background": { 
     "scripts": ["background.js"]

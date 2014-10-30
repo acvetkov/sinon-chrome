@@ -1,9 +1,10 @@
 {
   "name": "sinon-chrome",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "src/chrome.js",
-  "dependencies": {
-    "sinon": "^1.10.3"
+  "peerDependencies": {
+    "phantomjs": "~1.9.1",
+    "sinon": "~1.11.1"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

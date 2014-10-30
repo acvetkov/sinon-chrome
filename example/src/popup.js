@@ -1,15 +1,16 @@
-// request background for opened tabs list
-chrome.runtime.sendMessage('get-tabs', function(data) {
-    var html = [];
-    var maxLength = 40;
-    data.forEach(function(tab) {
-        var title = tab.title.length > maxLength ? tab.title.substring(0, maxLength) + '...' : tab.title;
-        html.push('<li><a href="#" data-id="' + tab.id + '">' + title + '</a></li>');
-    });
-    document.getElementById('tabs').innerHTML = html.join('');
+// request IP on start
+chrome.runtime.sendMessage('get-ip', function(ip) {
+    document.querySelector('#ip').innerText = ip || 'error';
 });
 
-// listen click on title to activate tab
+// request opened tabs
+chrome.tabs.query({windowId: chrome.windows.WINDOW_ID_CURRENT}, function(tabs) {
+    document.getElementById('tabs').innerHTML = (tabs || []).map(function(tab) {
+        return '<li><a href="#" data-id="' + tab.id + '">' + tab.title + '</a></li>';
+    }).join('');
+});
+
+// activate particular tab by click
 document.getElementById('tabs').addEventListener('click', function(e) {
     if (e.target.tagName === 'A') {
         e.preventDefault();

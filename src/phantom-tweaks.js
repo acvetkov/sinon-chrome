@@ -25,14 +25,15 @@
   // monkey-patch it into place. This code is copied from node's, links copyright applies.
   // https://github.com/joyent/node/blob/master/lib/util.js
   console.format = function(f) {
+    var i;
     if (typeof f !== 'string') {
       var objects = [];
-      for (var i = 0; i < arguments.length; i++) {
+      for (i = 0; i < arguments.length; i++) {
         objects.push(JSON.stringify(arguments[i]));
       }
       return objects.join(' ');
     }
-    var i = 1;
+    i = 1;
     var args = arguments;
     var len = args.length;
     var str = String(f).replace(/%[sdj%]/g, function(x) {

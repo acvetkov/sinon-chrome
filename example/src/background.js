@@ -1,7 +1,7 @@
 
 // display number of opened tabs in button badge
 chrome.tabs.query({windowId: chrome.windows.WINDOW_ID_CURRENT}, function(tabs) {
-    chrome.browserAction.setBadgeText({text: String(tabs.length)})
+    chrome.browserAction.setBadgeText({text: String(tabs.length)});
 });
 
 // listen IP request
@@ -12,8 +12,9 @@ chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
         xhr.onreadystatechange = function() {
           if (xhr.readyState == 4) {
             if (xhr.status === 200) {
+                var data;
                 try {
-                    var data = JSON.parse(xhr.responseText);
+                    data = JSON.parse(xhr.responseText);
                 } catch(e) {
                     data = null;
                 }
@@ -22,7 +23,7 @@ chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
                 sendResponse(null);
             }
           }
-        }
+        };
         xhr.send();
         return true;
     }

@@ -3,6 +3,10 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-jscs');
 
 	grunt.config('jshint', {
-		all: ['Gruntfile.js', 'src/*.js', 'sample/src/*.js', 'sample/test/*.js']
+		all: ['Gruntfile.js', 'src/*.js', 'example/src/*.js', 'example/test/*.js']
 	});
+
+	grunt.registerTask('check', [
+		'jshint',
+	]);
 };

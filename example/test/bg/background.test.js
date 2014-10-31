@@ -1,6 +1,8 @@
 /**
  * Tests for background page
  * Using node's VM module to execute scripts
+ *
+ * Example: mocha test/bg
  */
 
 // this required for sinon's fake XMLHttpRequest

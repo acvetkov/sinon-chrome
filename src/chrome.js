@@ -34,6 +34,10 @@
             }
             if (methods[m] === 1) {
                 cache[prop][m] = new ChromeEvent();
+                sandbox.spy(cache[prop][m], 'addListener');
+                sandbox.spy(cache[prop][m], 'hasListener');
+                sandbox.spy(cache[prop][m], 'removeListener');
+                sandbox.spy(cache[prop][m], 'removeListeners');
             }
         });
         return cache[prop];

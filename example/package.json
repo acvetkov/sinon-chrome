@@ -1,5 +1,5 @@
 {
-  "name": "opened-tabs-list",
+  "name": "sinon-chrome-example",
   "version": "0.1.0",
   "devDependencies": {
     "sinon-chrome": "^0.1.0",

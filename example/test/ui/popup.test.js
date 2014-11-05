@@ -3,92 +3,69 @@
  * Using phantomjs to render page and execute scripts
  */
 
-var fs = require('fs');
-
-var filename = 'src/popup.html';
-var page;
-var injectFn;
-
 describe('popup page', function() {
 
-  beforeEach(function() {
-    page = require('webpage').create();
+  // sometimes it takes time to start phantomjs
+  this.timeout(4000);
 
-    page.onConsoleMessage = function(msg) {
-      console.log(msg);
-    };
+  var filename = 'src/popup.html';
 
-    //console.log('page.onError', page.onError);
-    page.onError = function(msg, trace) {
-      //console.log('page.onError', msg);
-      var msgStack = [msg];
-      if (trace && trace.length) {
-        msgStack.push('TRACE:');
-        trace.forEach(function(t) {
-          msgStack.push(' -> ' + t.file + ': ' + t.line + (t.function ? ' (in function "' + t.function +'")' : ''));
-        });
-      }
-      // we need try..catch here as mocha throws error that catched by phantom.onError
-      try {
-        //mocha.throwError({msg: msg, trace: trace});
-        mocha.throwError(msgStack.join('\n'));
-      } catch(e) { }
-    };
-
-    page.onInitialized = function() {
-      page.injectJs(node_modules + 'chai/chai.js');
-      page.injectJs(node_modules + 'sinon/pkg/sinon-1.11.1.js');
-      page.injectJs(node_modules + 'sinon-chrome/src/chrome-event.js');
-      page.injectJs(node_modules + 'sinon-chrome/src/chrome.js');
-      page.injectJs(node_modules + 'sinon-chrome/src/phantom-tweaks.js');
-      page.evaluate(function() {
-        expect = chai.expect;
-      });
-      if (injectFn) {
-        injectFn();
-      }
-    };
-  });
-
-  afterEach(function() {
-    page.close();
-    injectFn = null;
-  });
-
-  it('should request IP and show it on start', function(done) {
+  it('should request and display IP on start', function(done) {
     // having
     injectFn = function() {
       page.evaluate(function() {
+        // stub `chrome.runtime.sendMessage` to call callback with '1.2.3.4' as argument
         chrome.runtime.sendMessage.yields('1.2.3.4');
       });
     };
-
     // when
     page.open(filename, function(status) {
-      var ip = page.evaluate(function() {
-        expect(document.querySelector('#ip').innerText).to.equal('1.2.3.4');
+      page.evaluate(function() {
+        assert.equal(document.querySelector('#ip').innerText, '1.2.3.4');
       });
       done();
     });
-
   });
 
-  it('should display opened tabs on start ', function(done) {
+  it('should display opened tabs on start', function(done) {
     // having
     injectFn = function() {
       page.evaluate(function(tabs) {
+        // stub `chrome.runtime.sendMessage` to yield with json from file
         chrome.tabs.query.yields(JSON.parse(tabs));
       }, fs.read('test/data/tabs.query.json'));
     };
-
     // when
     page.open(filename, function(status) {
-      var count = page.evaluate(function() {
-        expect(document.querySelector('#tabs').children.length).to.equal(2);
+      page.evaluate(function() {
+        assert.equal(document.querySelector('#tabs').children.length, 2);
       });
       done();
     });
   });
+
+  it('should activate tab by click', function(done) {
+    // having
+    injectFn = function() {
+      page.evaluate(function(tabs) {
+        // stub `chrome.runtime.sendMessage` to yield with json from file
+        chrome.tabs.query.yields(JSON.parse(tabs));
+      }, fs.read('test/data/tabs.query.json'));
+    };
+    // when
+    page.open(filename, function(status) {
+      page.evaluate(function() {
+        // emulate click on first link
+        document.querySelector('#tabs a').dispatchEvent(clickEvent);
+        // check that chrome.tabs.update was called with correct arguments
+        sinon.assert.calledOnce(chrome.tabs.update);
+        assert.equal(chrome.tabs.update.firstCall.args[0], 42);
+        assert.deepEqual(chrome.tabs.update.firstCall.args[1], {active: true});
+      });
+      done();
+    });
+  });
+
 });
 
 

@@ -21,6 +21,22 @@
     var cache = {};
 
     /**
+     * Some additional porperties (tweaks)
+     */
+    var tweaks = {
+        runtime: {
+            id: 'abcabcbabcabcabcbabcabcabcbabcab',
+            getURL: function(path) {
+                path = path.indexOf('/') === 0 ? path.substring(1) : path;
+                return 'chrome-extension://' + chrome.runtime.id + '/' + path;
+            }
+        },
+        i18n: {
+            getMessage: sandbox.stub().returnsArg(0)
+        }
+    };
+
+    /**
      * Lazy getter for methods
      */
     function getter(prop, methods) {
@@ -29,17 +45,29 @@
         }
         cache[prop] = {};
         Object.keys(methods).forEach(function(m) {
+            // method
             if (methods[m] === 0) {
                 cache[prop][m] = sandbox.stub();
-            }
-            if (methods[m] === 1) {
+            // event
+            } else if (methods[m] === 1) {
                 cache[prop][m] = new ChromeEvent();
                 sandbox.spy(cache[prop][m], 'addListener');
                 sandbox.spy(cache[prop][m], 'hasListener');
                 sandbox.spy(cache[prop][m], 'removeListener');
                 sandbox.spy(cache[prop][m], 'removeListeners');
+            // object
+            } else {
+                cache[prop][m] = methods[m];
             }
         });
+
+        // tweaks
+        if (tweaks[prop]) {
+            Object.keys(tweaks[prop]).forEach(function(m){
+                cache[prop][m] = tweaks[prop][m];
+            });
+        }
+
         return cache[prop];
     }
 

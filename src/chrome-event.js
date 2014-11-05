@@ -35,11 +35,7 @@
          * Example: chrome.tabs.onUpdate.applyTrigger(require('data.json'));
          */
         applyTrigger: function (args) {
-            if (this.isAsync) {
-                process.nextTick(this.executeListeners.bind(this, args));
-            } else {
-                this.executeListeners.call(this, args);
-            }
+            this.trigger.apply(this, args);
         },
 
         /**
@@ -48,11 +44,7 @@
          * Example: chrome.tabs.onUpdate.applyTrigger(require('data.json'));
          */
         applyTriggerAsync: function (args) {
-            if (this.isAsync) {
-                process.nextTick(this.executeListeners.bind(this, args));
-            } else {
-                this.executeListeners.call(this, args);
-            }
+            this.triggerAsync.apply(this, args);
         },
 
         addListener: function (listener) {

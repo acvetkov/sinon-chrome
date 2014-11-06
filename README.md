@@ -34,7 +34,6 @@ To start writing unit-tests you should re-arrange a bit your extension sources:
    |
    |--ui    // popup and options pages tests
    |  |--popup.test.js
-   |  |--run.js
    |
    |--data  // sample json results of chrome.* api calls
       |--tabs.query.json
@@ -197,6 +196,12 @@ Now run in terminal:
     ✓ should request and display IP on start
 
   1 passing (98ms)
+````
+## How to trigger chrome event?
+````js
+chrome.tab.onCreated.trigger({url: 'http://google.com'});
+// OR 
+chrome.tab.onUpdated.applyTrigger([1, {status: "complete"}, {id: 1, url: 'http://google.com'}]);
 ````
 
 ## More questions?

@@ -16,11 +16,15 @@
   },
   "main": "src/chrome.js",
   "peerDependencies": {
-    "phantomjs": "~1.9.1",
-    "sinon": "~1.11.1"
+    "phantomjs": "^1.9.1",
+    "sinon": "^1.10.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
-    "grunt-contrib-jshint": "^0.10.0"
+    "grunt-contrib-jshint": "^0.10.0",
+    "mocha": "^2.0.1",
+    "grunt-mocha-test": "^0.12.2",
+    "chai": "^1.9.2",
+    "load-grunt-tasks": "^1.0.0"
   }
 }

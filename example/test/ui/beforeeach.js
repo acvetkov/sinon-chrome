@@ -10,9 +10,8 @@ beforeEach(function() {
     console.log(msg);
   };
 
-  //console.log('page.onError', page.onError);
+  // listen page.onError to catch assertions
   page.onError = function(msg, trace) {
-    //console.log('page.onError', msg);
     var msgStack = [msg];
     if (trace && trace.length) {
       msgStack.push('TRACE:');
@@ -22,7 +21,6 @@ beforeEach(function() {
     }
     // we need try..catch here as mocha throws error that catched by phantom.onError
     try {
-      //mocha.throwError({msg: msg, trace: trace});
       mocha.throwError(msgStack.join('\n'));
     } catch(e) { }
   };

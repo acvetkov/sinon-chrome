@@ -25,4 +25,16 @@ describe("Chrome", function() {
     assert.property(chrome.tabs.onCreated.removeListeners, 'calledOnce');
   });
 
+  it("should define runtime tweaks", function() {
+    assert.ok(chrome.runtime.id);
+    assert.isFunction(chrome.runtime.getURL);
+    assert.equal(chrome.runtime.getURL('index.html'), 'chrome-extension://abcabcbabcabcabcbabcabcabcbabcab/index.html');
+    assert.equal(chrome.runtime.getURL('/index.html'), 'chrome-extension://abcabcbabcabcabcbabcabcabcbabcab/index.html');
+  });
+
+  it("should define i18n tweaks", function() {
+    assert.isFunction(chrome.i18n.getMessage);
+    assert.equal(chrome.i18n.getMessage('abc'), 'abc');
+  });
+
 });

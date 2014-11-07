@@ -3,7 +3,7 @@
 Mock of [chrome.* extensions API](https://developer.chrome.com/extensions) via [SinonJS](http://sinonjs.org) stubs.
 
 ## Why this is needed?
-To run unit-tests of chrome extensions with [mocha](http://mochajs.org), [nodejs](http://nodejs.org) and [phantomjs](http://phantomjs.org).
+To run unit-tests of chrome extensions with [nodejs](http://nodejs.org) or [phantomjs](http://phantomjs.org).
 
 ## How to install?
 ````
@@ -44,8 +44,9 @@ To start writing unit-tests you should re-arrange a bit your extension sources:
 Next install all required stuff (if not yet):
 
 1. [nodejs](http://nodejs.org)
-2. sinon-chrome (it will automatically install mocha, phantomjs and sinonjs)
-3. [chaijs](http://chaijs.com) or any other assertion library (optionally)
+2. sinon-chrome (it will automatically install phantomjs and sinonjs)
+3. [mocha](http://mochajs.org) or any other testing framework
+4. [chaijs](http://chaijs.com) or any other assertion library (optionally)
 
 **background page**  
 We will run background page tests with mocha and nodejs.  

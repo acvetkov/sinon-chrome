@@ -1,9 +1,9 @@
 # sinon-chrome
 ## What is it?
-Mock of [chrome.* extensions API](https://developer.chrome.com/extensions) via [SinonJS](http://sinonjs.org) stubs.
+Smart mocks of [chrome.* extensions API](https://developer.chrome.com/extensions) via [SinonJS stubs](http://sinonjs.org/docs/#stubs).
 
 ## Why this is needed?
-To run unit-tests of chrome extensions with [nodejs](http://nodejs.org) or [phantomjs](http://phantomjs.org).
+To run tests of chrome extensions with [PhantomJS](http://phantomjs.org).
 
 ## How to install?
 ````
@@ -11,16 +11,8 @@ npm i sinon-chrome
 ````
 
 ## How to use?
-**Short answer:** please see [example](/example) in this repo.  
+**Short answer:** please see [/example](/example) in this repo.  
 **Long answer:**  
-The main point of mocking chrome.* API is to setup mocks before any javascript operations start.  
-There are to possible options:
-
-1. execute js via node's [vm.runInNewContext](http://nodejs.org/api/vm.html#vm_vm_runinnewcontext_code_sandbox_filename) method
-2. execute js in phantomjs environment
-
-First method is suitable for *background pages* when it does not use any `window` methods or DOM operations.  
-Second method is suitable for *popup / options pages*.
 
 To start writing unit-tests you should re-arrange a bit your extension sources:
 ````js
@@ -29,16 +21,14 @@ To start writing unit-tests you should re-arrange a bit your extension sources:
 |  |-- ...
 |   
 |--test
-   |--bg    // background page tests
-   |  |--bg.test.js
-   |
-   |--ui    // popup and options pages tests
-   |  |--popup.test.js
-   |
    |--data  // sample json results of chrome.* api calls
-      |--tabs.query.json
-      |--tabs.get.json
-      |--...
+   |   |--tabs.query.json
+   |   |--tabs.get.json
+   |   |--...
+   |
+   |--bg.test.js // background page tests
+   |--popup.test.js // popup page tests
+   |--...
 ````
 
 Next install all required stuff (if not yet):
@@ -46,60 +36,22 @@ Next install all required stuff (if not yet):
 1. [nodejs](http://nodejs.org)
 2. sinon-chrome (it will automatically install phantomjs and sinonjs)
 3. [mocha](http://mochajs.org) or any other testing framework
-4. [chaijs](http://chaijs.com) or any other assertion library (optionally)
+4. [chaijs](http://chaijs.com) or any other assertion library
 
-**background page**  
-We will run background page tests with mocha and nodejs.  
-Create simplest test and put in `test/bg/bg.test.js`:
+Assume we have simple chrome extension that displays number of opened tabs in button badge.  
+*background page:*
 ````js
-var vm = require('vm');
-var fs = require('fs');
-var sinon = require('sinon');
-var chrome = require('sinon-chrome');
-var assert = require('chai').assert;
-
-// sources
-var code = fs.readFileSync('src/background.js');
-var context;
-
-describe('background page', function() {
-    beforeEach(function() {
-        context = {
-            // inject chrome.* api mock into context
-            chrome: chrome,
-            console: console
-        };
-    });
-    afterEach(function() {
-        chrome.reset();
-    });
-    it('should display opened tabs count in button badge', function() {
-        // stub `tabs.query`
-        chrome.tabs.query.yields(require('../data/tabs.query.json'));
-        // when
-        vm.runInNewContext(code, context);
-        // then
-        sinon.assert.calledOnce(chrome.browserAction.setBadgeText);
-        sinon.assert.calledWithMatch(chrome.browserAction.setBadgeText, {
-            text: "2"
-        });
-    });
-});    
+chrome.tabs.query({}, function(tabs) {
+  chrome.browserAction.setBadgeText({text: String(tabs.length)});
+});
 ````
-Now run in terminal:
-````
-  $ mocha test/bg
-  
-  background page
-    ✓ should display opened tabs count in button badge
+Test plan:  
+1. inject our mocked chrome.* api into phantomjs  
+2. mock `chrome.tabs.query` to return pre-defined response, e.g. [2 tabs](/example/test/data/tabs.query.json)  
+3. run our background page in phantomjs  
+4. assert that button badge equals to '2'  
 
-  1 passing (98ms)
-````
-
-**popup page**  
-We will run popup page tests with mocha and phantomjs (because we need webkit to render page).  
-Create simplest test and put in `test/ui/popup.test.js`:  
-
+The code snippet is following:
 ````js
 var node_modules = '../../node_modules/';
 // load mocha
@@ -132,7 +84,7 @@ beforeEach(function() {
     } catch(e) { }
   };
   
-  // inject chrome.* api mocks and other stuff into page
+  // #1. inject chrome.* api mocks and other stuff into page
   page.onInitialized = function() {
     page.injectJs(node_modules + 'chai/chai.js');
     page.injectJs(node_modules + 'sinon/pkg/sinon-1.11.1.js');
@@ -141,11 +93,8 @@ beforeEach(function() {
     page.injectJs(node_modules + 'sinon-chrome/src/phantom-tweaks.js');
     page.evaluate(function() {
       assert = chai.assert;
-
-      // for emulating click
-      clickEvent = document.createEvent('MouseEvents');
-      clickEvent.initMouseEvent('click', true);
     });
+    // run additional functions defined in tests
     if (injectFn) {
       injectFn();
     }
@@ -158,25 +107,33 @@ afterEach(function() {
 });
 
 // tests
-describe('popup page', function() {
+describe('background page', function() {
 
   // sometimes it takes time to start phantomjs
   this.timeout(4000);
 
-  var filename = 'src/popup.html';
+  // generated background page (or here may be real background page if exists)
+  var filename = 'empty.html';
 
-  it('should request and display IP on start', function(done) {
+  it('should display opened tabs in button badge', function(done) {
     // having
     injectFn = function() {
-      page.evaluate(function() {
-        // stub `chrome.runtime.sendMessage` to call callback with '1.2.3.4' as argument
-        chrome.runtime.sendMessage.yields('1.2.3.4');
-      });
+      page.evaluate(function(tabs) {
+        // #2. stub `chrome.tabs.query` to return pre-defined response
+        chrome.tabs.query.yields(JSON.parse(tabs));
+      }, fs.read('test/data/tabs.query.json'));
+
+      // #3. run background js
+      page.injectJs('src/background.js');
     };
     // when
     page.open(filename, function(status) {
       page.evaluate(function() {
-        assert.equal(document.querySelector('#ip').innerText, '1.2.3.4');
+        // #4. assert that button badge equals to '2'
+        sinon.assert.calledOnce(chrome.browserAction.setBadgeText);
+        sinon.assert.calledWithMatch(chrome.browserAction.setBadgeText, {
+            text: "2"
+        });
       });
       done();
     });
@@ -184,6 +141,7 @@ describe('popup page', function() {
   
 });
 
+// run
 mocha.run(function(failures) {
   phantom.exit(failures);
 });
@@ -191,13 +149,15 @@ mocha.run(function(failures) {
 ````
 Now run in terminal:
 ````
-  $ phantomjs test/ui/popup.test.js
+  $ phantomjs test/bg.test.js
   
-  popup page
-    ✓ should request and display IP on start
+  background page
+    ✓ should display opened tabs in button badge
 
   1 passing (98ms)
 ````
+Please see more complicated and structured example [here](/example)
+
 ## How to trigger chrome event?
 ````js
 chrome.tab.onCreated.trigger({url: 'http://google.com'});

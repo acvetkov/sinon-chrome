@@ -11,7 +11,7 @@ npm i sinon-chrome
 ````
 
 ## How to use?
-**Short answer:** please see [/example](/example) in this repo.  
+**Short answer:** please see [example](/example) in this repo.  
 **Long answer:**  
 
 To start writing unit-tests you should re-arrange a bit your extension sources:
@@ -34,11 +34,12 @@ To start writing unit-tests you should re-arrange a bit your extension sources:
 Next install all required stuff (if not yet):
 
 1. [nodejs](http://nodejs.org)
-2. sinon-chrome (it will automatically install phantomjs and sinonjs)
+2. **sinon-chrome** (it will automatically install phantomjs and sinonjs)
 3. [mocha](http://mochajs.org) or any other testing framework
 4. [chaijs](http://chaijs.com) or any other assertion library
 
 Assume we have simple chrome extension that displays number of opened tabs in button badge.  
+
 *background page:*
 ````js
 chrome.tabs.query({}, function(tabs) {
@@ -51,7 +52,7 @@ Test plan:
 3. run our background page in phantomjs  
 4. assert that button badge equals to '2'  
 
-The code snippet is following:
+The code snippet with comments:
 ````js
 var node_modules = '../../node_modules/';
 // load mocha

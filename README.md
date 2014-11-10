@@ -26,8 +26,9 @@ To start writing unit-tests you should re-arrange a bit your extension sources:
    |   |--tabs.get.json
    |   |--...
    |
-   |--bg.test.js // background page tests
+   |--bg.test.js    // background page tests
    |--popup.test.js // popup page tests
+   |--empty.html    // empty html file used as generated background page
    |--...
 ````
 

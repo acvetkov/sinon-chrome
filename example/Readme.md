@@ -7,5 +7,19 @@ Simple chrome extension that does 3 things:
 
 ### Run tests
 ````
-node_modules/.bin/phantomjs test/run.js
+$ node_modules/.bin/phantomjs test/run.js
+
+output:
+
+  background page
+    ✓ should display opened tabs in button badge
+    ✓ should retrieve IP when `get-ip` message comes (40ms)
+
+  popup page
+    ✓ should request and display IP on start (46ms)
+    ✓ should display opened tabs on start (40ms)
+    ✓ should activate tab by click (40ms)
+
+  5 passing (247ms)
+
 ````

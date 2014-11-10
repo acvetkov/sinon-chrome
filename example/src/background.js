@@ -12,15 +12,15 @@ chrome.runtime.onMessage.addListener(function(data, sender, sendResponse) {
         xhr.onreadystatechange = function() {
           if (xhr.readyState == 4) {
             if (xhr.status === 200) {
-                var data;
-                try {
-                    data = JSON.parse(xhr.responseText);
-                } catch(e) {
-                    data = null;
-                }
-                sendResponse(data && data.origin);
+              var data;
+              try {
+                data = JSON.parse(xhr.responseText);
+              } catch(e) {
+                data = null;
+              }
+              sendResponse(data && data.origin);
             } else {
-                sendResponse(null);
+              sendResponse(null);
             }
           }
         };

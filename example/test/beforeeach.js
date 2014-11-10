@@ -38,6 +38,7 @@ beforeEach(function() {
       clickEvent = document.createEvent('MouseEvents');
       clickEvent.initMouseEvent('click', true);
     });
+    // call additional function defined in tests
     if (injectFn) {
       injectFn();
     }

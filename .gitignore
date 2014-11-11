@@ -1,2 +1,4 @@
 .idea
 node_modules
+/chrome.js
+/phantom-tweaks.js

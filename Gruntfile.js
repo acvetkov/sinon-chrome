@@ -15,9 +15,27 @@ module.exports = function (grunt) {
     }
   });
 
+  grunt.config('concat', {
+    options: {
+      separator: ';',
+    },
+    'build-chrome': {
+      src: ['src/chrome-event.js', 'src/chrome.js'],
+      dest: 'chrome.js',
+    },
+    'build-phantom': {
+      src: ['src/phantom-tweaks.js'],
+      dest: 'phantom-tweaks.js',
+    }
+  });
+
   grunt.registerTask('test', [
     'jshint',
     'mochaTest'
   ]);
 
+  grunt.registerTask('build', [
+    'test',
+    'concat'
+  ]);
 };

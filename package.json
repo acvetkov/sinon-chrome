@@ -14,7 +14,7 @@
   "bugs": {
     "url": "https://github.com/vitalets/sinon-chrome/issues"
   },
-  "main": "src/chrome.js",
+  "main": "chrome.js",
   "scripts": {
     "test": "grunt test",
     "prepublish": "grunt build"

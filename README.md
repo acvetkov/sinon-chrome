@@ -58,7 +58,7 @@ The code snippet with comments:
 var node_modules = '../../node_modules/';
 // load mocha
 phantom.injectJs(node_modules + 'mocha/mocha.js');
-phantom.injectJs(node_modules + 'sinon-chrome/src/phantom-tweaks.js');
+phantom.injectJs(node_modules + 'sinon-chrome/phantom-tweaks.js');
 mocha.setup({ui: 'bdd', reporter: 'spec'});
 
 var fs = require('fs');
@@ -90,9 +90,8 @@ beforeEach(function() {
   page.onInitialized = function() {
     page.injectJs(node_modules + 'chai/chai.js');
     page.injectJs(node_modules + 'sinon/pkg/sinon-1.11.1.js');
-    page.injectJs(node_modules + 'sinon-chrome/src/chrome-event.js');
-    page.injectJs(node_modules + 'sinon-chrome/src/chrome.js');
-    page.injectJs(node_modules + 'sinon-chrome/src/phantom-tweaks.js');
+    page.injectJs(node_modules + 'sinon-chrome/chrome.js');
+    page.injectJs(node_modules + 'sinon-chrome/phantom-tweaks.js');
     page.evaluate(function() {
       assert = chai.assert;
     });

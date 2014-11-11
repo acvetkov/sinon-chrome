@@ -19,13 +19,23 @@ module.exports = function (grunt) {
     options: {
       separator: ';',
     },
-    'build-chrome': {
-      src: ['src/chrome-event.js', 'src/chrome.js'],
-      dest: 'chrome.js',
+    build: {
+      files: [{
+        src: ['src/chrome-event.js', 'src/chrome.js'],
+        dest: 'chrome.js'
+      }, {
+        src: ['src/phantom-tweaks.js'],
+        dest: 'phantom-tweaks.js'
+      }]
     },
-    'build-phantom': {
-      src: ['src/phantom-tweaks.js'],
-      dest: 'phantom-tweaks.js',
+    example: {
+      files: [{
+        src: ['chrome.js'],
+        dest: 'example/node_modules/sinon-chrome/chrome.js'
+      }, {
+        src: ['phantom-tweaks.js'],
+        dest: 'example/node_modules/sinon-chrome/phantom-tweaks.js'
+      }]
     }
   });
 
@@ -36,6 +46,11 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'test',
-    'concat'
+    'concat:build'
+  ]);
+
+  grunt.registerTask('example', [
+    'build',
+    'concat:example'
   ]);
 };

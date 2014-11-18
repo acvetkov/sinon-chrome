@@ -26,6 +26,14 @@ beforeEach(function() {
   };
 
   page.onInitialized = function() {
+    // exclude `about:blank`
+    var isBlank = page.evaluate(function() {
+        return window.location.href === 'about:blank';
+    });
+    if (isBlank) {
+        return;
+    }
+
     page.injectJs(node_modules + 'chai/chai.js');
     page.injectJs(node_modules + 'sinon/pkg/sinon-1.11.1.js');
     page.injectJs(node_modules + 'sinon-chrome/chrome.js');

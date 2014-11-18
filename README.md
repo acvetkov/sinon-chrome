@@ -3,7 +3,7 @@
 Smart mocks of [chrome.* extensions API](https://developer.chrome.com/extensions) via [SinonJS stubs](http://sinonjs.org/docs/#stubs).
 
 ## Why this is needed?
-To run tests of chrome extensions with [PhantomJS](http://phantomjs.org).
+To run unit-tests of chrome extensions with [PhantomJS](http://phantomjs.org).
 
 ## How to install?
 ````
@@ -48,7 +48,7 @@ chrome.tabs.query({}, function(tabs) {
 });
 ````
 Test plan:  
-1. inject our mocked chrome.* api into phantomjs  
+1. inject our fake chrome.* api into phantomjs  
 2. mock `chrome.tabs.query` to return pre-defined response, e.g. [2 tabs](/example/test/data/tabs.query.json)  
 3. run our background page in phantomjs  
 4. assert that button badge equals to '2'  

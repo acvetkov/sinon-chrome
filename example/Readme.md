@@ -6,8 +6,9 @@ Simple chrome extension that does 3 things:
 3. retrieves and displays user IP in popup
 
 ### Run tests
-````
-$ node_modules/.bin/phantomjs test/run.js
+````bash
+$ npm test
+# will call `node_modules/.bin/phantomjs test/run.js`
 
 output:
 

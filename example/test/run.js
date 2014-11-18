@@ -13,5 +13,9 @@ phantom.injectJs('beforeeach.js');
 phantom.injectJs('background.test.js');
 phantom.injectJs('popup.test.js');
 mocha.run(function(failures) {
-  phantom.exit(failures);
+  // setTimeout is needed to supress "Unsafe JavaScript attempt to access..."
+  // see https://github.com/ariya/phantomjs/issues/12697
+  setTimeout(function() {
+    phantom.exit(failures);
+  }, 0);
 });

@@ -3,6 +3,9 @@ module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt);
 
   grunt.config('jshint', {
+    options: {
+      sub:true
+    },
     all: ['Gruntfile.js', 'src/*.js', 'example/src/*.js', 'example/test/*.js']
   });
 

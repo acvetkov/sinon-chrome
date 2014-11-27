@@ -10,9 +10,7 @@
     if (typeof exports === 'object') {
         sinon = require('sinon');
         ChromeEvent = require('./chrome-event');
-    } else {
-        sinon = window.sinon;
-        ChromeEvent = window.ChromeEvent;
+        chromeAlarms = require('./chrome-alarms');
     }
 
     var sandbox = sinon.sandbox.create();
@@ -99,14 +97,37 @@
         // https://developer.chrome.com/extensions/api_index
         // =====================================================
         get alarms() {
-            return getter("alarms", {
-                clear: 0,
-                clearAll: 0,
-                create: 0,
-                get: 0,
-                getAll: 0,
-                onAlarm: 1
+            if (cache['alarms']) {
+                return cache['alarms'];
+            }
+
+            var alarms = {
+                clear: chromeAlarms.clear,
+                clearAll: chromeAlarms.clearAll,
+                create: chromeAlarms.create,
+                get: chromeAlarms.get,
+                getAll: chromeAlarms.getAll,
+                onAlarm: new ChromeEvent()
+            };
+
+            chromeAlarms.onTrigger(function(alarm) {
+              alarms.onAlarm.trigger(alarm);
             });
+
+            Object.keys(alarms).forEach(function(key) {
+              if (key !== 'onAlarm') {
+                sandbox.spy(alarms, key);
+              } else {
+                sandbox.spy(alarms.onAlarm, 'addListener');
+                sandbox.spy(alarms.onAlarm, 'hasListener');
+                sandbox.spy(alarms.onAlarm, 'removeListener');
+                sandbox.spy(alarms.onAlarm, 'removeListeners');
+              }
+            });
+
+            cache['alarms'] = alarms;
+
+            return alarms;
         },
 
         get app() {

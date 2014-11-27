@@ -24,7 +24,7 @@ module.exports = function (grunt) {
     },
     build: {
       files: [{
-        src: ['src/chrome-event.js', 'src/chrome.js'],
+        src: ['src/*.js'],
         dest: 'chrome.js'
       }]
     },

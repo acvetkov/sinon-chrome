@@ -35,6 +35,7 @@ describe("Chrome", function() {
   it("should define i18n tweaks", function() {
     assert.isFunction(chrome.i18n.getMessage);
     assert.equal(chrome.i18n.getMessage('abc'), 'abc');
+    assert.equal(chrome.i18n.getMessage('@@ui_locale'), 'en');
   });
 
 });

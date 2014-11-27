@@ -32,11 +32,10 @@
                 path = path.indexOf('/') === 0 ? path.substring(1) : path;
                 return 'chrome-extension://' + chrome.runtime.id + '/' + path;
             }
-        },
-        i18n: {
-            getMessage: sandbox.stub().returnsArg(0)
         }
     };
+
+    sandbox.spy(tweaks.runtime, 'getURL');
 
     /**
      * Lazy getter for methods
@@ -68,6 +67,11 @@
             Object.keys(tweaks[prop]).forEach(function(m){
                 cache[prop][m] = tweaks[prop][m];
             });
+        }
+
+        if (prop === 'i18n') {
+          cache[prop].getMessage.returnsArg(0);
+          cache[prop].getMessage.withArgs('@@ui_locale').returns('en');
         }
 
         return cache[prop];

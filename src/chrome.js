@@ -11,6 +11,10 @@
         sinon = require('sinon');
         ChromeEvent = require('./chrome-event');
         chromeAlarms = require('./chrome-alarms');
+    } else {
+        sinon = window.sinon;
+        ChromeEvent = window.ChromeEvent;
+        chromeAlarms = window.chromeAlarms;
     }
 
     var sandbox = sinon.sandbox.create();

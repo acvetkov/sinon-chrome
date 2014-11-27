@@ -91,6 +91,7 @@
           res.push(alarm);
         }
       });
+      callback(res);
     },
 
     clear: function(name, callback) {

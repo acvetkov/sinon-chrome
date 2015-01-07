@@ -270,6 +270,16 @@
             });
         },
 
+        get omnibox() {
+          return getter("omnibox", {
+            setDefaultSuggestion: 0,
+            onInputStarted: 1,
+            onInputChanged: 1,
+            onInputEntered: 1,
+            onInputCancelled: 1
+          });
+        },        
+
         get cookies() {
             return getter("cookies", {
                 get: 0,

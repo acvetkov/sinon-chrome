@@ -116,7 +116,7 @@ describe('background page', function() {
 
   it('should display opened tabs in button badge', function(done) {
     // #1. open empty page and inject chrome.* api mocks
-    page.open('empty.html', function() {
+    page.open('test/empty.html', function() {
       // #2. stub `chrome.tabs.query` to return pre-defined response
       page.evaluate(function(tabs) {
         chrome.tabs.query.yields(JSON.parse(tabs));

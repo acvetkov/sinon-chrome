@@ -8,23 +8,18 @@ describe('background page', function() {
   this.timeout(4000);
 
   // empty html page aka generated background page
-  var filename = 'empty.html';
+  var FILENAME = 'test/empty.html';
 
   it('should display opened tabs in button badge', function(done) {
-    // having
-    injectFn = function() {
+    page.open(FILENAME, function() {
+      // stub `chrome.tabs.query` with fake data
       page.evaluate(function(tabs) {
-        // stub `chrome.tabs.query`
         chrome.tabs.query.yields(JSON.parse(tabs));
       }, fs.read('test/data/tabs.query.json'));
-
       // run background js
       page.injectJs('src/background.js');
-    };
-    // when
-    page.open(filename, function(status) {
+      // assert
       page.evaluate(function() {
-        // then
         sinon.assert.calledOnce(chrome.browserAction.setBadgeText);
         sinon.assert.calledWithMatch(chrome.browserAction.setBadgeText, {
             text: "2"
@@ -35,8 +30,8 @@ describe('background page', function() {
   });
 
   it('should retrieve IP when `get-ip` message comes', function(done) {
-    // having
-    injectFn = function() {
+    page.open(FILENAME, function() {
+      // stub `http://httpbin.org/ip` with fake data
       page.evaluate(function(response) {
         server = sinon.fakeServer.create();
         server.respondWith("http://httpbin.org/ip", [
@@ -55,11 +50,9 @@ describe('background page', function() {
         chrome.runtime.onMessage.trigger('get-ip', {}, sendResponse);
         server.respond();
       });
-    };
-    // when
-    page.open(filename, function(status) {
+
+      // assert
       page.evaluate(function() {
-        // then
         sinon.assert.calledOnce(sendResponse);
         sinon.assert.calledWith(sendResponse, '1.2.3.4');
       });

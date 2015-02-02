@@ -8,18 +8,17 @@ describe('popup page', function() {
   // sometimes it takes time to start phantomjs
   this.timeout(4000);
 
-  var filename = 'src/popup.html';
+  var FILENAME = 'src/popup.html';
 
   it('should request and display IP on start', function(done) {
-    // having
-    injectFn = function() {
+    // stub `chrome.runtime.sendMessage` to call callback with '1.2.3.4' as argument
+    beforeLoadFn = function() {
       page.evaluate(function() {
-        // stub `chrome.runtime.sendMessage` to call callback with '1.2.3.4' as argument
         chrome.runtime.sendMessage.yields('1.2.3.4');
       });
     };
-    // when
-    page.open(filename, function(status) {
+    page.open(FILENAME, function() {
+      // assert
       page.evaluate(function() {
         assert.equal(document.querySelector('#ip').innerText, '1.2.3.4');
       });
@@ -28,15 +27,14 @@ describe('popup page', function() {
   });
 
   it('should display opened tabs on start', function(done) {
-    // having
-    injectFn = function() {
+    // stub `chrome.runtime.sendMessage` to yield with json from file
+    beforeLoadFn = function() {
       page.evaluate(function(tabs) {
-        // stub `chrome.runtime.sendMessage` to yield with json from file
         chrome.tabs.query.yields(JSON.parse(tabs));
       }, fs.read('test/data/tabs.query.json'));
     };
-    // when
-    page.open(filename, function(status) {
+    page.open(FILENAME, function() {
+      // assert
       page.evaluate(function() {
         assert.equal(document.querySelector('#tabs').children.length, 2);
       });
@@ -45,15 +43,13 @@ describe('popup page', function() {
   });
 
   it('should activate tab by click', function(done) {
-    // having
-    injectFn = function() {
+    // stub `chrome.runtime.sendMessage` to yield with json from file
+    beforeLoadFn = function() {
       page.evaluate(function(tabs) {
-        // stub `chrome.runtime.sendMessage` to yield with json from file
         chrome.tabs.query.yields(JSON.parse(tabs));
       }, fs.read('test/data/tabs.query.json'));
     };
-    // when
-    page.open(filename, function(status) {
+    page.open(FILENAME, function() {
       page.evaluate(function() {
         // emulate click on first link
         document.querySelector('#tabs a').dispatchEvent(clickEvent);

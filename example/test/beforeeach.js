@@ -1,7 +1,7 @@
 
 var fs = require('fs');
 var page;
-var injectFn;
+var beforeLoadFn;
 
 beforeEach(function() {
   page = require('webpage').create();
@@ -38,13 +38,13 @@ beforeEach(function() {
       clickEvent.initMouseEvent('click', true);
     });
     // call additional function defined in tests
-    if (injectFn) {
-      injectFn();
+    if (beforeLoadFn) {
+      beforeLoadFn();
     }
   };
 });
 
 afterEach(function() {
   page.close();
-  injectFn = null;
+  beforeLoadFn = null;
 });

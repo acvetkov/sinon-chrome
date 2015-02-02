@@ -1,6 +1,6 @@
 # sinon-chrome
 ## What is it?
-Smart mocks of [chrome.* extensions API](https://developer.chrome.com/extensions) via [SinonJS stubs](http://sinonjs.org/docs/#stubs).
+Mocks of [chrome.* extensions API](https://developer.chrome.com/extensions) via [SinonJS stubs](http://sinonjs.org/docs/#stubs).
 
 ## Why this is needed?
 To run unit-tests of chrome extensions with [PhantomJS](http://phantomjs.org).
@@ -51,6 +51,7 @@ Test plan:
 4. assert that button badge equals to '2'  
 
 The code snippet with comments:
+**beforeEach**
 ````js
 var node_modules = '../../node_modules/';
 // load mocha
@@ -60,7 +61,7 @@ mocha.setup({ui: 'bdd', reporter: 'spec'});
 
 var fs = require('fs');
 var page;
-var injectFn;
+var beforeLoadFn;
 
 beforeEach(function() {
   page = require('webpage').create();
@@ -92,42 +93,40 @@ beforeEach(function() {
     page.evaluate(function() {
       assert = chai.assert;
     });
-    // run additional functions defined in tests
-    if (injectFn) {
-      injectFn();
+    // run additional functions before page load
+    if (beforeLoadFn) {
+      beforeLoadFn();
     }
   };
 });
 
 afterEach(function() {
   page.close();
-  injectFn = null;
+  beforeLoadFn = null;
 });
+````
 
+**tests**
+````js
 // tests
 describe('background page', function() {
 
   // sometimes it takes time to start phantomjs
   this.timeout(4000);
 
-  // generated background page (or here may be real background page if exists)
-  var filename = 'empty.html';
-
   it('should display opened tabs in button badge', function(done) {
-    // having
-    injectFn = function() {
+    // #1. open empty page and inject chrome.* api mocks
+    page.open('empty.html', function() {
+      // #2. stub `chrome.tabs.query` to return pre-defined response
       page.evaluate(function(tabs) {
-        // #2. stub `chrome.tabs.query` to return pre-defined response
         chrome.tabs.query.yields(JSON.parse(tabs));
       }, fs.read('test/data/tabs.query.json'));
 
       // #3. run background js
       page.injectJs('src/background.js');
-    };
-    // when
-    page.open(filename, function(status) {
+
+      // #4. assert that button badge equals to '2'
       page.evaluate(function() {
-        // #4. assert that button badge equals to '2'
         sinon.assert.calledOnce(chrome.browserAction.setBadgeText);
         sinon.assert.calledWithMatch(chrome.browserAction.setBadgeText, {
             text: "2"
@@ -154,12 +153,13 @@ Now run in terminal:
 
   1 passing (98ms)
 ````
-Please see more complicated and structured example [here](/example)
+Please see full [example here](/example)
 
-## How to trigger chrome event?
+## How to trigger chrome event from code?
+You can call `trigger` method on any mocked chrome event:
 ````js
 chrome.tab.onCreated.trigger({url: 'http://google.com'});
-// OR 
+// OR (pass data as array)
 chrome.tab.onUpdated.applyTrigger([1, {status: "complete"}, {id: 1, url: 'http://google.com'}]);
 ````
 

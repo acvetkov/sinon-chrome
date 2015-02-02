@@ -84,7 +84,7 @@ beforeEach(function() {
     } catch(e) { }
   };
   
-  // #1. inject chrome.* api mocks and other stuff into page
+  // inject chrome.* api mocks and other stuff into page
   page.onInitialized = function() {
     page.injectJs(node_modules + 'chai/chai.js');
     page.injectJs(node_modules + 'sinon/pkg/sinon-1.11.1.js');

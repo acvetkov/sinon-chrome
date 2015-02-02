@@ -11,9 +11,6 @@ npm i sinon-chrome
 ````
 
 ## How to use?
-**Short answer:** please see [example](/example) in this repo.  
-**Long answer:**  
-
 To start writing unit-tests you should re-arrange a bit your extension sources:
 ````js
 |--src      // extension sources

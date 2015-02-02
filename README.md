@@ -18,7 +18,7 @@ To start writing unit-tests you should re-arrange a bit your extension sources:
 |  |-- ...
 |   
 |--test
-   |--data  // sample json results of chrome.* api calls
+   |--data  // fake json results of chrome.* api calls
    |   |--tabs.query.json
    |   |--tabs.get.json
    |   |--...

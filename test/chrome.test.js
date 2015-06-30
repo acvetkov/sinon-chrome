@@ -13,6 +13,7 @@ describe("Chrome", function() {
   it("should define required methods", function() {
     assert.isObject(chrome);
     assert.isFunction(chrome.reset);
+    assert.isFunction(chrome.flush);
     assert.ok(Object.keys(chrome).length > 1);
   });
 

@@ -81,6 +81,14 @@
      * chrome.* APi mocks
      */
     var chrome = {
+
+       /**
+        * Flush cache
+        */
+        flush: function () {
+          cache = {};
+        },
+
         /**
          * Reset all stubs and remove event listeners
          * See https://github.com/cjohansen/Sinon.JS/issues/572

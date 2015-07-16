@@ -3,7 +3,11 @@
 Mocks of [chrome.* extensions API](https://developer.chrome.com/extensions) via [SinonJS stubs](http://sinonjs.org/docs/#stubs).
 
 ## Why this is needed?
-To run unit-tests of chrome extensions with [PhantomJS](http://phantomjs.org).
+To run unit-tests of chrome extensions.
+**Features:**
+ - global `chrome` object with lazy methods initialization
+ - support of `chrome.alarms` via `setTimeout`
+ - support of chrome events manual triggering
 
 ## How to install?
 ````
@@ -16,7 +20,7 @@ To start writing unit-tests you should re-arrange a bit your extension sources:
 |--src      // extension sources
 |  |--manifest.json
 |  |-- ...
-|   
+|
 |--test
    |--data  // fake json results of chrome.* api calls
    |   |--tabs.query.json
@@ -36,7 +40,7 @@ Next install all required stuff (if not yet):
 3. [mocha](http://mochajs.org) or any other testing framework
 4. [chaijs](http://chaijs.com) or any other assertion library
 
-Assume we have simple chrome extension that displays number of opened tabs in button badge.  
+Assume we have simple chrome extension that displays number of opened tabs in button badge.
 
 *background page:*
 ````js
@@ -44,13 +48,13 @@ chrome.tabs.query({}, function(tabs) {
   chrome.browserAction.setBadgeText({text: String(tabs.length)});
 });
 ````
-Test plan:  
-1. inject our fake chrome.* api into phantomjs  
-2. mock `chrome.tabs.query` to return pre-defined response, e.g. [2 tabs](/example/test/data/tabs.query.json)  
-3. run our background page in phantomjs  
-4. assert that button badge equals to '2'  
+Test plan:
+1. inject our fake chrome.* api into phantomjs
+2. mock `chrome.tabs.query` to return pre-defined response, e.g. [2 tabs](/example/test/data/tabs.query.json)
+3. run our background page in phantomjs / nodejs
+4. assert that button badge equals to '2'
 
-The code snippet with comments:
+The code snippet with comments (phantomjs):
 **beforeEach**
 ````js
 var node_modules = '../../node_modules/';
@@ -83,7 +87,7 @@ beforeEach(function() {
       mocha.throwError(msgStack.join('\n'));
     } catch(e) { }
   };
-  
+
   // inject chrome.* api mocks and other stuff into page
   page.onInitialized = function() {
     page.injectJs(node_modules + 'chai/chai.js');
@@ -135,7 +139,7 @@ describe('background page', function() {
       done();
     });
   });
-  
+
 });
 
 // run
@@ -147,7 +151,7 @@ mocha.run(function(failures) {
 Now run in terminal:
 ````
   $ phantomjs test/bg.test.js
-  
+
   background page
     ✓ should display opened tabs in button badge
 
@@ -155,7 +159,7 @@ Now run in terminal:
 ````
 Please see full [example here](/example)
 
-## How to trigger chrome event from code?
+## How to trigger chrome event manually?
 You can call `trigger` method on any mocked chrome event:
 ````js
 chrome.tab.onCreated.trigger({url: 'http://google.com'});

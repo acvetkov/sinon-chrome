@@ -52,6 +52,21 @@ describe("Chrome alarms", function() {
     });
   });
 
+  it("should create alarm with `periodInMinutes`", function() {
+    chromeAlarms.create('alarm', {
+      periodInMinutes: 1
+    });
+    clock.tick(1);
+    sinon.assert.notCalled(trigger);
+    clock.tick(60 * 1000);
+    sinon.assert.calledOnce(trigger);
+    assert.deepEqual(trigger.firstCall.args[0], {
+      name: 'alarm',
+      periodInMinutes: 1,
+      scheduledTime: 60 * 1000
+    });
+  });
+
   it("should create alarm with `delayInMinutes` and `periodInMinutes`", function() {
     chromeAlarms.create('alarm', {
       delayInMinutes: 1,

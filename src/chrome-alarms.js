@@ -56,8 +56,8 @@
       trigger = callback;
     },
     create: function(name, alarmInfo) {
-      if (!alarmInfo || (!alarmInfo.when && !alarmInfo.delayInMinutes)) {
-        throw new Error('Alarm should have `when` or `delayInMinutes`');
+      if (!alarmInfo || (!alarmInfo.when && isNaN(alarmInfo.delayInMinutes) && isNaN(alarmInfo.periodInMinutes))) {
+        throw new Error('AlarmInfo should be specified');
       }
       if (alarms[name] && alarms[name].t) {
         clearTimeout(alarms[name].t);
@@ -68,10 +68,11 @@
         delay = alarmInfo.when - Date.now();
         alarms[name].scheduledTime = alarmInfo.when;
       } else {
-        delay = alarmInfo.delayInMinutes * 60 * 1000;
+        delay = !isNaN(alarmInfo.delayInMinutes) ? alarmInfo.delayInMinutes : alarmInfo.periodInMinutes;
+        delay = delay * 60 * 1000;
         alarms[name].scheduledTime = Date.now() + delay;
       }
-      if (alarmInfo.periodInMinutes) {
+      if (!isNaN(alarmInfo.periodInMinutes)) {
         alarms[name].periodInMinutes = alarmInfo.periodInMinutes;
       }
       if (delay >= 0) {

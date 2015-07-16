@@ -29,7 +29,7 @@ beforeEach(function() {
     page.injectJs(node_modules + 'chai/chai.js');
     page.injectJs(node_modules + 'sinon/pkg/sinon.js');
     page.injectJs(node_modules + 'sinon-chrome/chrome.js');
-    page.injectJs(node_modules + 'sinon-chrome/phantom-tweaks.js');
+    page.injectJs(node_modules + 'sinon-chrome/src/phantom-tweaks.js');
     page.evaluate(function() {
       assert = chai.assert;
 

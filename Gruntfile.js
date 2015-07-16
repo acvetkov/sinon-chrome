@@ -24,7 +24,7 @@ module.exports = function (grunt) {
     },
     build: {
       files: [{
-        src: ['src/*.js'],
+        src: ['src/*.js', '!src/phantom-tweaks.js'],
         dest: 'chrome.js'
       }]
     },
@@ -34,7 +34,7 @@ module.exports = function (grunt) {
         dest: 'example/node_modules/sinon-chrome/chrome.js'
       }, {
         src: ['src/phantom-tweaks.js'],
-        dest: 'example/node_modules/sinon-chrome/phantom-tweaks.js'
+        dest: 'example/node_modules/sinon-chrome/src/phantom-tweaks.js'
       }]
     }
   });

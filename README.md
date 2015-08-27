@@ -162,9 +162,9 @@ Please see full [example here](/example)
 ## How to trigger chrome event manually?
 You can call `trigger` method on any mocked chrome event:
 ````js
-chrome.tab.onCreated.trigger({url: 'http://google.com'});
+chrome.tabs.onCreated.trigger({url: 'http://google.com'});
 // OR (pass data as array)
-chrome.tab.onUpdated.applyTrigger([1, {status: "complete"}, {id: 1, url: 'http://google.com'}]);
+chrome.tabs.onUpdated.applyTrigger([1, {status: "complete"}, {id: 1, url: 'http://google.com'}]);
 ````
 
 ## More questions?

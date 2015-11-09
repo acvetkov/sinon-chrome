@@ -482,6 +482,18 @@
                 update: 0
             });
         },
+        
+        get pageAction() {
+            return getter("pageAction", {
+                show: 0,
+                hide: 0,
+                setTitle: 0,
+                getTitle: 0,
+                setIcon: 0,
+                setPopup: 0,
+                getPopup: 0
+            });
+        },
 
         get pageCapture() {
             return getter("pageCapture", {

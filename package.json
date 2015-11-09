@@ -1,12 +1,19 @@
 {
   "name": "sinon-chrome",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Mock of chrome extensions API for unit testing under nodejs",
   "homepage": "https://github.com/vitalets/sinon-chrome",
   "author": {
     "name": "Vitaliy Potapov",
     "email": "noginsk@rambler.ru"
   },
+  "contributors": [
+    {
+      "name": "Aleksey Tsvetkov",
+      "email": "antondenikin@gmail.com",
+      "url" : "https://github.com/acvetkov"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/vitalets/sinon-chrome.git"
@@ -16,7 +23,7 @@
   },
   "main": "src/chrome.js",
   "scripts": {
-    "test": "grunt test",
+    "test": "mocha --recursive",
     "prepublish": "grunt build"
   },
   "devDependencies": {
@@ -28,5 +35,6 @@
     "chai": "^1.9.2",
     "load-grunt-tasks": "^1.0.0",
     "grunt-contrib-concat": "^0.5.0"
-  }
+  },
+  "license": "ISC"
 }

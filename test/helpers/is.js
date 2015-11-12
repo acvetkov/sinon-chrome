@@ -12,7 +12,7 @@ var ChromeEvent = require('../../src/events');
  * @param {Object} stub
  * @returns {boolean}
  */
-exports.isSinonStub = stub => {
+exports.sinonStub = stub => {
     return _.isFunction(stub) && Boolean(_.get(stub, 'isSinonProxy')) && Boolean(_.get(stub, 'returns'));
 };
 
@@ -20,7 +20,7 @@ exports.isSinonStub = stub => {
  * @param {Object} spy
  * @returns {boolean}
  */
-exports.isSinonSpy = spy => {
+exports.sinonSpy = spy => {
     return _.isFunction(spy) && Boolean(_.get(spy, 'restore.sinon')) && !Boolean(_.get(spy, 'returns'));
 };
 
@@ -28,10 +28,10 @@ exports.isSinonSpy = spy => {
  * @param {Object} object
  * @returns {boolean}
  */
-exports.isChromeEvent = object => {
+exports.chromeEvent = object => {
     return (object instanceof ChromeEvent) &&
-            exports.isSinonSpy(_.get(object, 'addListener')) &&
-            exports.isSinonSpy(_.get(object, 'hasListener')) &&
-            exports.isSinonSpy(_.get(object, 'removeListener')) &&
-            exports.isSinonSpy(_.get(object, 'removeListeners'));
+            exports.sinonSpy(_.get(object, 'addListener')) &&
+            exports.sinonSpy(_.get(object, 'hasListener')) &&
+            exports.sinonSpy(_.get(object, 'removeListener')) &&
+            exports.sinonSpy(_.get(object, 'removeListeners'));
 };

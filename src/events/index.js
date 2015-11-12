@@ -6,22 +6,22 @@
 
 'use strict';
 
-var _ = require('lodash');
+import _ from 'lodash';
 
 export default class ChromeEvent {
 
     /**
      * @constructor
      */
-    constructor() {
+    constructor () {
         this._listeners = [];
     }
 
     /**
      * Call all subscribed handlers
-     * @param {*} args
      */
-    trigger(...args) {
+    trigger () {
+        var args = arguments;
         this._listeners.forEach(handler => {
             handler.apply(null, args);
         });
@@ -29,35 +29,35 @@ export default class ChromeEvent {
 
     /**
      * Async call all subscribed handlers
-     * @param {*} args
      */
-    triggerAsync(...args) {
-        process.nextTick(() => {
+    triggerAsync () {
+        var args = arguments;
+        setTimeout(() => {
             this.trigger(args);
-        });
+        }, 0);
     }
 
     /**
      * Call all subscribed handlers, pass arguments ass array
      * @param {Array} args
      */
-    applyTrigger(args) {
-        this.trigger.apply(null, args);
+    applyTrigger (args) {
+        this.trigger.apply(this, args);
     }
 
     /**
      * Async call all subscribed handlers, pass arguments ass array
      * @param {Array} args
      */
-    applyTriggerAsync(args) {
-        this.triggerAsync.apply(null, args);
+    applyTriggerAsync (args) {
+        this.triggerAsync.apply(this, args);
     }
 
     /**
      * Add event listener
      * @param {Function} handler
      */
-    addListener(handler) {
+    addListener (handler) {
         if (_.isFunction(handler)) {
             this._listeners.push(handler);
         }
@@ -67,7 +67,7 @@ export default class ChromeEvent {
      * Remove event listener
      * @param {Function} handler
      */
-    removeListener(handler) {
+    removeListener (handler) {
         _.remove(this._listeners, listener => {
             return listener === handler;
         });
@@ -77,14 +77,14 @@ export default class ChromeEvent {
      * Check event listener exists
      * @param {Function} handler
      */
-    hasListener(handler) {
+    hasListener (handler) {
         return _.findIndex(this._listeners, handler) >= 0;
     }
 
     /**
      * Remove all listeners
      */
-    removeListeners() {
+    removeListeners () {
         this._listeners.length = 0;
     }
-};
+}

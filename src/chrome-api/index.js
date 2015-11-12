@@ -7,7 +7,7 @@
 
 import _ from 'lodash';
 
-import apiConfig from '../api/config.json';
+import apiConfig from '../api/config.js';
 import {generateApi} from '../chrome/index';
 
 import EventsFactory from '../factory/events';

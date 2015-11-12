@@ -7,4 +7,4 @@
 
 import {create} from './chrome-api/index';
 
-module.exports = create();
+export default create();

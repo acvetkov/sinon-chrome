@@ -85,7 +85,7 @@ export default class ChromeEvent {
      * @param {Function} handler
      */
     hasListener (handler) {
-        return _.findIndex(this._listeners, handler) >= 0;
+        return this._listeners.indexOf(handler) >= 0;
     }
 
     /**

@@ -60,7 +60,11 @@ function generateEventSuite(chrome, event, namespace) {
             var spy1 = sinon.spy();
             var spy2 = sinon.spy();
             this.event.addListener(spy1);
+            assert.ok(this.event.hasListener(spy1));
+            assert.notOk(this.event.hasListener(spy2));
             this.event.addListener(spy2);
+            assert.ok(this.event.hasListener(spy1));
+            assert.ok(this.event.hasListener(spy2));
             assert.notCalled(spy1);
             assert.notCalled(spy2);
             this.event.trigger();

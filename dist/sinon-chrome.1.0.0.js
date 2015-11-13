@@ -127,7 +127,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  reset: function reset() {
 	    _factoryEvents2['default'].reset();
 	    _factoryStubs2['default'].reset();
-	    _factoryProperty2['default'].flush();
 	  },
 
 	  /**
@@ -7442,17 +7441,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @returns {ChromeEvent}
 	     */
 	    get: function get() {
-	        return createEvent(this.sandbox);
+	        var event = createEvent(this.sandbox);
+	        this.events.push(event);
+	        return event;
 	    },
 
 	    /**
 	     * Remove all listeners
 	     */
 	    reset: function reset() {
+	        this.sandbox.reset();
 	        this.events.forEach(function (event) {
 	            event.removeListeners();
 	        });
-	        this.sandbox.reset();
 	    },
 
 	    /**
@@ -7460,7 +7461,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 	    flush: function flush() {
 	        this.reset();
-	        this.events.length = 0;
 	    }
 	};
 
@@ -15146,9 +15146,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'removeListener',
 	        value: function removeListener(handler) {
-	            _lodash2['default'].remove(this._listeners, function (listener) {
-	                return listener === handler;
-	            });
+	            var index = this._listeners.indexOf(handler);
+	            if (index >= 0) {
+	                this._listeners.splice(index, 1);
+	            }
 	        }
 
 	        /**
@@ -15167,7 +15168,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'removeListeners',
 	        value: function removeListeners() {
-	            this._listeners.length = 0;
+	            this._listeners = [];
 	        }
 	    }]);
 

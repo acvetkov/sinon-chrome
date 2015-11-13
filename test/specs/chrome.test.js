@@ -17,7 +17,122 @@ import generatePropertiesSuite from './chrome.properties.test';
  * Root suite
  */
 describe('chrome', function () {
+
     checkChromeObject();
+
+    describe('chrome.reset', function () {
+
+        before(function () {
+            chrome.runtime.sendMessage.reset();
+            chrome.runtime.sendMessage.resetBehavior();
+        });
+
+        after(function () {
+            chrome.runtime.sendMessage.reset();
+            chrome.runtime.sendMessage.resetBehavior();
+        });
+
+        it('should be defined', function () {
+            assert.isFunction(chrome.reset);
+        });
+
+        it('should reset methods state', function () {
+            assert.notCalled(chrome.runtime.sendMessage);
+            chrome.runtime.sendMessage();
+            chrome.runtime.sendMessage();
+            chrome.runtime.sendMessage();
+
+            assert.calledThrice(chrome.runtime.sendMessage);
+            chrome.reset();
+
+            assert.notCalled(chrome.runtime.sendMessage);
+        });
+
+        it('should remove all listeners', function () {
+            var spy = sinon.spy();
+            chrome.cookies.onChanged.addListener(spy);
+            assert.notCalled(spy);
+
+            chrome.cookies.onChanged.trigger();
+            assert.calledOnce(spy);
+
+            chrome.reset();
+            chrome.cookies.onChanged.trigger();
+            assert.calledOnce(spy);
+
+            chrome.cookies.onChanged.trigger();
+            assert.calledOnce(spy);
+        });
+
+        it('should not remove props', function () {
+            chrome.runtime.id = 'test';
+            assert.equal(chrome.runtime.id, 'test');
+            chrome.reset();
+            assert.equal(chrome.runtime.id, 'test');
+        });
+    });
+
+    describe('chrome.flush', function () {
+
+        before(function () {
+            chrome.runtime.sendMessage.reset();
+            chrome.runtime.sendMessage.resetBehavior();
+            chrome.runtime.getURL.resetBehavior();
+            chrome.runtime.getURL.reset();
+        });
+
+        after(function () {
+            chrome.runtime.sendMessage.reset();
+            chrome.runtime.sendMessage.resetBehavior();
+            chrome.runtime.getURL.resetBehavior();
+        });
+
+        it('should be defined', function () {
+            assert.isFunction(chrome.flush);
+        });
+
+        it('should reset methods state', function () {
+            assert.notCalled(chrome.runtime.sendMessage);
+            chrome.runtime.sendMessage();
+            chrome.runtime.sendMessage();
+            chrome.runtime.sendMessage();
+
+            assert.calledThrice(chrome.runtime.sendMessage);
+            chrome.flush();
+
+            assert.notCalled(chrome.runtime.sendMessage);
+        });
+
+        it('should reset methods behavior', function () {
+            chrome.runtime.getURL.returns('http://domain.com');
+            assert.equal(chrome.runtime.getURL(), 'http://domain.com');
+            chrome.flush();
+            assert.notOk(chrome.runtime.getURL());
+        });
+
+        it('should remove all listeners', function () {
+            var spy = sinon.spy();
+            chrome.cookies.onChanged.addListener(spy);
+            assert.notCalled(spy);
+
+            chrome.cookies.onChanged.trigger();
+            assert.calledOnce(spy);
+
+            chrome.flush();
+            chrome.cookies.onChanged.trigger();
+            assert.calledOnce(spy);
+
+            chrome.cookies.onChanged.trigger();
+            assert.calledOnce(spy);
+        });
+
+        it('should not remove props', function () {
+            chrome.runtime.id = 'test';
+            assert.equal(chrome.runtime.id, 'test');
+            chrome.flush();
+            assert.notOk(chrome.runtime.id);
+        });
+    });
 });
 
 /**

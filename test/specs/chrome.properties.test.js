@@ -44,13 +44,5 @@ function generatePropSuite(chrome, prop, namespace) {
             setProp(a);
             assert.equal(getProp(), a);
         });
-
-        it('should reset value by chrome.flush', function () {
-            var b = 'b';
-            setProp(b);
-            assert.equal(getProp(), b);
-            chrome.flush();
-            assert.notEqual(getProp(), b);
-        });
     });
 }

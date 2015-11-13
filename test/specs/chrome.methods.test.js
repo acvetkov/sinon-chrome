@@ -57,24 +57,5 @@ function generateMethodSuite(chrome, method, namespace) {
             this.stub(spy);
             assert.calledOnce(spy);
         });
-
-        it('should reset by chrome.reset', function () {
-            this.stub.reset();
-            this.stub.resetBehavior();
-            this.stub();
-            assert.calledOnce(this.stub);
-            chrome.reset();
-            assert.notCalled(this.stub);
-        });
-
-        it('should reset behaviour by chrome.flush', function () {
-            this.stub.reset();
-            this.stub.resetBehavior();
-            this.stub.returns(true);
-
-            assert.ok(this.stub());
-            chrome.flush();
-            assert.notOk(this.stub());
-        });
     });
 }

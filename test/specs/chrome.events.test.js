@@ -48,8 +48,10 @@ function generateEventSuite(chrome, event, namespace) {
             var args = [1, 2, 3];
             this.event.addListener(spy);
             assert.notCalled(spy);
-            this.event.trigger(args);
+            this.event.dispatch(args);
             assert.calledOnce(spy.withArgs(args));
+            this.event.trigger(args);
+            assert.calledTwice(spy.withArgs(args));
             this.event.applyTrigger(args);
             assert.calledOnce(spy.withArgs(1, 2, 3));
         });

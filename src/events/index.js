@@ -18,6 +18,13 @@ export default class ChromeEvent {
     }
 
     /**
+     * Manual dispatch
+     */
+    dispatch () {
+        this.trigger.apply(this, arguments);
+    }
+
+    /**
      * Call all subscribed handlers
      */
     trigger () {

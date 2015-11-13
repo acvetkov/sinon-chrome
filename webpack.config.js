@@ -11,7 +11,7 @@ var path = require('path');
 module.exports = {
     entry: path.resolve(__dirname, './src/index.js'),
     output: {
-        path: path.resolve(__dirname, './out/build/'),
+        path: path.resolve(__dirname, './dist/'),
         filename: 'sinon-chrome.' + packageJson.version + '.js',
         library: 'chrome',
         libraryTarget: 'umd'

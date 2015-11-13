@@ -4,8 +4,7 @@
  */
 
 import _ from 'lodash';
-import EventsFactory from '../factory/events';
-import StubsFactory from '../factory/stubs';
+import Cache from '../factory/cache';
 import PropsCache from '../factory/property';
 
 /**
@@ -15,12 +14,22 @@ import PropsCache from '../factory/property';
  */
 exports.generateApi = (config) => {
     return _.reduce(config, (result, {methods, properties, events}, namespace) => {
+        appendNamespace(result, namespace);
         wrapEvents(result, namespace, events);
         wrapMethods(result, namespace, methods);
         wrapProperties(result, namespace, properties);
         return result;
     }, {});
 };
+
+/**
+ * append namespace to chrome object
+ * @param {Object} object
+ * @param {String} namespace
+ */
+function appendNamespace(object, namespace) {
+    _.set(object, namespace, {});
+}
 
 /**
  * Append stub methods
@@ -30,7 +39,11 @@ exports.generateApi = (config) => {
  */
 function wrapMethods(object, namespace, methods) {
     _.forEach(methods, method => {
-        _.set(object, `${namespace}.${method}`, StubsFactory.stub);
+        Object.defineProperty(_.get(object, namespace), method, {
+            get: function () {
+                return Cache.getStub(namespace, method);
+            }
+        });
     });
 }
 
@@ -65,6 +78,10 @@ function appendProperty(object, namespace, property) {
  */
 function wrapEvents(object, namespace, events) {
     _.forEach(events, event => {
-        _.set(object, `${namespace}.${event}`, EventsFactory.get());
+        Object.defineProperty(_.get(object, namespace), event, {
+            get: function () {
+                return Cache.getEvent(namespace, event);
+            }
+        });
     });
 }

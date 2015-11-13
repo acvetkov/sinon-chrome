@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/acvetkov/sinon-chrome.svg?branch=master)](https://travis-ci.org/acvetkov/sinon-chrome)
+
 ## What is it?
 
 Mocks for `chrome.*` extensions [api](https://developer.chrome.com/extensions/api_index) via [sinon stubs](http://sinonjs.org/docs/#stubs).

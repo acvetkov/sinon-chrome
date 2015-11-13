@@ -15,17 +15,19 @@ export default {
      * @returns {ChromeEvent}
      */
     get: function () {
-        return createEvent(this.sandbox);
+        var event = createEvent(this.sandbox);
+        this.events.push(event);
+        return event;
     },
 
     /**
      * Remove all listeners
      */
     reset: function () {
+        this.sandbox.reset();
         this.events.forEach(event => {
             event.removeListeners();
         });
-        this.sandbox.reset();
     },
 
     /**
@@ -33,7 +35,6 @@ export default {
      */
     flush: function () {
         this.reset();
-        this.events.length = 0;
     }
 };
 

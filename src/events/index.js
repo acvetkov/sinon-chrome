@@ -75,9 +75,10 @@ export default class ChromeEvent {
      * @param {Function} handler
      */
     removeListener (handler) {
-        _.remove(this._listeners, listener => {
-            return listener === handler;
-        });
+        var index = this._listeners.indexOf(handler);
+        if (index >= 0) {
+            this._listeners.splice(index, 1);
+        }
     }
 
     /**
@@ -92,6 +93,6 @@ export default class ChromeEvent {
      * Remove all listeners
      */
     removeListeners () {
-        this._listeners.length = 0;
+        this._listeners = [];
     }
 }

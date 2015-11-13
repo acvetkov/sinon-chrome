@@ -91,5 +91,16 @@ function generateEventSuite(chrome, event, namespace) {
             assert.calledOnce(spy1);
             assert.calledOnce(spy2);
         });
+
+        it('should reset state', function () {
+            var spy = sinon.spy();
+            this.event.addListener(spy);
+            assert.notCalled(spy);
+            this.event.trigger();
+            assert.calledOnce(spy);
+            chrome.reset();
+            this.event.trigger();
+            assert.calledOnce(spy);
+        });
     });
 }

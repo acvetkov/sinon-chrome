@@ -1,171 +1,267 @@
-# sinon-chrome
 ## What is it?
-Mocks of [chrome.* extensions API](https://developer.chrome.com/extensions) via [SinonJS stubs](http://sinonjs.org/docs/#stubs).
+
+Mocks for `chrome.*` extensions [api](https://developer.chrome.com/extensions/api_index) via [sinon stubs](http://sinonjs.org/docs/#stubs).
 
 ## Why this is needed?
-To run unit-tests of chrome extensions.
-**Features:**
- - global `chrome` object with lazy methods initialization
- - support of `chrome.alarms` via `setTimeout`
- - support of chrome events manual triggering
 
-## How to install?
-````
-npm i sinon-chrome
-````
+To run unit tests for chrome extensions in node or browser
 
-## How to use?
-To start writing unit-tests you should re-arrange a bit your extension sources:
-````js
-|--src      // extension sources
-|  |--manifest.json
-|  |-- ...
-|
-|--test
-   |--data  // fake json results of chrome.* api calls
-   |   |--tabs.query.json
-   |   |--tabs.get.json
-   |   |--...
-   |
-   |--bg.test.js    // background page tests
-   |--popup.test.js // popup page tests
-   |--empty.html    // empty html file used as generated background page
-   |--...
-````
+**Features**
 
-Next install all required stuff (if not yet):
+1. Stubs for all `chrome.*` methods and properties
+2. Manual events triggering
+3. Plugins to emulate cookies storage, opened tabs, etc
 
-1. [nodejs](http://nodejs.org)
-2. **sinon-chrome** (it will automatically install phantomjs and sinonjs)
-3. [mocha](http://mochajs.org) or any other testing framework
-4. [chaijs](http://chaijs.com) or any other assertion library
+## How to install
 
-Assume we have simple chrome extension that displays number of opened tabs in button badge.
+**Npm:**
 
-*background page:*
-````js
-chrome.tabs.query({}, function(tabs) {
-  chrome.browserAction.setBadgeText({text: String(tabs.length)});
+```bash
+npm install sinon-chrome
+```
+
+**Direct download:**  
+[sinon-chrome.js](/dist/sinon-chrome.latest.js)
+
+
+## How to use
+
+#### Make `chrome` global
+**Node**
+```js
+before(function() {
+   global.chrome = require('sinon-chrome');
 });
-````
-Test plan:
-1. inject our fake chrome.* api into phantomjs
-2. mock `chrome.tabs.query` to return pre-defined response, e.g. [2 tabs](/example/test/data/tabs.query.json)
-3. run our background page in phantomjs / nodejs
-4. assert that button badge equals to '2'
+```
 
-The code snippet with comments (phantomjs):
-**beforeEach**
-````js
-var node_modules = '../../node_modules/';
-// load mocha
-phantom.injectJs(node_modules + 'mocha/mocha.js');
-phantom.injectJs(node_modules + 'sinon-chrome/src/phantom-tweaks.js');
-mocha.setup({ui: 'bdd', reporter: 'spec'});
+**Browser**
+```html
+<script src="...sinon-chrome.js">
+```
 
-var fs = require('fs');
-var page;
-var beforeLoadFn;
+#### Write tests
 
-beforeEach(function() {
-  page = require('webpage').create();
+You can use all sinon stub api to create chrome methods behavior.
 
-  page.onConsoleMessage = function(msg) {
-    console.log(msg);
-  };
+**For example**
 
-  page.onError = function(msg, trace) {
-    var msgStack = [msg];
-    if (trace && trace.length) {
-      msgStack.push('TRACE:');
-      trace.forEach(function(t) {
-        msgStack.push(' -> ' + t.file + ': ' + t.line + (t.function ? ' (in function "' + t.function +'")' : ''));
-      });
-    }
-    // we need try..catch here as mocha throws error that catched by phantom.onError
-    try {
-      mocha.throwError(msgStack.join('\n'));
-    } catch(e) { }
-  };
+```js
 
-  // inject chrome.* api mocks and other stuff into page
-  page.onInitialized = function() {
-    page.injectJs(node_modules + 'chai/chai.js');
-    page.injectJs(node_modules + 'sinon/pkg/sinon-1.11.1.js');
-    page.injectJs(node_modules + 'sinon-chrome/chrome.js');
-    page.injectJs(node_modules + 'sinon-chrome/src/phantom-tweaks.js');
-    page.evaluate(function() {
-      assert = chai.assert;
-    });
-    // run additional functions before page load
-    if (beforeLoadFn) {
-      beforeLoadFn();
-    }
-  };
+var domainACookies = [
+   {
+      name: 'a',
+      value: 'b',
+      domain: 'domainA.com'
+   }
+];
+
+var domainBCookies = [
+   {
+      name: 'b',
+      value: 'c',
+      domain: 'domainB.com'
+   }
+];
+
+var allCookies = domainACookies.concat(domainBCookies);
+
+before(function () {
+   chrome.cookies.getAll.withArgs({domain: 'domainA.com'}).yields(domainACookies);
+   chrome.cookies.getAll.withArgs({domain: 'domainB.com'}).yields(domainBCookies);
+   chrome.cookies.getAll.withArgs({}).yields(allCookies);
 });
 
-afterEach(function() {
-  page.close();
-  beforeLoadFn = null;
-});
-````
-
-**tests**
-````js
-// tests
-describe('background page', function() {
-
-  // sometimes it takes time to start phantomjs
-  this.timeout(4000);
-
-  it('should display opened tabs in button badge', function(done) {
-    // #1. open empty page and inject chrome.* api mocks
-    page.open('test/empty.html', function() {
-      // #2. stub `chrome.tabs.query` to return pre-defined response
-      page.evaluate(function(tabs) {
-        chrome.tabs.query.yields(JSON.parse(tabs));
-      }, fs.read('test/data/tabs.query.json'));
-
-      // #3. run background js
-      page.injectJs('src/background.js');
-
-      // #4. assert that button badge equals to '2'
-      page.evaluate(function() {
-        sinon.assert.calledOnce(chrome.browserAction.setBadgeText);
-        sinon.assert.calledWithMatch(chrome.browserAction.setBadgeText, {
-            text: "2"
-        });
-      });
-      done();
-    });
-  });
-
+it('should return correct cookies for domain A', function () {
+   chrome.cookies.getAll({domain: 'domainA.com'}, function (list) {
+      assert.deepEqual(list, domainACookies);
+   });
 });
 
-// run
-mocha.run(function(failures) {
-  phantom.exit(failures);
+it('should return correct cookies for domain B', function () {
+   chrome.cookies.getAll({domain: 'domainB.com'}, function (list) {
+      assert.deepEqual(list, domainBCookies);
+   });
 });
 
-````
-Now run in terminal:
-````
-  $ phantomjs test/bg.test.js
+it('should return correct cookies for all domains', function () {
+   chrome.cookies.getAll({}, function (list) {
+      assert.deepEqual(list, allCookies);
+   });
+});
 
-  background page
-    ✓ should display opened tabs in button badge
+```
 
-  1 passing (98ms)
-````
-Please see full [example here](/example)
+### Properties
 
-## How to trigger chrome event manually?
-You can call `trigger` method on any mocked chrome event:
-````js
-chrome.tabs.onCreated.trigger({url: 'http://google.com'});
-// OR (pass data as array)
-chrome.tabs.onUpdated.applyTrigger([1, {status: "complete"}, {id: 1, url: 'http://google.com'}]);
-````
+You can define chrome api property values.
 
-## More questions?
-Feel free to [open issue](https://github.com/vitalets/sinon-chrome/issues).
+**For example**
+
+```js
+chrome.runtime.id = 'test';
+chrome.runtime.lastError = new Error('some error');
+chrome.windows.WINDOW_ID_CURRENT = 100;
+
+console.log(chrome.runtime.id); // test
+console.log(chrome.runtime.lastError); // Error: some error(…)
+console.log(chrome.windows.WINDOW_ID_CURRENT); // 100
+
+chrome.reset(); // or chrome.flush();
+
+console.log(chrome.runtime.id); // undefined
+console.log(chrome.runtime.lastError); // undefined
+console.log(chrome.windows.WINDOW_ID_CURRENT); // undefined
+```
+
+### Events
+
+You can can manipulate by chrome events by manual triggering with custom params.
+
+**For example**
+
+```js
+var handler = sinon.spy();
+chrome.cookies.onChanged.addListener(handler);
+
+chrome.cookies.onChanged.trigger(1, 2, 3);
+handler.withArgs(1, 2, 3).callCount; // 1
+
+chrome.cookies.onChanged.trigger(1, 2, 3);
+handler.withArgs(1, 2, 3).callCount; // 2
+
+// remove listener
+chrome.cookies.onChanged.removeListener(handler);
+chrome.cookies.onChanged.trigger(1, 2, 3);
+chrome.cookies.onChanged.trigger(1, 2, 3);
+handler.withArgs(1, 2, 3).callCount; // 2
+```
+
+To reset stubs data and properties values, you should call `chrome.reset`.
+
+**For example**
+
+```js
+chrome.tabs.getAll();
+chrome.tabs.getAll();
+
+chrome.runtime.id = 'test_id';
+
+console.log(chrome.tabs.getAll.callCount); // 2
+console.log(chrome.runtime.id); // test_id
+
+chrome.reset();
+console.log(chrome.tabs.getAll.callCount); // 0
+console.log(chrome.runtime.id); // undefined
+```
+
+To reset stubs behavior, you should call `chrome.flush`.
+
+**For example**
+
+```js
+chrome.runtime.getURL.returns('url');
+chrome.tabs.query.yields([1, 2, 3]);
+console.log(chrome.runtime.getURL()); // url
+chrome.tabs.query({}, function tabsHandler(list) {
+   console.log(list); // [1, 2, 3]
+});
+
+chrome.flush();
+console.log(chrome.runtime.getURL()); // undefined
+chrome.tabs.query({}, function tabsHandler(list) {
+   // unreachable point. Function tabsHandler will never be called
+});
+```
+
+## Difference from 0.2 version
+
+We remove all predefined properties and behavior.
+You must define all stubs behavior by your self.
+
+**For example**
+
+```js
+before(function () {
+   chrome.runtime.id = 'my_test_id';
+   chrome.runtime.getURL = function (path) {
+      return 'chrome-extension://' + chrome.runtime.id + '/' + path;
+   };
+});
+```
+
+## Supported namespaces
+
+1. [chrome.alarms](https://developer.chrome.com/extensions/alarms)
+2. [chrome.bookmarks](https://developer.chrome.com/extensions/bookmarks)
+3. [chrome.browserAction](https://developer.chrome.com/extensions/browserAction)
+4. [chrome.browsingData](https://developer.chrome.com/extensions/browsingData)
+5. [chrome.certificateProvider](https://developer.chrome.com/extensions/certificateProvider)
+6. [chrome.commands](https://developer.chrome.com/extensions/commands)
+7. [chrome.contentSettings](https://developer.chrome.com/extensions/contentSettings)
+8. [chrome.contextMenus](https://developer.chrome.com/extensions/contextMenus)
+9. [chrome.cookies](https://developer.chrome.com/extensions/cookies)
+10. [chrome.debugger](https://developer.chrome.com/extensions/debugger)
+11. [chrome.declarativeContent](https://developer.chrome.com/extensions/declarativeContent)
+12. [chrome.desktopCapture](https://developer.chrome.com/extensions/desktopCapture)
+13. [chrome.devtools.inspectedWindow](https://developer.chrome.com/extensions/devtools_inspectedWindow)
+14. [chrome.devtools.network](https://developer.chrome.com/extensions/devtools_network)
+15. [chrome.devtools.panels](https://developer.chrome.com/extensions/devtools_panels)
+16. [chrome.downloads](https://developer.chrome.com/extensions/downloads)
+17. [chrome.extension](https://developer.chrome.com/extensions/extension)
+18. [chrome.extensionTypes](https://developer.chrome.com/extensions/extensionTypes)
+19. [chrome.fontSettings](https://developer.chrome.com/extensions/fontSettings)
+20. [chrome.gcm](https://developer.chrome.com/extensions/gcm)
+21. [chrome.history](https://developer.chrome.com/extensions/history)
+22. [chrome.i18n](https://developer.chrome.com/extensions/i18n)
+23. [chrome.identity](https://developer.chrome.com/extensions/identity)
+24. [chrome.idle](https://developer.chrome.com/extensions/idle)
+25. [chrome.instanceID](https://developer.chrome.com/extensions/instanceID)
+26. [chrome.management](https://developer.chrome.com/extensions/management)
+27. [chrome.notifications](https://developer.chrome.com/extensions/notifications)
+28. [chrome.omnibox](https://developer.chrome.com/extensions/omnibox)
+29. [chrome.pageAction](https://developer.chrome.com/extensions/pageAction)
+30. [chrome.pageCapture](https://developer.chrome.com/extensions/pageCapture)
+31. [chrome.permissions](https://developer.chrome.com/extensions/permissions)
+32. [chrome.printerProvider](https://developer.chrome.com/extensions/printerProvider)
+33. [chrome.privacy](https://developer.chrome.com/extensions/privacy)
+34. [chrome.proxy](https://developer.chrome.com/extensions/proxy)
+35. [chrome.runtime](https://developer.chrome.com/extensions/runtime)
+36. [chrome.sessions](https://developer.chrome.com/extensions/sessions)
+37. [chrome.storage](https://developer.chrome.com/extensions/storage)
+38. [chrome.system.cpu](https://developer.chrome.com/extensions/system_cpu)
+39. [chrome.system.memory](https://developer.chrome.com/extensions/system_memory)
+40. [chrome.system.storage](https://developer.chrome.com/extensions/system_storage)
+41. [chrome.tabCapture](https://developer.chrome.com/extensions/tabCapture)
+42. [chrome.tabs](https://developer.chrome.com/extensions/tabs)
+43. [chrome.topSites](https://developer.chrome.com/extensions/topSites)
+44. [chrome.tts](https://developer.chrome.com/extensions/tts)
+45. [chrome.ttsEngine](https://developer.chrome.com/extensions/ttsEngine)
+46. [chrome.webNavigation](https://developer.chrome.com/extensions/webNavigation)
+47. [chrome.webRequest](https://developer.chrome.com/extensions/webRequest)
+48. [chrome.windows](https://developer.chrome.com/extensions/windows)
+
+## Development and pull request.
+
+Fork this repo and install all dependencies.
+Don't forget check your code style and run tests before send pull request.
+
+**code checking**
+
+```bash
+npm run code
+```
+
+**run tests**
+
+```bash
+npm test
+```
+
+## Any questions?
+
+Feel free to [open issue](https://github.com/acvetkov/sinon-chrome/issues).
+
+## Contributors
+
+1. [Vitaly Potapov](https://github.com/vitalets)
+2. [Aleksey Tsvetkov](https://github.com/acvetkov)

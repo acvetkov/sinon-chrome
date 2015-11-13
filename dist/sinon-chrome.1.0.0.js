@@ -15158,7 +15158,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'hasListener',
 	        value: function hasListener(handler) {
-	            return _lodash2['default'].findIndex(this._listeners, handler) >= 0;
+	            return this._listeners.indexOf(handler) >= 0;
 	        }
 
 	        /**

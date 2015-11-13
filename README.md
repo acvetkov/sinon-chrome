@@ -106,7 +106,7 @@ console.log(chrome.runtime.id); // test
 console.log(chrome.runtime.lastError); // Error: some error(…)
 console.log(chrome.windows.WINDOW_ID_CURRENT); // 100
 
-chrome.reset(); // or chrome.flush();
+chrome.flush();
 
 console.log(chrome.runtime.id); // undefined
 console.log(chrome.runtime.lastError); // undefined
@@ -136,7 +136,7 @@ chrome.cookies.onChanged.trigger(1, 2, 3);
 handler.withArgs(1, 2, 3).callCount; // 2
 ```
 
-To reset stubs data and properties values, you should call `chrome.reset`.
+To reset stubs data, you should call `chrome.reset`.
 
 **For example**
 
@@ -147,14 +147,12 @@ chrome.tabs.getAll();
 chrome.runtime.id = 'test_id';
 
 console.log(chrome.tabs.getAll.callCount); // 2
-console.log(chrome.runtime.id); // test_id
 
 chrome.reset();
 console.log(chrome.tabs.getAll.callCount); // 0
-console.log(chrome.runtime.id); // undefined
 ```
 
-To reset stubs behavior, you should call `chrome.flush`.
+To reset stubs behavior, you should call `chrome.flush` or `chrome.[namespace].[method].resetBehavior`
 
 **For example**
 

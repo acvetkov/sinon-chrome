@@ -30,7 +30,6 @@ var ChromeManager = {
     reset: function () {
         EventsFactory.reset();
         StubsFactory.reset();
-        PropsFactory.flush();
     },
 
     /**

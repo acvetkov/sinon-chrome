@@ -16,12 +16,20 @@ module.exports = {
         library: 'chrome',
         libraryTarget: 'umd'
     },
+    resolve: {
+        alias: {
+            sinon: path.resolve(__dirname, 'node_modules/sinon/pkg/sinon.js')
+        }
+    },
     module: {
         loaders: [
             {
                 test: /\.js$/,
                 loader: 'babel-loader'
             }
+        ],
+        noParse: [
+            /node_modules\/sinon/
         ]
     }
 };

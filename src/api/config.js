@@ -246,15 +246,6 @@ export default {
             'onRequestExternal'
         ]
     },
-    extensionTypes: {
-        methods: [
-            'getAll'
-        ],
-        properties: [],
-        events: [
-            'onCommand'
-        ]
-    },
     fontSettings: {
         methods: [
             'clearFont',

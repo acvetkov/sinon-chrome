@@ -38,7 +38,7 @@ function appendNamespace(object, namespace) {
  * @param {Array<String>} methods
  */
 function wrapMethods(object, namespace, methods) {
-    _.forEach(methods, method => {
+    methods.forEach(method => {
         Object.defineProperty(_.get(object, namespace), method, {
             get: function () {
                 return Cache.getStub(namespace, method);
@@ -77,7 +77,7 @@ function appendProperty(object, namespace, property) {
  * @param {Array<String>} events
  */
 function wrapEvents(object, namespace, events) {
-    _.forEach(events, event => {
+    events.forEach(event => {
         Object.defineProperty(_.get(object, namespace), event, {
             get: function () {
                 return Cache.getEvent(namespace, event);

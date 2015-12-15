@@ -669,6 +669,16 @@ export default {
         properties: [],
         events: []
     },
+    'system.display': {
+        methods: [
+            'getInfo',
+            'setDisplayProperties'
+        ],
+        properties: [],
+        events: [
+            'onDisplayChanged'
+        ]
+    },
     'system.memory': {
         methods: [
             'getInfo'

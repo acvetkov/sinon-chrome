@@ -1,6 +1,6 @@
 import ChromeCookie from '../../../src/plugins/cookies/cookie';
 
-describe.only('plugin/cookie', function () {
+describe('plugin/cookie', function () {
 
     it('should create correct host-only cookie', function () {
         const cookie = new ChromeCookie({url: 'http://my-domain.com'});

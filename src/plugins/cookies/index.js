@@ -70,7 +70,7 @@ export default class ChromeCookies {
         assertSet.apply(null, arguments);
         const cookie = new ChromeCookie(details);
         const cookieInfo = cookie.toString();
-        this._appendCookie(cookieInfo, cookie.url);
+        this._appendCookie(cookieInfo);
         this._invokeResult(cookieInfo, callback);
     }
 
@@ -81,13 +81,12 @@ export default class ChromeCookies {
     /**
      * Append new cookie
      * @param {Object} cookieInfo
-     * @param {String} url
      * @private
      */
-    _appendCookie (cookieInfo, url) {
+    _appendCookie (cookieInfo) {
         const index = _.findIndex(this._state, {
             name: cookieInfo.name,
-            url: url
+            domain: cookieInfo.domain
         });
         if (index >= 0) {
             this._state.splice(index, 1, cookieInfo);
@@ -95,7 +94,7 @@ export default class ChromeCookies {
             this._triggerChange({cause: 'explicit', removed: false, cookie: cookieInfo});
         } else {
             this._state.push(cookieInfo);
-            this._triggerChange({cause: 'overwrite', removed: true, cookie: cookieInfo});
+            this._triggerChange({cause: 'explicit', removed: false, cookie: cookieInfo});
         }
     }
 
@@ -116,7 +115,9 @@ export default class ChromeCookies {
      */
     _invokeResult (result, callback) {
         setTimeout(() => {
-            callback(result);
+            if (_.isFunction(callback)) {
+                callback(result);
+            }
         }, 0);
     }
 

@@ -25,6 +25,15 @@ export function create() {
 var ChromeManager = {
 
     /**
+     * Install plugin
+     * @param {Object} plugin
+     * @param {Function} plugin.install
+     */
+    install: function (plugin) {
+        plugin.install(this);
+    },
+
+    /**
      * Reset mack data
      */
     reset: function () {

@@ -10,6 +10,7 @@ export default class ChromeCookie {
     constructor (details) {
         ChromeCookie.assertParams(details);
         this.details = details;
+        this.url = details.url;
     }
 
     toString () {

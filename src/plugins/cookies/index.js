@@ -1,6 +1,6 @@
 /**
  * @author acvetkov@yandex-team.ru
- * @overview
+ * @overview Cookie plugin
  */
 
 import _ from 'lodash';

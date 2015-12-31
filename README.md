@@ -25,7 +25,7 @@ npm install sinon-chrome
 ```
 
 **Direct download:**  
-[sinon-chrome.js](https://raw.githubusercontent.com/acvetkov/sinon-chrome/master/dist/sinon-chrome.1.0.3.js)
+[sinon-chrome.js](https://raw.githubusercontent.com/acvetkov/sinon-chrome/master/dist/sinon-chrome.latest.js)
 
 
 ## How to use

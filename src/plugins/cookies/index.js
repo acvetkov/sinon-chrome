@@ -5,12 +5,15 @@
 
 import _ from 'lodash';
 import URI from 'URIjs';
-import { assertGet, assertGetAll } from './assert';
+import ChromeCookie from './cookie';
+import ChromeEvent from '../../events';
+import { assertGet, assertGetAll, assertSet } from './assert';
 
 export default class ChromeCookies {
 
     constructor (state = {}) {
         this._state = state;
+        this.onChanged = new ChromeEvent();
     }
 
     /**
@@ -19,7 +22,8 @@ export default class ChromeCookies {
      */
     install (chrome) {
         const plugin = this;
-        Object.defineProperty(chrome, 'cookies', {
+        this.chrome = chrome;
+        Object.defineProperty(this.chrome, 'cookies', {
             get: function () {
                 return plugin;
             }
@@ -39,7 +43,7 @@ export default class ChromeCookies {
             name: details.name,
             domain: new URI(details.url).hostname()
         };
-        return callback(_.findWhere(this._state, params) || null);
+        return this._invokeResult(_.findWhere(this._state, params) || null, callback);
     }
 
     /**
@@ -54,15 +58,66 @@ export default class ChromeCookies {
             params.domain = new URI(details.url).hostname();
             delete params.url;
         }
-        return callback(_.where(this._state, params));
+        return this._invokeResult(_.where(this._state, params), callback);
     }
 
+    /**
+     * set cookie value
+     * @param {ChromeCookie} details
+     * @param {Function} callback
+     */
     set (details, callback) {
-
+        assertSet.apply(null, arguments);
+        const cookie = new ChromeCookie(details);
+        const cookieInfo = cookie.toString();
+        this._appendCookie(cookieInfo, cookie.url);
+        this._invokeResult(cookieInfo, callback);
     }
 
     remove (details, callback) {
 
+    }
+
+    /**
+     * Append new cookie
+     * @param {Object} cookieInfo
+     * @param {String} url
+     * @private
+     */
+    _appendCookie (cookieInfo, url) {
+        const index = _.findIndex(this._state, {
+            name: cookieInfo.name,
+            url: url
+        });
+        if (index >= 0) {
+            this._state.splice(index, 1, cookieInfo);
+            this._triggerChange({cause: 'overwrite', removed: true, cookie: cookieInfo});
+            this._triggerChange({cause: 'explicit', removed: false, cookie: cookieInfo});
+        } else {
+            this._state.push(cookieInfo);
+            this._triggerChange({cause: 'overwrite', removed: true, cookie: cookieInfo});
+        }
+    }
+
+    /**
+     * Trigger change event
+     * @param {Object} changeInfo
+     * @private
+     */
+    _triggerChange (changeInfo) {
+        this.onChanged.triggerAsync(changeInfo);
+    }
+
+    /**
+     * Async invoke result
+     * @param {*} result
+     * @param {Function} callback
+     * @private
+     */
+    _invokeResult (result, callback) {
+        setTimeout(() => {
+            callback(result);
+        }, 0);
     }
 
     /**

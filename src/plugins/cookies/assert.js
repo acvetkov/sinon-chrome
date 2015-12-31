@@ -40,6 +40,16 @@ export function assertGetAll(details, callback) {
 }
 
 /**
+ * assert chrome.cookies.set
+ * @param {AllCookieCriteria} details
+ */
+export function assertSet(details) {
+    if (!_.isString(details.url)) {
+        throwError('url');
+    }
+}
+
+/**
  * throws type error
  * @param {String} argument
  */

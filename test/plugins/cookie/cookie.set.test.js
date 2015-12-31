@@ -11,7 +11,7 @@ describe('plugins/cookies/set', function () {
 
     before(function () {
         chrome.install(new CookiesPlugin());
-        chrome.cookies.state = state;
+        chrome.cookies.state = _.cloneDeep(state);
     });
 
     beforeEach(function () {

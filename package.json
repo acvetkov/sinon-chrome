@@ -39,7 +39,8 @@
   "license": "ISC",
   "dependencies": {
     "lodash": "^3.10.1",
-    "sinon": "^1.17.2"
+    "sinon": "^1.17.2",
+    "URIjs": "^1.15.2"
   },
   "devDependencies": {
     "babel": "^5.8.34",

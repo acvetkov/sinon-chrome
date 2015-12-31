@@ -1,10 +1,3 @@
-/**
- * @author acvetkov@yandex-team.ru
- * @overview
- */
-
-import _ from 'lodash';
-
 import CookiesPlugin from '../../../src/plugins/cookies';
 import state from '../data/cookie-state.json';
 import { create } from '../../../src/chrome-api';

@@ -40,7 +40,7 @@ export default class ChromeEvent {
     triggerAsync () {
         var args = arguments;
         setTimeout(() => {
-            this.trigger(args);
+            this.trigger.apply(this, args);
         }, 0);
     }
 

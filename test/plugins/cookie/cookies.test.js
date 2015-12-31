@@ -2,7 +2,7 @@ import CookiesPlugin from '../../../src/plugins/cookies';
 import { create } from '../../../src/chrome-api';
 import { sinonStub } from '../../helpers/is';
 
-describe.only('plugins/cookies', function () {
+describe('plugins/cookies', function () {
 
     describe('install', function () {
 

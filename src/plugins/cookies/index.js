@@ -4,6 +4,7 @@
  */
 
 import _ from 'lodash';
+import URI from 'URIjs';
 import { assertGet, assertGetAll } from './assert';
 
 export default class ChromeCookies {
@@ -36,7 +37,7 @@ export default class ChromeCookies {
         assertGet.apply(null, arguments);
         const params = {
             name: details.name,
-            domain: details.url.replace(/^https?:\/\//i, '')
+            domain: new URI(details.url).hostname()
         };
         return callback(_.findWhere(this._state, params) || null);
     }
@@ -50,7 +51,7 @@ export default class ChromeCookies {
         assertGetAll.apply(this, arguments);
         const params = details;
         if (params.url) {
-            params.domain = details.url.replace(/^https?:\/\//i, '');
+            params.domain = new URI(details.url).hostname();
             delete params.url;
         }
         return callback(_.where(this._state, params));

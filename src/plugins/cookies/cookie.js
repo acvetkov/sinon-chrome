@@ -13,13 +13,12 @@ export default class ChromeCookie {
     }
 
     toString () {
-        const domain = this.details.url.replace(/^https?:\/\//i, '');
+        const domain = new URI(this.details.url).hostname();
         const data = {
-            url: this.details.url,
             name: this.details.name || '',
             value: this.details.value || '',
             domain: domain,
-            hostOnly: domain.charAt(0) === '.',
+            hostOnly: domain.charAt(0) !== '.',
             httpOnly: Boolean(this.details.httpOnly),
             secure: Boolean(this.details.secure),
             session: !Boolean(this.details.expirationDate),

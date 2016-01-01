@@ -1,10 +1,3 @@
-/**
- * @author acvetkov@yandex-team.ru
- * @overview
- */
-
-'use strict';
-
 import EventsFactory from './events';
 import StubsFactory from './stubs';
 

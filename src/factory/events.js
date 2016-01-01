@@ -1,8 +1,3 @@
-/**
- * @author acvetkov@yandex-team.ru
- * @overview
- */
-
 import sinon from 'sinon';
 import ChromeEvent from '../events/index';
 

@@ -1,9 +1,3 @@
-/**
- * @author acvetkov@yandex-team.ru
- * @overview
- * Generate tests for chrome api
- */
-
 import _ from 'lodash';
 
 import apiConfig from '../../src/api/config.js';

@@ -1,11 +1,3 @@
-/**
- * @author acvetkov@yandex-team.ru
- * @overview
- * Chrome event class (Signal)
- */
-
-'use strict';
-
 import _ from 'lodash';
 
 export default class ChromeEvent {

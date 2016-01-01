@@ -260,6 +260,39 @@ npm run code
 npm test
 ```
 
+## Plugins
+
+Sinon chrome module supports by plugins.
+
+### Cookie plugin
+
+You can test chrome cookie behaviour.
+
+#### install
+
+```js
+var chrome = require('sinon-chrome');
+var cookiePlugin = require('sinon-chrome/out/plugins/cookies');
+chrome.install(cookiePlugin);
+```
+
+```js
+chrome.cookies.state = [
+    {
+        name: 'cook',
+        value: 'data',
+        domain: '.domain.com'
+    }
+]
+chrome.cookies.get({name: 'cook', url: 'http://.domain.com'}, function (cookie) {
+   console.log(cookie); // cookie
+});
+
+chrome.cookies.get({name: 'other-name', url: 'http://.domain.com'}, function (cookie) {
+   console.log(cookie); // undefined
+});
+```
+
 ## Any questions?
 
 Feel free to [open issue](https://github.com/acvetkov/sinon-chrome/issues).

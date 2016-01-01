@@ -7,7 +7,7 @@ import _ from 'lodash';
 import URI from 'URIjs';
 import ChromeCookie from './cookie';
 import ChromeEvent from '../../events';
-import { assertGet, assertGetAll, assertSet } from './assert';
+import { assertGet, assertGetAll, assertSet, assertRemove } from './assert';
 
 export default class ChromeCookies {
 
@@ -74,8 +74,26 @@ export default class ChromeCookies {
         this._invokeResult(cookieInfo, callback);
     }
 
+    /**
+     * remove cookie
+     * @param {Object} details
+     * @param {String} details.url
+     * @param {String} details.name
+     * @param {Function} [callback]
+     */
     remove (details, callback) {
-
+        assertRemove.apply(null, arguments);
+        const params = {
+            name: details.name,
+            domain: (new URI(details.url)).hostname()
+        };
+        const cookieInfo = _.findWhere(this._state, params);
+        if (cookieInfo) {
+            const index = _.findIndex(this._state, cookieInfo);
+            this._state.splice(index, 1);
+            this._triggerChange({cause: 'explicit', removed: true, cookie: cookieInfo});
+        }
+        this._invokeResult(details, callback);
     }
 
     /**

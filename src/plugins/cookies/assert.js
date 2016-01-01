@@ -40,12 +40,25 @@ export function assertGetAll(details, callback) {
 }
 
 /**
- * assert chrome.cookies.set
+ * assert chrome.cookies.set arguments
  * @param {AllCookieCriteria} details
  */
 export function assertSet(details) {
     if (!_.isString(details.url)) {
         throwError('url');
+    }
+}
+
+/**
+ * assert chrome.cookies.remove arguments
+ * @param {Object} details
+ */
+export function assertRemove(details) {
+    if (!_.isString(details.url)) {
+        throwError('url');
+    }
+    if (!_.isString(details.name)) {
+        throwError('name');
     }
 }
 

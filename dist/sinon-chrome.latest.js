@@ -122,6 +122,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ChromeManager = {
 
 	  /**
+	   * Install plugin
+	   * @param {Object} plugin
+	   * @param {Function} plugin.install
+	   */
+	  install: function install(plugin) {
+	    plugin.install(this);
+	  },
+
+	  /**
 	   * Reset mack data
 	   */
 	  reset: function reset() {

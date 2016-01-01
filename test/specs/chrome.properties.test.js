@@ -1,10 +1,3 @@
-/**
- * @author acvetkov@yandex-team.ru
- * @overview
- */
-
-'use strict';
-
 import _ from 'lodash';
 import {assert} from 'chai';
 

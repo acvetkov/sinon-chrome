@@ -1,12 +1,5 @@
-/**
- * @author acvetkov@yandex-team.ru
- * @overview
- */
-
-'use strict';
-
-var _ = require('lodash');
-var ChromeEvent = require('../../src/events');
+import _ from 'lodash';
+import ChromeEvent from '../../src/events';
 
 /**
  * @param {Object} stub

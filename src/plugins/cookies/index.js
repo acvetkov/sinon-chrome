@@ -6,7 +6,7 @@ import { assertGet, assertGetAll, assertSet, assertRemove } from './assert';
 
 export default class ChromeCookies {
 
-    constructor (state = {}) {
+    constructor (state = []) {
         this._state = state;
         this.onChanged = new ChromeEvent();
     }

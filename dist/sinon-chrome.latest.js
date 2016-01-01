@@ -54,11 +54,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * @author acvetkov@yandex-team.ru
-	 * @overview
-	 */
-
 	'use strict';
 
 	Object.defineProperty(exports, '__esModule', {
@@ -74,15 +69,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * @author acvetkov@yandex-team.ru
-	 * @overview
-	 */
-
 	'use strict';
 
 	Object.defineProperty(exports, '__esModule', {
-	  value: true
+	    value: true
 	});
 	exports.create = create;
 
@@ -116,36 +106,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 	function create() {
-	  return _lodash2['default'].assign((0, _chromeIndex.generateApi)(_apiConfigJs2['default']), ChromeManager);
+	    return _lodash2['default'].assign((0, _chromeIndex.generateApi)(_apiConfigJs2['default']), ChromeManager);
 	}
 
 	var ChromeManager = {
 
-	  /**
-	   * Install plugin
-	   * @param {Object} plugin
-	   * @param {Function} plugin.install
-	   */
-	  install: function install(plugin) {
-	    plugin.install(this);
-	  },
+	    /**
+	     * Install plugin
+	     * @param {Object} plugin
+	     * @param {Function} plugin.install
+	     */
+	    install: function install(plugin) {
+	        plugin.install(this);
+	    },
 
-	  /**
-	   * Reset mack data
-	   */
-	  reset: function reset() {
-	    _factoryEvents2['default'].reset();
-	    _factoryStubs2['default'].reset();
-	  },
+	    /**
+	     * Reset mack data
+	     */
+	    reset: function reset() {
+	        _factoryEvents2['default'].reset();
+	        _factoryStubs2['default'].reset();
+	    },
 
-	  /**
-	   * Reset mock data and behaviour
-	   */
-	  flush: function flush() {
-	    _factoryEvents2['default'].flush();
-	    _factoryStubs2['default'].flush();
-	    _factoryProperty2['default'].flush();
-	  }
+	    /**
+	     * Reset mock data and behaviour
+	     */
+	    flush: function flush() {
+	        _factoryEvents2['default'].flush();
+	        _factoryStubs2['default'].flush();
+	        _factoryProperty2['default'].flush();
+	    }
 	};
 
 /***/ },
@@ -7326,11 +7316,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * @author acvetkov@yandex-team.ru
-	 * @overview
-	 */
-
 	'use strict';
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -7434,11 +7419,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * @author acvetkov@yandex-team.ru
-	 * @overview
-	 */
-
 	'use strict';
 
 	Object.defineProperty(exports, '__esModule', {
@@ -7492,11 +7472,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ },
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * @author acvetkov@yandex-team.ru
-	 * @overview
-	 */
 
 	'use strict';
 
@@ -8123,12 +8098,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * @author acvetkov@yandex-team.ru
-	 * @overview
-	 * Chrome event class (Signal)
-	 */
-
 	'use strict';
 
 	Object.defineProperty(exports, '__esModule', {
@@ -8268,11 +8237,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * @author acvetkov@yandex-team.ru
-	 * @overview
-	 */
-
 	'use strict';
 
 	Object.defineProperty(exports, '__esModule', {
@@ -8327,11 +8291,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ },
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * @author acvetkov@yandex-team.ru
-	 * @overview
-	 */
 
 	'use strict';
 

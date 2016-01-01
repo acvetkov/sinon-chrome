@@ -1,8 +1,3 @@
-/**
- * @author acvetkov@yandex-team.ru
- * @overview cookies plugin assertation module
- */
-
 import _ from 'lodash';
 
 /**

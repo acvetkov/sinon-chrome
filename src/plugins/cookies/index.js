@@ -1,8 +1,3 @@
-/**
- * @author acvetkov@yandex-team.ru
- * @overview Cookie plugin
- */
-
 import _ from 'lodash';
 import URI from 'URIjs';
 import ChromeCookie from './cookie';

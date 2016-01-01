@@ -1,8 +1,3 @@
-/**
- * @author acvetkov@yandex-team.ru
- * @overview Chrome cookie emulation class
- */
-
 import URI from 'URIjs';
 
 export default class ChromeCookie {

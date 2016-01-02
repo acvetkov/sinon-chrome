@@ -3,17 +3,22 @@
  * chrome.cookies.Cookie fake module
  */
 
+import _ from 'lodash';
 import URI from 'URIjs';
 
 export default class ChromeCookie {
 
-    constructor(details) {
+    constructor (details) {
         ChromeCookie.assertParams(details);
         this.details = details;
         this.url = details.url;
     }
 
-    toString() {
+    /**
+     * get chrome cookie value
+     * @returns {Object}
+     */
+    get info () {
         const domain = new URI(this.details.url).hostname();
         const data = {
             name: this.details.name || '',
@@ -22,7 +27,7 @@ export default class ChromeCookie {
             hostOnly: domain.charAt(0) !== '.',
             httpOnly: Boolean(this.details.httpOnly),
             secure: Boolean(this.details.secure),
-            session: !Boolean(this.details.expirationDate),
+            session: _.isUndefined(this.details.expirationDate),
             path: this.details.path || (new URI(this.details.url)).path()
         };
         if (this.details.expirationDate) {
@@ -35,7 +40,7 @@ export default class ChromeCookie {
      * assert cookie params
      * @param {CookieDetails} details
      */
-    static assertParams(details) {
+    static assertParams (details) {
         if (!details.url) {
             throw new Error('details.url required');
         }

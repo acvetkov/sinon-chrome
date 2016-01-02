@@ -4,7 +4,7 @@ describe('plugin/cookie', function () {
 
     it('should create correct host-only cookie', function () {
         const cookie = new ChromeCookie({url: 'http://my-domain.com'});
-        assert.deepEqual(cookie.toString(), {
+        assert.deepEqual(cookie.info, {
             name: '',
             value: '',
             domain: 'my-domain.com',
@@ -18,7 +18,7 @@ describe('plugin/cookie', function () {
 
     it('should create correct all domains cookie', function () {
         const cookie = new ChromeCookie({url: 'http://.my-domain.com'});
-        assert.deepEqual(cookie.toString(), {
+        assert.deepEqual(cookie.info, {
             name: '',
             value: '',
             domain: '.my-domain.com',
@@ -32,7 +32,7 @@ describe('plugin/cookie', function () {
 
     it('should create correct all domains named cookie', function () {
         const cookie = new ChromeCookie({url: 'http://.my-domain.com', name: 'cook'});
-        assert.deepEqual(cookie.toString(), {
+        assert.deepEqual(cookie.info, {
             name: 'cook',
             value: '',
             domain: '.my-domain.com',
@@ -46,7 +46,7 @@ describe('plugin/cookie', function () {
 
     it('should create correct all domains named cookie with value', function () {
         const cookie = new ChromeCookie({url: 'http://.my-domain.com', name: 'cook', value: 'val'});
-        assert.deepEqual(cookie.toString(), {
+        assert.deepEqual(cookie.info, {
             name: 'cook',
             value: 'val',
             domain: '.my-domain.com',
@@ -65,7 +65,7 @@ describe('plugin/cookie', function () {
             value: 'val',
             path: '/data'
         });
-        assert.deepEqual(cookie.toString(), {
+        assert.deepEqual(cookie.info, {
             name: 'cook',
             value: 'val',
             domain: '.my-domain.com',
@@ -83,7 +83,7 @@ describe('plugin/cookie', function () {
             name: 'cook',
             value: 'val'
         });
-        assert.deepEqual(cookie.toString(), {
+        assert.deepEqual(cookie.info, {
             name: 'cook',
             value: 'val',
             domain: '.my-domain.com',
@@ -102,7 +102,7 @@ describe('plugin/cookie', function () {
             value: 'val',
             secure: true
         });
-        assert.deepEqual(cookie.toString(), {
+        assert.deepEqual(cookie.info, {
             name: 'cook',
             value: 'val',
             domain: '.my-domain.com',
@@ -120,7 +120,7 @@ describe('plugin/cookie', function () {
             name: 'cook',
             httpOnly: true
         });
-        assert.deepEqual(cookie.toString(), {
+        assert.deepEqual(cookie.info, {
             name: 'cook',
             value: '',
             domain: '.my-domain.com',
@@ -138,7 +138,7 @@ describe('plugin/cookie', function () {
             name: 'cook',
             expirationDate: 1451579154.834
         });
-        assert.deepEqual(cookie.toString(), {
+        assert.deepEqual(cookie.info, {
             name: 'cook',
             value: '',
             domain: '.my-domain.com',

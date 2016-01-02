@@ -38,18 +38,16 @@
   },
   "license": "ISC",
   "dependencies": {
+    "URIjs": "^1.15.2",
     "lodash": "^3.10.1",
-    "sinon": "^1.17.2",
-    "URIjs": "^1.15.2"
+    "sinon": "^1.17.2"
   },
   "devDependencies": {
+    "eslint": "^1.10.3",
     "babel": "^5.8.34",
     "babel-core": "^5.8.34",
     "babel-loader": "^5.3.3",
     "chai": "^3.4.1",
-    "eslint": "^1.9.0",
-    "eslint-config-airbnb": "^1.0.0",
-    "eslint-plugin-react": "^3.8.0",
     "jscs": "^2.5.1",
     "mocha": "^2.3.3",
     "webpack": "^1.12.4"

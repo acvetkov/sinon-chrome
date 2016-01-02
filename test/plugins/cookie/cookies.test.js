@@ -1,12 +1,12 @@
 import CookiesPlugin from '../../../src/plugins/cookies';
-import { create } from '../../../src/chrome-api';
-import { sinonStub } from '../../helpers/is';
+import * as chromeApi from '../../../src/chrome-api';
+import * as is from '../../helpers/is';
 
 describe('plugins/cookies', function () {
 
     describe('install', function () {
 
-        const chrome = create();
+        const chrome = chromeApi.create();
 
         before(function () {
             this.plugin = new CookiesPlugin();
@@ -24,10 +24,10 @@ describe('plugins/cookies', function () {
             assert.isFunction(chrome.cookies.getAll);
             assert.isFunction(chrome.cookies.remove);
 
-            assert.notOk(sinonStub(chrome.cookies.set));
-            assert.notOk(sinonStub(chrome.cookies.get));
-            assert.notOk(sinonStub(chrome.cookies.getAl));
-            assert.notOk(sinonStub(chrome.cookies.remove));
+            assert.notOk(is.sinonStub(chrome.cookies.set));
+            assert.notOk(is.sinonStub(chrome.cookies.get));
+            assert.notOk(is.sinonStub(chrome.cookies.getAll));
+            assert.notOk(is.sinonStub(chrome.cookies.remove));
         });
     });
 });

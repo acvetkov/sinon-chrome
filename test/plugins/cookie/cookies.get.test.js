@@ -1,12 +1,12 @@
-import sinon from 'sinon';
+import _ from 'lodash';
 
 import CookiesPlugin from '../../../src/plugins/cookies';
 import state from '../data/cookie-state.json';
-import { create } from '../../../src/chrome-api';
+import * as chromeApi from '../../../src/chrome-api';
 
 describe('plugins/cookies/get', function () {
 
-    const chrome = create();
+    const chrome = chromeApi.create();
 
     before(function () {
         chrome.install(new CookiesPlugin());
@@ -38,14 +38,14 @@ describe('plugins/cookies/get', function () {
 
     it('should throws if details.name is not passed', function () {
         function call() {
-            chrome.cookies.get({url: 'http://www.kraken.ru'}, sinon.spy());
+            chrome.cookies.get({url: 'http://www.kraken.ru'}, _.noop);
         }
         assert.throws(call, 'name required', 'details.name is not passed');
     });
 
     it('should throws if details.url is not passed', function () {
         function call() {
-            chrome.cookies.get({name: 'MEGA_COOKIE_NAME'}, sinon.spy());
+            chrome.cookies.get({name: 'MEGA_COOKIE_NAME'}, _.noop);
         }
         assert.throws(call, 'url required', 'details.url is not passed');
     });

@@ -1,3 +1,8 @@
+/**
+ * @overview
+ * chrome.cookies.Cookie fake module
+ */
+
 import URI from 'URIjs';
 
 export default class ChromeCookie {

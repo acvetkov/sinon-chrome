@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import URI from 'URIjs';
+
 import ChromeCookie from './cookie';
 import ChromeEvent from '../../events';
-import { assertGet, assertGetAll, assertSet, assertRemove } from './assert';
+import * as assert from './assert';
 
 export default class ChromeCookies {
 
@@ -33,7 +34,7 @@ export default class ChromeCookies {
      * @param {Function} callback
      */
     get (details, callback) {
-        assertGet.apply(null, arguments);
+        assert.get.apply(null, arguments);
         const params = {
             name: details.name,
             domain: new URI(details.url).hostname()
@@ -47,7 +48,7 @@ export default class ChromeCookies {
      * @param {Function} callback
      */
     getAll (details, callback) {
-        assertGetAll.apply(this, arguments);
+        assert.getAll.apply(this, arguments);
         const params = details;
         if (params.url) {
             params.domain = new URI(details.url).hostname();
@@ -62,7 +63,7 @@ export default class ChromeCookies {
      * @param {Function} callback
      */
     set (details, callback) {
-        assertSet.apply(null, arguments);
+        assert.set.apply(null, arguments);
         const cookie = new ChromeCookie(details);
         const cookieInfo = cookie.toString();
         this._appendCookie(cookieInfo);
@@ -77,7 +78,7 @@ export default class ChromeCookies {
      * @param {Function} [callback]
      */
     remove (details, callback) {
-        assertRemove.apply(null, arguments);
+        assert.remove.apply(null, arguments);
         const params = {
             name: details.name,
             domain: (new URI(details.url)).hostname()
@@ -127,11 +128,9 @@ export default class ChromeCookies {
      * @private
      */
     _invokeResult (result, callback) {
-        setTimeout(() => {
-            if (_.isFunction(callback)) {
-                callback(result);
-            }
-        }, 0);
+        if (_.isFunction(callback)) {
+            setTimeout(() => callback(result), 0);
+        }
     }
 
     /**

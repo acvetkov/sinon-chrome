@@ -3,11 +3,11 @@ import _ from 'lodash';
 
 import CookiesPlugin from '../../../src/plugins/cookies';
 import state from '../data/cookie-state.json';
-import { create } from '../../../src/chrome-api';
+import * as chromeApi from '../../../src/chrome-api';
 
 describe('plugins/cookies/remove', function () {
 
-    const chrome = create();
+    const chrome = chromeApi.create();
 
     before(function () {
         chrome.install(new CookiesPlugin());

@@ -7,7 +7,7 @@ import * as assert from './assert';
 
 export default class ChromeCookies {
 
-    constructor (state = []) {
+    constructor(state = []) {
         this._state = state;
         this.onChanged = new ChromeEvent();
     }
@@ -16,7 +16,7 @@ export default class ChromeCookies {
      * Install plugin
      * @param {Object} chrome
      */
-    install (chrome) {
+    install(chrome) {
         const plugin = this;
         this.chrome = chrome;
         Object.defineProperty(this.chrome, 'cookies', {
@@ -33,7 +33,7 @@ export default class ChromeCookies {
      * @param {String} details.name
      * @param {Function} callback
      */
-    get (details, callback) {
+    get(details, callback) {
         assert.get.apply(null, arguments);
         const params = {
             name: details.name,
@@ -47,7 +47,7 @@ export default class ChromeCookies {
      * @param {AllCookieCriteria} details
      * @param {Function} callback
      */
-    getAll (details, callback) {
+    getAll(details, callback) {
         assert.getAll.apply(this, arguments);
         const params = details;
         if (params.url) {
@@ -62,7 +62,7 @@ export default class ChromeCookies {
      * @param {ChromeCookie} details
      * @param {Function} callback
      */
-    set (details, callback) {
+    set(details, callback) {
         assert.set.apply(null, arguments);
         const cookie = new ChromeCookie(details);
         const cookieInfo = cookie.toString();
@@ -77,7 +77,7 @@ export default class ChromeCookies {
      * @param {String} details.name
      * @param {Function} [callback]
      */
-    remove (details, callback) {
+    remove(details, callback) {
         assert.remove.apply(null, arguments);
         const params = {
             name: details.name,
@@ -97,7 +97,7 @@ export default class ChromeCookies {
      * @param {Object} cookieInfo
      * @private
      */
-    _appendCookie (cookieInfo) {
+    _appendCookie(cookieInfo) {
         const index = _.findIndex(this._state, {
             name: cookieInfo.name,
             domain: cookieInfo.domain
@@ -117,7 +117,7 @@ export default class ChromeCookies {
      * @param {Object} changeInfo
      * @private
      */
-    _triggerChange (changeInfo) {
+    _triggerChange(changeInfo) {
         this.onChanged.triggerAsync(changeInfo);
     }
 
@@ -127,7 +127,7 @@ export default class ChromeCookies {
      * @param {Function} callback
      * @private
      */
-    _invokeResult (result, callback) {
+    _invokeResult(result, callback) {
         if (_.isFunction(callback)) {
             setTimeout(() => callback(result), 0);
         }
@@ -136,14 +136,14 @@ export default class ChromeCookies {
     /**
      * @returns {Object}
      */
-    get state () {
+    get state() {
         return this._state;
     }
 
     /**
      * @param {Object} value
      */
-    set state (value) {
+    set state(value) {
         this._state = value;
     }
 }

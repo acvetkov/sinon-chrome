@@ -155,6 +155,7 @@ describe('plugin/cookie', function () {
         function call() {
             return new ChromeCookie({name: 'data'});
         }
+
         assert.throws(call, 'details.url required', 'url is not passed');
     });
 });

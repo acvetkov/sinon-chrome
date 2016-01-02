@@ -7,13 +7,13 @@ import URI from 'URIjs';
 
 export default class ChromeCookie {
 
-    constructor (details) {
+    constructor(details) {
         ChromeCookie.assertParams(details);
         this.details = details;
         this.url = details.url;
     }
 
-    toString () {
+    toString() {
         const domain = new URI(this.details.url).hostname();
         const data = {
             name: this.details.name || '',
@@ -35,7 +35,7 @@ export default class ChromeCookie {
      * assert cookie params
      * @param {CookieDetails} details
      */
-    static assertParams (details) {
+    static assertParams(details) {
         if (!details.url) {
             throw new Error('details.url required');
         }

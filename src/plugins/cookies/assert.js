@@ -1,3 +1,8 @@
+/**
+ * @overview
+ * Assertation module for chrome.cookies.* methods
+ */
+
 import _ from 'lodash';
 
 /**
@@ -6,7 +11,7 @@ import _ from 'lodash';
  * @param {Function} callback
  * @throws TypeError
  */
-export function assertGet(details, callback) {
+export function get(details, callback) {
     if (!_.isString(details.name)) {
         throwError('name');
     }
@@ -25,7 +30,7 @@ export function assertGet(details, callback) {
  * @param {AllCookieCriteria} details
  * @param {Function} callback
  */
-export function assertGetAll(details, callback) {
+export function getAll(details, callback) {
     if (!_.isPlainObject(details)) {
         throwError('details');
     }
@@ -38,7 +43,7 @@ export function assertGetAll(details, callback) {
  * assert chrome.cookies.set arguments
  * @param {AllCookieCriteria} details
  */
-export function assertSet(details) {
+export function set(details) {
     if (!_.isString(details.url)) {
         throwError('url');
     }
@@ -48,7 +53,7 @@ export function assertSet(details) {
  * assert chrome.cookies.remove arguments
  * @param {Object} details
  */
-export function assertRemove(details) {
+export function remove(details) {
     if (!_.isString(details.url)) {
         throwError('url');
     }

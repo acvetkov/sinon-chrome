@@ -9,7 +9,7 @@ describe('plugins/cookies/get', function () {
     const chrome = chromeApi.create();
 
     before(function () {
-        chrome.install(new CookiesPlugin());
+        chrome.requirePlugin(new CookiesPlugin());
         chrome.cookies.state = state;
     });
 

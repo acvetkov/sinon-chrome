@@ -10,7 +10,7 @@ describe('plugins/cookies/remove', function () {
     const chrome = chromeApi.create();
 
     before(function () {
-        chrome.install(new CookiesPlugin());
+        chrome.requirePlugin(new CookiesPlugin());
     });
 
     beforeEach(function () {

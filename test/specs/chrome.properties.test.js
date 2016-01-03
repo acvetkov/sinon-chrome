@@ -32,7 +32,7 @@ function generatePropSuite(chrome, prop, namespace) {
         }
 
         it('should return specified value', function () {
-            var a = 'a';
+            const a = 'a';
             assert.notEqual(getProp(), a);
             setProp(a);
             assert.equal(getProp(), a);

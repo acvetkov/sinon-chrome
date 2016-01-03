@@ -13,7 +13,7 @@ export default {
      * @returns {sinon.stub}
      */
     getStub: function (namespace, method) {
-        var key = `${namespace}.${method}`;
+        const key = `${namespace}.${method}`;
         if (!(key in this.stubCache)) {
             this.stubCache[key] = StubsFactory.stub;
         }
@@ -26,7 +26,7 @@ export default {
      * @param {String} event
      */
     getEvent: function (namespace, event) {
-        var key = `${namespace}.${event}`;
+        const key = `${namespace}.${event}`;
         if (!(key in this.eventsCache)) {
             this.eventsCache[key] = EventsFactory.get();
         }

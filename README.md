@@ -272,8 +272,7 @@ You can test chrome cookie behaviour.
 
 ```js
 var chrome = require('sinon-chrome');
-var cookiePlugin = require('sinon-chrome/out/plugins/cookies');
-chrome.install(cookiePlugin);
+chrome.requirePlugin(new chrome.plugins.CookiePlugin());
 ```
 
 ```js

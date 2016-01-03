@@ -15,7 +15,7 @@ export default function generateApi(config) {
         wrapProperties(result, namespace, properties);
         return result;
     }, {});
-};
+}
 
 /**
  * append namespace to chrome object

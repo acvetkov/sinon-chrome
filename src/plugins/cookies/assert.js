@@ -67,5 +67,5 @@ export function remove(details) {
  * @param {String} argument
  */
 function throwError(argument) {
-    throw new TypeError(`${argument} required`);
+    throw new Error(`${argument} required`);
 }

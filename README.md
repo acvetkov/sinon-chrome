@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/acvetkov/sinon-chrome.svg?branch=master)](https://travis-ci.org/acvetkov/sinon-chrome)
 [![Code Climate](https://codeclimate.com/github/acvetkov/sinon-chrome/badges/gpa.svg)](https://codeclimate.com/github/acvetkov/sinon-chrome)
+[![Coverage Status](https://coveralls.io/repos/acvetkov/sinon-chrome/badge.svg?branch=master&service=github)](https://coveralls.io/github/acvetkov/sinon-chrome?branch=master)
 [![npm version](https://badge.fury.io/js/sinon-chrome.svg)](https://www.npmjs.com/package/sinon-chrome)
 
 ## What is it?

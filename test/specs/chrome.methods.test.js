@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import is from '../helpers/is';
+import * as is from '../helpers/is';
 import {assert} from 'chai';
 
 /**
@@ -33,7 +33,7 @@ function generateMethodSuite(chrome, method, namespace) {
         });
 
         it('should have stub sync behaviour', function () {
-            var a = 'a';
+            const a = 'a';
             this.stub.reset();
             this.stub.resetBehavior();
             this.stub.returns(a);
@@ -41,7 +41,7 @@ function generateMethodSuite(chrome, method, namespace) {
         });
 
         it('should have stub async behaviour', function () {
-            var spy = sinon.spy();
+            const spy = sinon.spy();
             assert.notCalled(spy);
 
             this.stub.reset();

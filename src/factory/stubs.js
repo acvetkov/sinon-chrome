@@ -9,7 +9,7 @@ export default {
      * @returns {sinon.stub}
      */
     get stub() {
-        var stub = sinon.stub();
+        const stub = sinon.stub();
         this.stubs.push(stub);
         return stub;
     },

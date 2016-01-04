@@ -10,7 +10,7 @@ export default {
      * @returns {ChromeEvent}
      */
     get: function () {
-        var event = createEvent(this.sandbox);
+        const event = createEvent(this.sandbox);
         this.events.push(event);
         return event;
     },
@@ -38,7 +38,7 @@ export default {
  * @param {sinon} sandbox
  */
 function createEvent(sandbox) {
-    var event = new ChromeEvent();
+    const event = new ChromeEvent();
     sandbox.spy(event, 'addListener');
     sandbox.spy(event, 'hasListener');
     sandbox.spy(event, 'removeListener');

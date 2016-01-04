@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import {assert} from 'chai';
-import is from '../helpers/is';
+import * as is from '../helpers/is';
 import sinon from 'sinon';
 
 /**
@@ -37,8 +37,8 @@ function generateEventSuite(chrome, event, namespace) {
         });
 
         it('should react on event', function () {
-            var spy = sinon.spy();
-            var args = [1, 2, 3];
+            const spy = sinon.spy();
+            const args = [1, 2, 3];
             this.event.addListener(spy);
             assert.notCalled(spy);
             this.event.dispatch(args);
@@ -50,8 +50,8 @@ function generateEventSuite(chrome, event, namespace) {
         });
 
         it('should remove listener', function () {
-            var spy1 = sinon.spy();
-            var spy2 = sinon.spy();
+            const spy1 = sinon.spy();
+            const spy2 = sinon.spy();
             this.event.addListener(spy1);
             assert.ok(this.event.hasListener(spy1));
             assert.notOk(this.event.hasListener(spy2));
@@ -70,8 +70,8 @@ function generateEventSuite(chrome, event, namespace) {
         });
 
         it('should remove all listeners', function () {
-            var spy1 = sinon.spy();
-            var spy2 = sinon.spy();
+            const spy1 = sinon.spy();
+            const spy2 = sinon.spy();
             this.event.addListener(spy1);
             this.event.addListener(spy2);
             assert.notCalled(spy1);

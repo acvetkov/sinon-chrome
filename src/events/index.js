@@ -19,8 +19,7 @@ export default class ChromeEvent {
     /**
      * Call all subscribed handlers
      */
-    trigger () {
-        var args = arguments;
+    trigger (...args) {
         this._listeners.forEach(handler => {
             handler.apply(null, args);
         });
@@ -29,8 +28,7 @@ export default class ChromeEvent {
     /**
      * Async call all subscribed handlers
      */
-    triggerAsync () {
-        var args = arguments;
+    triggerAsync (...args) {
         setTimeout(() => {
             this.trigger.apply(this, args);
         }, 0);
@@ -67,7 +65,7 @@ export default class ChromeEvent {
      * @param {Function} handler
      */
     removeListener (handler) {
-        var index = this._listeners.indexOf(handler);
+        const index = this._listeners.indexOf(handler);
         if (index >= 0) {
             this._listeners.splice(index, 1);
         }

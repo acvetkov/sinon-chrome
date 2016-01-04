@@ -4,5 +4,4 @@ node_js:
   - "4.1"
 install: npm install
 after_success:
-  skip_cleanup: true
   - npm run coveralls

@@ -49,6 +49,7 @@
     "babel-core": "^5.8.34",
     "babel-loader": "^5.3.3",
     "chai": "^3.4.1",
+    "coveralls": "^2.11.6",
     "eslint": "^1.9.0",
     "eslint-config-airbnb": "^1.0.0",
     "eslint-plugin-react": "^3.8.0",

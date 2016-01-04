@@ -252,7 +252,7 @@ Don't forget check your code style and run tests before send pull request.
 **code checking**
 
 ```bash
-npm run code
+npm run lint
 ```
 
 **run tests**

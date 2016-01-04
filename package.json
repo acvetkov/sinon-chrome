@@ -29,12 +29,14 @@
   "main": "out/index.js",
   "scripts": {
     "clean": "rm -rf ./out/ && rm -rf ./coverage/",
-    "code": "eslint ./src ./test && jscs ./src ./test",
+
+    "lint": "eslint ./src ./test && jscs ./src ./test",
     "test": "mocha --recursive --compilers js:babel/register --require ./test/setup.js",
-    "babel": "babel ./src --out-dir ./out",
-    "webpack": "webpack",
-    "build": "npm run clean && npm run babel && npm run webpack",
-    "prepublish": "npm run code && npm run test && npm run build",
+
+    "transpile": "babel ./src --out-dir ./out",
+    "build": "npm run clean && npm run transpile && webpack",
+    "prepublish": "npm run lint && npm run test && npm run build",
+
     "coverage": "isparta cover _mocha -- --require babel/register --require ./test/setup.js --recursive -R mocha-lcov-reporter",
     "precoveralls": "npm run coverage",
     "coveralls": "coveralls < coverage/lcov.info"

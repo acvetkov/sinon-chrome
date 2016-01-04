@@ -52,6 +52,7 @@
     "eslint": "^1.9.0",
     "eslint-config-airbnb": "^1.0.0",
     "eslint-plugin-react": "^3.8.0",
+    "isparta": "^4.0.0",
     "jscs": "^2.5.1",
     "mocha": "^2.3.3",
     "mocha-lcov-reporter": "^1.0.0",

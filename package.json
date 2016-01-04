@@ -1,6 +1,6 @@
 {
   "name": "sinon-chrome",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Mock of chrome extensions API for unit testing under nodejs",
   "homepage": "https://github.com/acvetkov/sinon-chrome",
   "author": {
@@ -28,13 +28,17 @@
   },
   "main": "out/index.js",
   "scripts": {
-    "clean": "rm -rf ./out/",
+    "clean": "rm -rf ./out/ && rm -rf ./coverage/",
     "code": "eslint ./src ./test && jscs ./src ./test",
     "test": "mocha --recursive --compilers js:babel/register --require ./test/setup.js",
     "babel": "babel ./src --out-dir ./out",
     "webpack": "webpack",
     "build": "npm run clean && npm run babel && npm run webpack",
-    "prepublish": "npm run code && npm run test && npm run build"
+    "prepublish": "npm run code && npm run test && npm run build",
+
+    "coverage": "isparta cover _mocha -- --require babel/register --require ./test/setup.js --recursive",
+    "precoveralls": "npm run coverage",
+    "coveralls": "coveralls < coverage/lcov.info"
   },
   "license": "ISC",
   "dependencies": {

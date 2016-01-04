@@ -7,7 +7,7 @@ import PropsCache from '../factory/property';
  * @param {Object} config
  * @returns {Object}
  */
-exports.generateApi = (config) => {
+export default function generateApi(config) {
     return _.reduce(config, (result, {methods, properties, events}, namespace) => {
         appendNamespace(result, namespace);
         wrapEvents(result, namespace, events);
@@ -15,7 +15,7 @@ exports.generateApi = (config) => {
         wrapProperties(result, namespace, properties);
         return result;
     }, {});
-};
+}
 
 /**
  * append namespace to chrome object

@@ -28,13 +28,18 @@
   },
   "main": "out/index.js",
   "scripts": {
-    "clean": "rm -rf ./out/",
-    "code": "eslint ./src ./test && jscs ./src ./test",
+    "clean": "rm -rf ./out/ && rm -rf ./coverage/",
+
+    "lint": "eslint ./src ./test && jscs ./src ./test",
     "test": "mocha --recursive --compilers js:babel/register --require ./test/setup.js",
-    "babel": "babel ./src --out-dir ./out",
-    "webpack": "webpack",
-    "build": "npm run clean && npm run babel && npm run webpack",
-    "prepublish": "npm run code && npm run test && npm run build"
+
+    "transpile": "babel ./src --out-dir ./out",
+    "build": "npm run clean && npm run transpile && webpack",
+    "prepublish": "npm run lint && npm run test && npm run build",
+
+    "coverage": "isparta cover _mocha -- --require babel/register --require ./test/setup.js --recursive -R mocha-lcov-reporter",
+    "precoveralls": "npm run coverage",
+    "coveralls": "coveralls < coverage/lcov.info"
   },
   "license": "ISC",
   "dependencies": {
@@ -48,8 +53,13 @@
     "babel-core": "^5.8.34",
     "babel-loader": "^5.3.3",
     "chai": "^3.4.1",
+    "coveralls": "^2.11.6",
+    "eslint-config-airbnb": "^1.0.0",
+    "eslint-plugin-react": "^3.8.0",
+    "isparta": "^4.0.0",
     "jscs": "^2.5.1",
     "mocha": "^2.3.3",
+    "mocha-lcov-reporter": "^1.0.0",
     "webpack": "^1.12.4"
   }
 }

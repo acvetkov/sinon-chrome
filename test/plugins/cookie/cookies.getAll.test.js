@@ -7,7 +7,7 @@ describe('plugins/cookies/getAll', function () {
     const chrome = create();
 
     before(function () {
-        chrome.requirePlugin(new CookiesPlugin());
+        chrome.registerPlugin(new CookiesPlugin());
         chrome.cookies.state = state;
     });
 

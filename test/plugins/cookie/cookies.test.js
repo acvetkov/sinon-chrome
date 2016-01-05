@@ -10,7 +10,7 @@ describe('plugins/cookies', function () {
 
         before(function () {
             this.plugin = new CookiesPlugin();
-            chrome.requirePlugin(new CookiesPlugin());
+            chrome.registerPlugin(new CookiesPlugin());
         });
 
         it('should be defined', function () {

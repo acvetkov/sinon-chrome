@@ -10,7 +10,7 @@ describe('plugins/cookies/set', function () {
     const chrome = create();
 
     before(function () {
-        chrome.requirePlugin(new CookiesPlugin());
+        chrome.registerPlugin(new CookiesPlugin());
         chrome.cookies.state = _.cloneDeep(state);
     });
 

@@ -24,7 +24,7 @@ const ChromeManager = {
      * @param {Object} plugin
      * @param {Function} plugin.install
      */
-    requirePlugin: function (plugin) {
+    registerPlugin: function (plugin) {
         plugin.install(this);
     },
 

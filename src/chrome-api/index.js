@@ -49,6 +49,6 @@ const ChromeManager = {
      * plugin list
      */
     plugins: {
-        CookiePlugin: CookiePlugin
+        CookiePlugin
     }
 };

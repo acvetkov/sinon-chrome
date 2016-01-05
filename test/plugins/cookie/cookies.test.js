@@ -1,12 +1,12 @@
 import CookiesPlugin from '../../../src/plugins/cookies';
-import create from '../../../src/chrome-api';
+import createChromeApi from '../../../src/chrome-api';
 import * as is from '../../helpers/is';
 
 describe('plugins/cookies', function () {
 
     describe('install', function () {
 
-        const chrome = create();
+        const chrome = createChromeApi();
 
         before(function () {
             this.plugin = new CookiesPlugin();

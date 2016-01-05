@@ -29,18 +29,15 @@
   "main": "out/index.js",
   "scripts": {
     "clean": "rm -rf ./out/ && rm -rf ./coverage/",
-
     "lint": "eslint ./src ./test && jscs ./src ./test",
     "test": "mocha --recursive --compilers js:babel/register --require ./test/setup.js",
-
+    "publish-test": "mocha --recursive --compilers js:babel/register --require ./test/setup.js --reporter mocha-tldr-reporter",
     "transpile": "babel ./src --out-dir ./out",
     "build": "npm run clean && npm run transpile && webpack",
-    "prepublish": "npm run lint && npm run test && npm run build",
-
+    "prepublish": "npm run lint && npm run publish-test && npm run build",
     "coverage": "isparta cover _mocha -- --require babel/register --require ./test/setup.js --recursive -R mocha-lcov-reporter",
     "precoveralls": "npm run coverage",
     "coveralls": "coveralls < coverage/lcov.info",
-
     "bundle": "webpack"
   },
   "license": "ISC",
@@ -61,6 +58,7 @@
     "jscs": "^2.5.1",
     "mocha": "^2.3.3",
     "mocha-lcov-reporter": "^1.0.0",
+    "mocha-tldr-reporter": "^1.0.0",
     "webpack": "^1.12.4"
   }
 }

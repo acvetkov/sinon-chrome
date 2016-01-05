@@ -1,7 +1,31 @@
 language: node_js
+
 node_js:
   - "0.10"
-  - "4.1"
-install: npm install
+
+install:
+  - npm install
+
 after_success:
   - npm run coveralls
+
+before_deploy:
+  - npm run bundle
+
+deploy:
+  skip_cleanup: true
+  on:
+    tags: true
+
+  # deploy to npm
+  - provider: npm
+    email: "aleksey.dmitrich@gmail.com"
+    api_key:
+      secure: "X9gJzZ7ZZlr05av3/c5RYlcdr/jQTuUiHvJvK7bnhRKZ4knCe2thk81MqD8K4gbj3ktAbnTzluuhzOpHfVSr0/E7bkICt4PpcUWRTo296v0fwtoDLSABWocwdE9hVE+r702auKFcx9TTY1u6AkHIXAhknpzpBEYW35OBXFwLezTuDZWyyTJB6xs94NWiQVRmu1I76MJ89uTKsDOTE2qXKExZfxNhkTb04ZvYqFnIl4+ZUpWEiS7YFHJ3OrRm8Ng177IhVOLhcobn1Zg3Y0guUpXVTYkfKXX/4CCkYf53jIyo7/zyd2XRFPXoUXe2O8Pv83Wh3BDkNbCJpjp82cNSIdIzESksLv3O8IdwdmTKFyJqIwcRxAHa6Wadh//bV2v6Gsc49f0xiYufzV54af3u/oRHsFTcSdGrrEJgEzX8TKq7yZO3kVD0d3g0yYQJYezIVHNmOBGBaKxMl3lOETq51mQQ/n1PFIgZkRul3Xx0aZeaApv+obBer1BbOT1BGT2Wb8U+vMl2lxADEt9mOBLuViY4a70Vk4iKwFd8pLI6TScIEkN/x/TFFbnWlv30DmOSQl2/Plqbta0Kq5KBVv+878b+e+HFsGHAifj2LyDFakDe5NDkkXgaOrPq9QQgUYQEyLbir5eWyFeieU57+9//UworMjtfF6sPNxhkh2u/nO0="
+
+  # deploy to github release
+  - provider: releases
+    api_key:
+      secure: "Es/wJFl/HMEQaaPVhPn/N9VqMIi6QkLBT7zJkOZX+H8lJvgbqegl7T9kyvaxCyLT420pI5asv1EkHEWTKChF+Wn9uU9Da//P8ToJ4WdR3yoSorAdS55k0+QXrOR8esvZ06OCsw4Qz3S//3nTcfX5p7ueO+StDiUQfPNnKQYZQdg3s2Vcvrxaya97auE2AJyDLPJMUNNwhzma3qdsX98wgjfRj81uH1Sob+U5AmlA+zOHklpWskzgdcheW/TdrbV/JjkPVqvdQmWOwYEJOJun+QSbXDAO5YATTcWE2kYguKcXTUJKuDJ+G+PtoypjcARG/sQTNpgADuuT/2O2nJDlNKctUMlTPtO3aegsaKG0PtAkPHh5Be+kA+pjCXPuEwyLdx0KzNWzTzLvg9P+wOtHYvo+XiHXVXM1F4MTrkTmoiiebWU7fVgfUqHZGDpNCEKqNI3HCDVZquN9Dvb/pu4NPjH3Z/C+RVoDVUad0Fn2hqqT8R2sAZpGl++cDPhah5XCYnpVpz3SG2z309QjJQmMK/zrL5OC63YSPjyn91bjnFk+w+2bs80sq+Xzxzx/akMuG6oPZCOKytC++Kw4xHX6pSqNt8pfoyEbHmISqpBSO2cHWCN5DmauN8GF8jzKeGZuVABJOypYaGA9BVPTT+PCIWsxQYw4cM6VVEuypA6/vSw="
+    file: "./dist/sinon-chrome.latest.js"
+

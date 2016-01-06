@@ -25,8 +25,8 @@ To run unit tests for chrome extensions in node or browser
 npm install sinon-chrome
 ```
 
-**Direct download:**  
-[sinon-chrome.js](https://raw.githubusercontent.com/acvetkov/sinon-chrome/master/dist/sinon-chrome.latest.js)
+**Direct download**  
+Checkout project [release page](https://github.com/acvetkov/sinon-chrome/releases) and download latest bundle **sinon-chrome.latest.js**
 
 
 ## How to use

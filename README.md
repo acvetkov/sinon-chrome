@@ -192,6 +192,14 @@ before(function () {
 
 Checkout [example page](https://github.com/acvetkov/sinon-chrome/wiki/Usage-example) for more info.
 
+## Plugins
+
+Sinon chrome module supports plugins.
+
+- [Cookie plugin](https://github.com/acvetkov/sinon-chrome/wiki/Cookie-plugin)
+- Alarm plugin
+- Tabs plugin
+
 ## Supported namespaces
 
 1. [chrome.alarms](https://developer.chrome.com/extensions/alarms)
@@ -260,14 +268,6 @@ npm run lint
 ```bash
 npm test
 ```
-
-## Plugins
-
-Sinon chrome module supports plugins.
-
-- [Cookie plugin](https://github.com/acvetkov/sinon-chrome/wiki/Cookie-plugin)
-- Alarm plugin
-- Tabs plugin
 
 ## Any questions?
 

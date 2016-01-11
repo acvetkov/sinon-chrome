@@ -7,6 +7,8 @@ import EventsFactory from '../factory/events';
 import StubsFactory from '../factory/stubs';
 import PropsFactory from '../factory/property';
 
+import CookiePlugin from '../plugins/cookies';
+
 /**
  * Create chrome api mock
  * @returns {Object}
@@ -15,7 +17,16 @@ export default function create() {
     return _.assign(generateApi(apiConfig), ChromeManager);
 }
 
-var ChromeManager = {
+const ChromeManager = {
+
+    /**
+     * Install plugin
+     * @param {Object} plugin
+     * @param {Function} plugin.install
+     */
+    registerPlugin: function (plugin) {
+        plugin.install(this);
+    },
 
     /**
      * Reset mack data
@@ -32,5 +43,12 @@ var ChromeManager = {
         EventsFactory.flush();
         StubsFactory.flush();
         PropsFactory.flush();
+    },
+
+    /**
+     * plugin list
+     */
+    plugins: {
+        CookiePlugin
     }
 };

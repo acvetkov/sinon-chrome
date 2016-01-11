@@ -1,6 +1,6 @@
 {
   "name": "sinon-chrome",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "Mock of chrome extensions API for unit testing under nodejs",
   "homepage": "https://github.com/acvetkov/sinon-chrome",
   "author": {
@@ -42,16 +42,17 @@
   },
   "license": "ISC",
   "dependencies": {
+    "URIjs": "^1.15.2",
     "lodash": "^3.10.1",
     "sinon": "^1.17.2"
   },
   "devDependencies": {
+    "eslint": "^1.10.3",
     "babel": "^5.8.34",
     "babel-core": "^5.8.34",
     "babel-loader": "^5.3.3",
     "chai": "^3.4.1",
     "coveralls": "^2.11.6",
-    "eslint": "^1.9.0",
     "eslint-config-airbnb": "^1.0.0",
     "eslint-plugin-react": "^3.8.0",
     "isparta": "^4.0.0",

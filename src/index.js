@@ -1,3 +1,3 @@
-import create from './chrome-api/index';
+import createChromeApi from './chrome-api/index';
 
-export default create();
+export default createChromeApi();

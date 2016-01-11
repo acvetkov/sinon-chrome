@@ -177,7 +177,7 @@ chrome.tabs.query({}, function tabsHandler(list) {
 ## Difference from 0.2 version
 
 We remove all predefined properties and behavior.
-You must define all stubs behavior by your self.
+You must define all stubs behavior by yourself.
 
 **For example**
 

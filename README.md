@@ -6,16 +6,13 @@
 ## What is it?
 
 Mocks for `chrome.*` extensions [api](https://developer.chrome.com/extensions/api_index) via [sinon stubs](http://sinonjs.org/docs/#stubs).
-
-## Why this is needed?
-
-To run unit tests for chrome extensions in node or browser
+Run unit tests for chrome extensions in node or browser.
 
 **Features**
 
 1. Stubs for all `chrome.*` methods and properties
 2. Manual events triggering
-3. Plugins to emulate cookies storage, opened tabs, etc
+3. Plugins to emulate cookies storage behavior, opened tabs, etc
 
 ## How to install
 
@@ -25,23 +22,24 @@ To run unit tests for chrome extensions in node or browser
 npm install sinon-chrome
 ```
 
-**Direct download**  
-Checkout project [release page](https://github.com/acvetkov/sinon-chrome/releases) and download latest bundle **sinon-chrome.latest.js**
-
+**Direct download:**  
+You can download `sinon-chrome` bundle from [release](https://github.com/acvetkov/sinon-chrome/releases) page.
 
 ## How to use
 
-#### Make `chrome` global
 **Node**
 ```js
-before(function() {
+before(function () {
    global.chrome = require('sinon-chrome');
 });
 ```
 
 **Browser**
+
+Just add `sinon-chrome` bundle to your page.
+
 ```html
-<script src="...sinon-chrome.js">
+<script src="/path/to/sinon-chrome.latest.js">
 ```
 
 #### Write tests
@@ -179,7 +177,7 @@ chrome.tabs.query({}, function tabsHandler(list) {
 ## Difference from 0.2 version
 
 We remove all predefined properties and behavior.
-You must define all stubs behavior by your self.
+You must define all stubs behavior by yourself.
 
 **For example**
 
@@ -191,6 +189,8 @@ before(function () {
    };
 });
 ```
+
+Checkout [example page](https://github.com/acvetkov/sinon-chrome/wiki/Usage-example) for more info.
 
 ## Supported namespaces
 
@@ -260,6 +260,14 @@ npm run lint
 ```bash
 npm test
 ```
+
+## Plugins
+
+Sinon chrome module supports plugins.
+
+- [Cookie plugin](https://github.com/acvetkov/sinon-chrome/wiki/Cookie-plugin)
+- Alarm plugin
+- Tabs plugin
 
 ## Any questions?
 

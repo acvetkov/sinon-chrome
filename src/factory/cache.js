@@ -31,5 +31,12 @@ export default {
             this.eventsCache[key] = EventsFactory.get();
         }
         return this.eventsCache[key];
+    },
+
+    /**
+     * Flush cached data
+     */
+    flush: function () {
+        this.stubCache = {};
     }
 };

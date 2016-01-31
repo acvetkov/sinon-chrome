@@ -104,6 +104,17 @@ describe('chrome', function () {
             assert.notOk(chrome.runtime.getURL());
         });
 
+        it('should reset withArgs methods behavior', function () {
+            chrome.runtime.getURL.withArgs('1').returns('http://domain1.com');
+            chrome.runtime.getURL.withArgs('2').returns('http://domain2.com');
+            chrome.runtime.getURL.withArgs('3').returns('http://domain3.com');
+            assert.equal(chrome.runtime.getURL('1'), 'http://domain1.com');
+            assert.equal(chrome.runtime.getURL('2'), 'http://domain2.com');
+            assert.equal(chrome.runtime.getURL('3'), 'http://domain3.com');
+            chrome.flush();
+            assert.notOk(chrome.runtime.getURL());
+        });
+
         it('should remove all listeners', function () {
             var spy = sinon.spy();
             chrome.cookies.onChanged.addListener(spy);

@@ -6,6 +6,7 @@ import generateApi from '../chrome/index';
 import EventsFactory from '../factory/events';
 import StubsFactory from '../factory/stubs';
 import PropsFactory from '../factory/property';
+import Cache from '../factory/cache';
 
 import CookiePlugin from '../plugins/cookies';
 
@@ -40,8 +41,9 @@ const ChromeManager = {
      * Reset mock data and behaviour
      */
     flush: function () {
-        EventsFactory.flush();
+        Cache.flush();
         StubsFactory.flush();
+        EventsFactory.flush();
         PropsFactory.flush();
     },
 

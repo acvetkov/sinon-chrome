@@ -31,5 +31,6 @@ export default {
             stub.reset();
             stub.resetBehavior();
         });
+        this.stubs = [];
     }
 };

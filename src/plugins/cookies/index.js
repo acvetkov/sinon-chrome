@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import URI from 'URIjs';
+import URI from 'urijs';
 
 import ChromeCookie from './cookie';
 import ChromeEvent from '../../events';

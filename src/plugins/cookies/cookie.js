@@ -4,7 +4,7 @@
  */
 
 import _ from 'lodash';
-import URI from 'URIjs';
+import URI from 'urijs';
 
 export default class ChromeCookie {
 

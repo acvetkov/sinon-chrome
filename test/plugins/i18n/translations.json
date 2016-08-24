@@ -1,0 +1,16 @@
+{
+    "one": {
+        "message": "Hi!"
+    },
+    "two": {
+        "message": "Hi $first_name$ $last_name$!",
+        "placeholders": {
+            "first_name": {
+                "content": "$1"
+            },
+            "last_name": {
+                "content": "$2"
+            }
+        }
+    }
+}

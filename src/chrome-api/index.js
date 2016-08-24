@@ -9,6 +9,7 @@ import PropsFactory from '../factory/property';
 import Cache from '../factory/cache';
 
 import CookiePlugin from '../plugins/cookies';
+import I18nPlugin from '../plugins/i18n';
 
 /**
  * Create chrome api mock
@@ -51,6 +52,7 @@ const ChromeManager = {
      * plugin list
      */
     plugins: {
-        CookiePlugin
+        CookiePlugin,
+        I18nPlugin
     }
 };

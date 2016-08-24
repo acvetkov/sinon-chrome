@@ -44,8 +44,8 @@ describe('plugins/i18n', function () {
         });
 
         it('replaces message placeholders', function () {
-           assert.equal(chrome.i18n.getMessage('two', 'John', 'Doe'), 'Hi John Doe!');
-        })
+            assert.equal(chrome.i18n.getMessage('two', 'John', 'Doe'), 'Hi John Doe!');
+        });
 
         it('replace unknown message placeholders with "undefined', function () {
             assert.equal(chrome.i18n.getMessage('two', 'John'), 'Hi John undefined!');

@@ -30,7 +30,9 @@ export default class ChromeI18n {
         function setPlaceholder(ignored, name) {
             const {content} = placeholders[name] || {};
 
-            if (!content) return undefined;
+            if (!content) {
+                return undefined;
+            }
 
             const index = Math.max(parseInt(content.replace('$', ''), 10) - 1, 0);
 

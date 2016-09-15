@@ -269,6 +269,9 @@ npm run lint
 npm test
 ```
 
+## Useful resources
+[Awesome Browser Extensions And Apps](https://github.com/vitalets/awesome-browser-extensions-and-apps) - a curated list of awesome resources for building browser extensions and apps.
+
 ## Any questions?
 
 Feel free to [open issue](https://github.com/acvetkov/sinon-chrome/issues).

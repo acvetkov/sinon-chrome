@@ -184,9 +184,7 @@ You must define all stubs behavior by yourself.
 ```js
 before(function () {
    chrome.runtime.id = 'my_test_id';
-   chrome.runtime.getURL = function (path) {
-      return 'chrome-extension://' + chrome.runtime.id + '/' + path;
-   };
+   chrome.runtime.getURL.returns('chrome-extension://123');
 });
 ```
 
@@ -197,6 +195,7 @@ Checkout [example page](https://github.com/acvetkov/sinon-chrome/wiki/Usage-exam
 Sinon chrome module supports plugins.
 
 - [Cookie plugin](https://github.com/acvetkov/sinon-chrome/wiki/Cookie-plugin)
+- [i18n](https://github.com/acvetkov/sinon-chrome/tree/master/src/plugins/i18n)
 - Alarm plugin
 - Tabs plugin
 

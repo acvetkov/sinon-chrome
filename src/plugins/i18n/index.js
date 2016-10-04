@@ -5,7 +5,7 @@ export default class ChromeI18n {
      * @constructor
      * @param {Object} translations
      */
-    constructor (translations = {}) {
+    constructor(translations = {}) {
         this._translations = translations;
     }
 
@@ -13,7 +13,7 @@ export default class ChromeI18n {
      * Install plugin
      * @param {Object} chrome
      */
-    install (chrome) {
+    install(chrome) {
         const plugin = this;
         this.chrome = chrome;
 
@@ -27,10 +27,10 @@ export default class ChromeI18n {
     /**
      * Get message by name and apply provided substitutions
      * @param {String} messageName
-     * @param {} substitutions
+     * @param {Array} substitutions
      * @returns {String}
      */
-    getMessage (messageName, ...substitutions) {
+    getMessage(messageName, ...substitutions) {
         const {
             message = undefined,
             placeholders = {}
@@ -57,7 +57,7 @@ export default class ChromeI18n {
      * Get accept-languages from the browser
      * @param {Function} callback
      */
-    getAcceptLanguages (callback = () => {}) {
+    getAcceptLanguages(callback = () => {}) {
         callback(['en-US', 'en', 'el', 'fr', 'it']);
     }
 
@@ -65,7 +65,7 @@ export default class ChromeI18n {
      * Get the browser UI language of the browser
      * @returns {String}
      */
-    getUILanguage () {
+    getUILanguage() {
         return 'en-US';
     }
 
@@ -74,7 +74,7 @@ export default class ChromeI18n {
      * @param {String} text
      * @param {Function} callback
      */
-    detectLanguage (text = '', callback = () => {}) {
+    detectLanguage(text = '', callback = () => {}) {
         callback('en-US');
     }
 }

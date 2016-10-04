@@ -10,14 +10,14 @@ export default {
      * @param {String} namespace
      * @param {String} property
      */
-    cache: function (object, namespace, property) {
+    cache(object, namespace, property) {
         this.props.push({object, namespace, property});
     },
 
     /**
      * Flush property value
      */
-    flush: function () {
+    flush() {
         this.props.forEach(prop => {
             _.set(prop.object, `${prop.namespace}.${prop.property}`, undefined);
         });

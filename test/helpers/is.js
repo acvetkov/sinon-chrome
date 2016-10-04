@@ -14,7 +14,7 @@ export function sinonStub(stub) {
  * @returns {boolean}
  */
 export function sinonSpy(spy) {
-    return _.isFunction(spy) && Boolean(_.get(spy, 'restore.sinon')) && !Boolean(_.get(spy, 'returns'));
+    return _.isFunction(spy) && Boolean(_.get(spy, 'restore.sinon')) && !(_.get(spy, 'returns'));
 }
 
 /**

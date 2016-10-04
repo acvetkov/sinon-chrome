@@ -1,16 +1,56 @@
 {
   "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "rules": {
+    "space-before-blocks": [ 2, "always" ],
+    "space-before-function-paren": [ 2, { "anonymous": "always", "named": "never" } ],
+    "no-multiple-empty-lines": ["error", {"max": 1}],
+    "spaced-comment": 2,
+    "no-multi-spaces": 2,
+    "one-var-declaration-per-line": 2,
+    "no-trailing-spaces": 2,
+    "eol-last": 2,
+    "eqeqeq": 2,
+    "space-in-parens": 2,
+    "space-infix-ops": 2,
+    "arrow-spacing": 2,
+    "arrow-parens": [2, "as-needed"],
+    "no-undef": 2,
+    "no-eq-null": 2,
+    "linebreak-style": 2,
+    "strict": [
+      2,
+      "safe"
+    ],
+    "key-spacing": [
+      2,
+      {
+        "afterColon": true,
+        "mode": "minimum"
+      }
+    ],
+    "max-len": [
+      2,
+      140
+    ],
+    "valid-jsdoc": [
+      1,
+      {
+        "requireParamDescription": false,
+        "requireReturnDescription": false,
+        "requireReturn": false
+      }
+    ]
+
+  },
   "env": {
     "node": true,
-    "mocha": true,
     "es6": true
   },
   "ecmaFeatures": {
     "modules": true
-  },
-  "globals": {
-    "chrome": false,
-    "assert": false,
-    "sinon": false
   }
 }

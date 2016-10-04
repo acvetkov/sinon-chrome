@@ -9,7 +9,7 @@ export default {
     /**
      * @returns {ChromeEvent}
      */
-    get: function () {
+    get() {
         const event = createEvent(this.sandbox);
         this.events.push(event);
         return event;
@@ -18,7 +18,7 @@ export default {
     /**
      * Remove all listeners
      */
-    reset: function () {
+    reset() {
         this.sandbox.reset();
         this.events.forEach(event => {
             event.removeListeners();
@@ -28,7 +28,7 @@ export default {
     /**
      * Drop listeners
      */
-    flush: function () {
+    flush() {
         this.reset();
     }
 };
@@ -36,6 +36,7 @@ export default {
 /**
  * Create event
  * @param {sinon} sandbox
+ * @returns {ChromeEvent}
  */
 function createEvent(sandbox) {
     const event = new ChromeEvent();

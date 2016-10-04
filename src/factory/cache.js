@@ -8,11 +8,11 @@ export default {
 
     /**
      * Get stub value
-     * @param namespace
-     * @param method
+     * @param {String} namespace
+     * @param {String} method
      * @returns {sinon.stub}
      */
-    getStub: function (namespace, method) {
+    getStub(namespace, method) {
         const key = `${namespace}.${method}`;
         if (!(key in this.stubCache)) {
             this.stubCache[key] = StubsFactory.stub;
@@ -24,8 +24,9 @@ export default {
      * Get chrome event
      * @param {String} namespace
      * @param {String} event
+     * @returns {*}
      */
-    getEvent: function (namespace, event) {
+    getEvent(namespace, event) {
         const key = `${namespace}.${event}`;
         if (!(key in this.eventsCache)) {
             this.eventsCache[key] = EventsFactory.get();
@@ -36,7 +37,7 @@ export default {
     /**
      * Flush cached data
      */
-    flush: function () {
+    flush() {
         this.stubCache = {};
     }
 };

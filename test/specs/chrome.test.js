@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import apiConfig from '../../src/api/config.js';
+import apiConfig from '../config.js';
 import chrome from '../../src/index';
 
 import generateMethodsSuite from './chrome.methods.test';

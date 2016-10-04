@@ -8,7 +8,7 @@ import URI from 'urijs';
 
 export default class ChromeCookie {
 
-    constructor (details) {
+    constructor(details) {
         ChromeCookie.assertParams(details);
         this.details = details;
         this.url = details.url;
@@ -18,7 +18,7 @@ export default class ChromeCookie {
      * get chrome cookie value
      * @returns {Object}
      */
-    get info () {
+    get info() {
         const domain = new URI(this.details.url).hostname();
         const data = {
             name: this.details.name || '',
@@ -40,7 +40,7 @@ export default class ChromeCookie {
      * assert cookie params
      * @param {CookieDetails} details
      */
-    static assertParams (details) {
+    static assertParams(details) {
         if (!details.url) {
             throw new Error('details.url required');
         }

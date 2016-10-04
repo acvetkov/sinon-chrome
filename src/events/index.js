@@ -5,21 +5,21 @@ export default class ChromeEvent {
     /**
      * @constructor
      */
-    constructor () {
+    constructor() {
         this._listeners = [];
     }
 
     /**
      * Manual dispatch
      */
-    dispatch () {
+    dispatch() {
         this.trigger.apply(this, arguments);
     }
 
     /**
      * Call all subscribed handlers
      */
-    trigger (...args) {
+    trigger(...args) {
         this._listeners.forEach(handler => {
             handler.apply(null, args);
         });
@@ -28,7 +28,7 @@ export default class ChromeEvent {
     /**
      * Async call all subscribed handlers
      */
-    triggerAsync (...args) {
+    triggerAsync(...args) {
         setTimeout(() => {
             this.trigger.apply(this, args);
         }, 0);
@@ -38,7 +38,7 @@ export default class ChromeEvent {
      * Call all subscribed handlers, pass arguments ass array
      * @param {Array} args
      */
-    applyTrigger (args) {
+    applyTrigger(args) {
         this.trigger.apply(this, args);
     }
 
@@ -46,7 +46,7 @@ export default class ChromeEvent {
      * Async call all subscribed handlers, pass arguments ass array
      * @param {Array} args
      */
-    applyTriggerAsync (args) {
+    applyTriggerAsync(args) {
         this.triggerAsync.apply(this, args);
     }
 
@@ -54,7 +54,7 @@ export default class ChromeEvent {
      * Add event listener
      * @param {Function} handler
      */
-    addListener (handler) {
+    addListener(handler) {
         if (_.isFunction(handler)) {
             this._listeners.push(handler);
         }
@@ -64,7 +64,7 @@ export default class ChromeEvent {
      * Remove event listener
      * @param {Function} handler
      */
-    removeListener (handler) {
+    removeListener(handler) {
         const index = this._listeners.indexOf(handler);
         if (index >= 0) {
             this._listeners.splice(index, 1);
@@ -74,15 +74,16 @@ export default class ChromeEvent {
     /**
      * Check event listener exists
      * @param {Function} handler
+     * @returns {Boolean}
      */
-    hasListener (handler) {
+    hasListener(handler) {
         return this._listeners.indexOf(handler) >= 0;
     }
 
     /**
      * Remove all listeners
      */
-    removeListeners () {
+    removeListeners() {
         this._listeners = [];
     }
 }

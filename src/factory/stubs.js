@@ -17,16 +17,14 @@ export default {
     /**
      * Reset all stubs
      */
-    reset: function () {
-        this.stubs.forEach(stub => {
-            stub.reset();
-        });
+    reset() {
+        this.stubs.forEach(stub => stub.reset());
     },
 
     /**
      * Reset stubs data and behaviour
      */
-    flush: function () {
+    flush() {
         this.stubs.forEach(stub => {
             stub.reset();
             stub.resetBehavior();

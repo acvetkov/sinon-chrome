@@ -1,6 +1,22 @@
-'use strict';
+const path = require('path');
+const webpack = require('webpack');
 
-var path = require('path');
+const plugins = [];
+
+plugins.push(new webpack.DefinePlugin({
+    'process.env': {
+        NODE_ENV: 'production'
+    }
+}));
+
+plugins.push(new webpack.optimize.UglifyJsPlugin({
+    mangle: true,
+    compress: {
+        dead_code: true,
+        warnings: false,
+        drop_console: true
+    }
+}));
 
 module.exports = {
     entry: path.resolve(__dirname, './src/index.js'),
@@ -19,11 +35,17 @@ module.exports = {
         loaders: [
             {
                 test: /\.js$/,
-                loader: 'babel-loader'
+                loader: 'babel',
+                exclude: /(node_modules)/,
+                query: {
+                    presets: ['es2015'],
+                    plugins: ['add-module-exports']
+                }
             }
         ],
         noParse: [
             /node_modules\/sinon/
         ]
-    }
+    },
+    plugins: plugins
 };

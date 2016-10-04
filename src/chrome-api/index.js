@@ -26,14 +26,14 @@ const ChromeManager = {
      * @param {Object} plugin
      * @param {Function} plugin.install
      */
-    registerPlugin: function (plugin) {
+    registerPlugin(plugin) {
         plugin.install(this);
     },
 
     /**
      * Reset mack data
      */
-    reset: function () {
+    reset() {
         EventsFactory.reset();
         StubsFactory.reset();
     },
@@ -41,7 +41,7 @@ const ChromeManager = {
     /**
      * Reset mock data and behaviour
      */
-    flush: function () {
+    flush() {
         Cache.flush();
         StubsFactory.flush();
         EventsFactory.flush();

@@ -34,7 +34,7 @@
   "main": "out/index.js",
   "scripts": {
     "clean": "rm -rf ./out/ && rm -rf ./coverage/",
-    "lint": "eslint ./src ./test && jscs ./src ./test",
+    "lint": "eslint ./src ./test",
     "test": "mocha --recursive --compilers js:babel/register --require ./test/setup.js",
     "transpile": "babel ./src --out-dir ./out",
     "build": "npm run clean && npm run transpile && webpack",

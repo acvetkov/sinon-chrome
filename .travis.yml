@@ -12,15 +12,6 @@ before_deploy:
   - npm run bundle
 
 deploy:
-  # deploy to npm
-  - provider: npm
-    email: "aleksey.dmitrich@gmail.com"
-    skip_cleanup: true
-    on:
-      tags: true
-    api_key:
-      secure: "1CxZ5O4GRRvgk7mKR0VhtHi6h6jHP4Z0dORVxXYj9YYmu57uxKbtPsloNn/85C7KJvZZpKRGy3ZualWDmbkSam1r+ti7ZxzU2zrEG9enLjk1AZ5ugJeHhFfqV241WTiQpiZgeTckU8ZGv4rNMsW0me0qxgh8kQwcnFqkFRLDImMSY2S5Ge+3twB8dCDQ+vhxMHniBbtGcA9YAcYhO3sKeEkTk1BqX3PoaxbeW27znDeLr1m8OS6ldOfvyCw7n335LiZLvfgyZscJ7bTKMzk5aZpjzEtuZCeiw1aXZv+IUbnd0cWTQVxKVUzcZ1DkG6WVT4eeOEepmguwno0Uus/t9NNTZ1th3LSnEapjDpDFGucUa/4wqxZ4tm8qJQ4JfSeexqjp+WlAKh9sXygzAYD+fUK2jgU6AFjYXAC+Dfm/7S/cBsAo22d9NCExkHU5FJiAtniYSFlkT0h+eRCfqKXOobWgzb5jlG9pAj3Bgw8eJ/GeO0GuV0yPlP4JvidedL3B4TkMJiqzj7mwUF7ycRDiptiyE/2QLi/OfpzxbmsDm4G7YaWW1eIHDL8C0PH1Fr5tdjvXIXoqw6ErBOAEAjt8XjKCaft99oyrjUXvUi3xEXv+d3VRfTUc3Qwq6w6YI4AAfmZt9lFe77HuCvYW2//19GQt1CWPJfZ2GuvxnPhJpfw="
-
   # deploy to github release
   - provider: releases
     skip_cleanup: true
@@ -28,5 +19,7 @@ deploy:
       tags: true
     api_key:
       secure: "Es/wJFl/HMEQaaPVhPn/N9VqMIi6QkLBT7zJkOZX+H8lJvgbqegl7T9kyvaxCyLT420pI5asv1EkHEWTKChF+Wn9uU9Da//P8ToJ4WdR3yoSorAdS55k0+QXrOR8esvZ06OCsw4Qz3S//3nTcfX5p7ueO+StDiUQfPNnKQYZQdg3s2Vcvrxaya97auE2AJyDLPJMUNNwhzma3qdsX98wgjfRj81uH1Sob+U5AmlA+zOHklpWskzgdcheW/TdrbV/JjkPVqvdQmWOwYEJOJun+QSbXDAO5YATTcWE2kYguKcXTUJKuDJ+G+PtoypjcARG/sQTNpgADuuT/2O2nJDlNKctUMlTPtO3aegsaKG0PtAkPHh5Be+kA+pjCXPuEwyLdx0KzNWzTzLvg9P+wOtHYvo+XiHXVXM1F4MTrkTmoiiebWU7fVgfUqHZGDpNCEKqNI3HCDVZquN9Dvb/pu4NPjH3Z/C+RVoDVUad0Fn2hqqT8R2sAZpGl++cDPhah5XCYnpVpz3SG2z309QjJQmMK/zrL5OC63YSPjyn91bjnFk+w+2bs80sq+Xzxzx/akMuG6oPZCOKytC++Kw4xHX6pSqNt8pfoyEbHmISqpBSO2cHWCN5DmauN8GF8jzKeGZuVABJOypYaGA9BVPTT+PCIWsxQYw4cM6VVEuypA6/vSw="
-    file: "./dist/sinon-chrome.latest.js"
+    file:
+        - "./dist/sinon-chrome.min.js"
+        - "./dist/sinon-chrome-apps.min.js"
 

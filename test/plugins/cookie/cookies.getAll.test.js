@@ -1,10 +1,11 @@
 import CookiesPlugin from '../../../src/plugins/cookies';
 import state from '../data/cookie-state.json';
-import createChromeApi from '../../../src/chrome-api';
+import config from '../../../config/stable-api.json';
+import Api from '../../../src/api';
 
 describe('plugins/cookies/getAll', function () {
 
-    const chrome = createChromeApi();
+    const chrome = new Api(config).create();
 
     before(function () {
         chrome.registerPlugin(new CookiesPlugin());

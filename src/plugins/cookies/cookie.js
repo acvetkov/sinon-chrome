@@ -1,9 +1,9 @@
 /**
- * @overview
- * chrome.cookies.Cookie fake module
+ * @author https://github.com/acvetkov
+ * @overview chrome.cookies.Cookie fake module
  */
 
-import _ from 'lodash';
+import isUndefined from 'lodash/isUndefined';
 import URI from 'urijs';
 
 export default class ChromeCookie {
@@ -27,7 +27,7 @@ export default class ChromeCookie {
             hostOnly: domain.charAt(0) !== '.',
             httpOnly: Boolean(this.details.httpOnly),
             secure: Boolean(this.details.secure),
-            session: _.isUndefined(this.details.expirationDate),
+            session: isUndefined(this.details.expirationDate),
             path: this.details.path || (new URI(this.details.url)).path()
         };
         if (this.details.expirationDate) {

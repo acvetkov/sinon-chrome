@@ -1,3 +1,11 @@
-import createChromeApi from './chrome-api/index';
+/**
+ * @author https://github.com/acvetkov
+ * @overview Entry point
+ */
 
-export default createChromeApi();
+import extensionsApi from './extensions';
+import plugins from './plugins';
+
+extensionsApi.plugins = plugins;
+
+export default extensionsApi;

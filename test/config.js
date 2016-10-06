@@ -1,3 +1,8 @@
+/**
+ * @author https://github.com/acvetkov
+ * @overview Test config for chrome extensions
+ */
+
 export default {
     alarms: {
         methods: [
@@ -24,9 +29,14 @@ export default {
             'move',
             'update',
             'remove',
-            'removeTree'
+            'removeTree',
+            'import',
+            'export'
         ],
-        properties: [],
+        properties: [
+            'MAX_WRITE_OPERATIONS_PER_HOUR',
+            'MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE'
+        ],
         events: [
             'onCreated',
             'onRemoved',
@@ -49,7 +59,8 @@ export default {
             'setBadgeBackgroundColor',
             'getBadgeBackgroundColor',
             'enable',
-            'disable'
+            'disable',
+            'openPopup'
         ],
         properties: [],
         events: [
@@ -76,14 +87,6 @@ export default {
         properties: [],
         events: []
     },
-    certificateProvider: {
-        methods: [],
-        properties: [],
-        events: [
-            'onCertificatesRequested',
-            'onSignDigestRequested'
-        ]
-    },
     commands: {
         methods: [
             'getAll'
@@ -93,20 +96,146 @@ export default {
             'onCommand'
         ]
     },
-    contentSettings: {
-        methods: [],
+    'contentSettings.cookies': {
+        methods: [
+            'get',
+            'set',
+            'clear',
+            'getResourceIdentifiers'
+        ],
         properties: [
-            'cookies',
-            'images',
-            'javascript',
-            'location',
-            'plugins',
-            'popups',
-            'notifications',
-            'fullscreen',
-            'mouselock',
-            'unsandboxedPlugins',
-            'automaticDownloads'
+        ],
+        events: []
+    },
+    'contentSettings.images': {
+        methods: [
+            'get',
+            'set',
+            'clear',
+            'getResourceIdentifiers'
+        ],
+        properties: [
+        ],
+        events: []
+    },
+    'contentSettings.javascript': {
+        methods: [
+            'get',
+            'set',
+            'clear',
+            'getResourceIdentifiers'
+        ],
+        properties: [
+        ],
+        events: []
+    },
+    'contentSettings.location': {
+        methods: [
+            'get',
+            'set',
+            'clear',
+            'getResourceIdentifiers'
+        ],
+        properties: [
+        ],
+        events: []
+    },
+    'contentSettings.plugins': {
+        methods: [
+            'get',
+            'set',
+            'clear',
+            'getResourceIdentifiers'
+        ],
+        properties: [
+        ],
+        events: []
+    },
+    'contentSettings.popups': {
+        methods: [
+            'get',
+            'set',
+            'clear',
+            'getResourceIdentifiers'
+        ],
+        properties: [
+        ],
+        events: []
+    },
+    'contentSettings.notifications': {
+        methods: [
+            'get',
+            'set',
+            'clear',
+            'getResourceIdentifiers'
+        ],
+        properties: [
+        ],
+        events: []
+    },
+    'contentSettings.fullscreen': {
+        methods: [
+            'get',
+            'set',
+            'clear',
+            'getResourceIdentifiers'
+        ],
+        properties: [
+        ],
+        events: []
+    },
+    'contentSettings.mouselock': {
+        methods: [
+            'get',
+            'set',
+            'clear',
+            'getResourceIdentifiers'
+        ],
+        properties: [
+        ],
+        events: []
+    },
+    'contentSettings.microphone': {
+        methods: [
+            'get',
+            'set',
+            'clear',
+            'getResourceIdentifiers'
+        ],
+        properties: [
+        ],
+        events: []
+    },
+    'contentSettings.camera': {
+        methods: [
+            'get',
+            'set',
+            'clear',
+            'getResourceIdentifiers'
+        ],
+        properties: [
+        ],
+        events: []
+    },
+    'contentSettings.unsandboxedPlugins': {
+        methods: [
+            'get',
+            'set',
+            'clear',
+            'getResourceIdentifiers'
+        ],
+        properties: [
+        ],
+        events: []
+    },
+    'contentSettings.automaticDownloads': {
+        methods: [
+            'get',
+            'set',
+            'clear',
+            'getResourceIdentifiers'
+        ],
+        properties: [
         ],
         events: []
     },
@@ -117,7 +246,9 @@ export default {
             'remove',
             'removeAll'
         ],
-        properties: [],
+        properties: [
+            'ACTION_MENU_TOP_LEVEL_LIMIT'
+        ],
         events: [
             'onClicked'
         ]
@@ -191,13 +322,28 @@ export default {
         methods: [
             'create',
             'setOpenResourceHandler',
-            'openResource '
+            'openResource'
         ],
-        properties: [
-            'elements',
-            'sources'
-        ],
+        properties: [],
         events: []
+    },
+    'devtools.panels.elements': {
+        methods: [
+            'createSidebarPane'
+        ],
+        properties: [],
+        events: [
+            'onSelectionChanged'
+        ]
+    },
+    'devtools.panels.sources': {
+        methods: [
+            'createSidebarPane'
+        ],
+        properties: [],
+        events: [
+            'onSelectionChanged'
+        ]
     },
     downloads: {
         methods: [
@@ -387,6 +533,7 @@ export default {
     },
     omnibox: {
         methods: [
+            'sendSuggestions',
             'setDefaultSuggestion'
         ],
         properties: [],
@@ -431,6 +578,14 @@ export default {
             'onAdded',
             'onRemoved'
         ]
+    },
+    power: {
+        methods: [
+            'requestKeepAwake',
+            'releaseKeepAwake'
+        ],
+        properties: [],
+        events: []
     },
     printerProvider: {
         methods: [],
@@ -565,11 +720,20 @@ export default {
     },
     proxy: {
         methods: [],
-        properties: [
-            'settings'
-        ],
+        properties: [],
         events: [
             'onProxyError'
+        ]
+    },
+    'proxy.settings': {
+        methods: [
+            'get',
+            'set',
+            'clear'
+        ],
+        properties: [],
+        events: [
+            'onChange'
         ]
     },
     runtime: {
@@ -582,6 +746,7 @@ export default {
             'reload',
             'requestUpdateCheck',
             'restart',
+            'restartAfterDelay',
             'connect',
             'connectNative',
             'sendMessage',
@@ -667,16 +832,6 @@ export default {
         properties: [],
         events: []
     },
-    'system.display': {
-        methods: [
-            'getInfo',
-            'setDisplayProperties'
-        ],
-        properties: [],
-        events: [
-            'onDisplayChanged'
-        ]
-    },
     'system.memory': {
         methods: [
             'getInfo'
@@ -699,7 +854,8 @@ export default {
     tabCapture: {
         methods: [
             'capture',
-            'getCapturedTabs'
+            'getCapturedTabs',
+            'captureOffscreenTab'
         ],
         properties: [],
         events: [
@@ -771,7 +927,7 @@ export default {
         events: []
     },
     ttsEngine: {
-        methods: [],
+        methods: ['sendTtsEvent'],
         properties: [],
         events: [
             'onSpeak',
@@ -836,5 +992,266 @@ export default {
             'onRemoved',
             'onFocusChanged'
         ]
+    },
+    'accessibilityFeatures.spokenFeedback': {
+        methods: [
+            'get',
+            'set',
+            'clear'
+        ],
+        properties: [],
+        events: ['onChange']
+    },
+    'accessibilityFeatures.largeCursor': {
+        methods: [
+            'get',
+            'set',
+            'clear'
+        ],
+        properties: [],
+        events: ['onChange']
+    },
+    'accessibilityFeatures.stickyKeys': {
+        methods: [
+            'get',
+            'set',
+            'clear'
+        ],
+        properties: [],
+        events: ['onChange']
+    },
+    'accessibilityFeatures.highContrast': {
+        methods: [
+            'get',
+            'set',
+            'clear'
+        ],
+        properties: [],
+        events: ['onChange']
+    },
+    'accessibilityFeatures.screenMagnifier': {
+        methods: [
+            'get',
+            'set',
+            'clear'
+        ],
+        properties: [],
+        events: ['onChange']
+    },
+    'accessibilityFeatures.autoclick': {
+        methods: [
+            'get',
+            'set',
+            'clear'
+        ],
+        properties: [],
+        events: ['onChange']
+    },
+    'accessibilityFeatures.virtualKeyboard': {
+        methods: [
+            'get',
+            'set',
+            'clear'
+        ],
+        properties: [],
+        events: ['onChange']
+    },
+    'accessibilityFeatures.caretHighlight': {
+        methods: [
+            'get',
+            'set',
+            'clear'
+        ],
+        properties: [],
+        events: ['onChange']
+    },
+    'accessibilityFeatures.cursorHighlight': {
+        methods: [
+            'get',
+            'set',
+            'clear'
+        ],
+        properties: [],
+        events: ['onChange']
+    },
+    'accessibilityFeatures.focusHighlight': {
+        methods: [
+            'get',
+            'set',
+            'clear'
+        ],
+        properties: [],
+        events: ['onChange']
+    },
+    'accessibilityFeatures.selectToSpeak': {
+        methods: [
+            'get',
+            'set',
+            'clear'
+        ],
+        properties: [],
+        events: ['onChange']
+    },
+    'accessibilityFeatures.switchAccess': {
+        methods: [
+            'get',
+            'set',
+            'clear'
+        ],
+        properties: [],
+        events: ['onChange']
+    },
+    'accessibilityFeatures.animationPolicy': {
+        methods: [
+            'get',
+            'set',
+            'clear'
+        ],
+        properties: [],
+        events: ['onChange']
+    },
+    certificateProvider: {
+        methods: [],
+        properties: [],
+        events: [
+            'onCertificatesRequested',
+            'onSignDigestRequested'
+        ]
+    },
+    documentScan: {
+        methods: ['scan'],
+        properties: [],
+        events: []
+    },
+    'enterprise.deviceAttributes': {
+        methods: ['getDirectoryDeviceId'],
+        properties: [],
+        events: []
+    },
+    'enterprise.platformKeys': {
+        methods: [
+            'getTokens',
+            'getCertificates',
+            'importCertificate',
+            'removeCertificate',
+            'challengeMachineKey',
+            'challengeUserKey'
+        ],
+        properties: [],
+        events: []
+    },
+    fileBrowserHandler: {
+        methods: ['selectFile'],
+        properties: [],
+        events: ['onExecute']
+    },
+    fileSystemProvider: {
+        methods: [
+            'mount',
+            'unmount',
+            'getAll',
+            'get',
+            'notify'
+        ],
+        properties: [],
+        events: [
+            'onUnmountRequested',
+            'onGetMetadataRequested',
+            'onGetActionsRequested',
+            'onReadDirectoryRequested',
+            'onOpenFileRequested',
+            'onCloseFileRequested',
+            'onReadFileRequested',
+            'onCreateDirectoryRequested',
+            'onDeleteEntryRequested',
+            'onCreateFileRequested',
+            'onCopyEntryRequested',
+            'onMoveEntryRequested',
+            'onTruncateRequested',
+            'onWriteFileRequested',
+            'onAbortRequested',
+            'onConfigureRequested',
+            'onMountRequested',
+            'onAddWatcherRequested',
+            'onRemoveWatcherRequested',
+            'onExecuteActionRequested'
+        ]
+    },
+    'input.ime': {
+        methods: [
+            'setComposition',
+            'clearComposition',
+            'commitText',
+            'sendKeyEvents',
+            'hideInputView',
+            'setCandidateWindowProperties',
+            'setCandidates',
+            'setCursorPosition',
+            'setMenuItems',
+            'updateMenuItems',
+            'deleteSurroundingText',
+            'keyEventHandled',
+            'createWindow',
+            'showWindow',
+            'hideWindow',
+            'activate',
+            'deactivate'
+        ],
+        properties: [],
+        events: [
+            'onActivate',
+            'onDeactivated',
+            'onFocus',
+            'onBlur',
+            'onInputContextUpdate',
+            'onKeyEvent',
+            'onCandidateClicked',
+            'onMenuItemActivated',
+            'onSurroundingTextChanged',
+            'onReset',
+            'onCompositionBoundsChanged'
+        ]
+    },
+    'networking.config': {
+        methods: [
+            'setNetworkFilter',
+            'finishAuthentication'
+        ],
+        properties: [],
+        events: [
+            'onCaptivePortalDetected'
+        ]
+    },
+    platformKeys: {
+        methods: [
+            'selectClientCertificates',
+            'getKeyPair',
+            'subtleCrypto',
+            'verifyTLSServerCertificate'
+        ],
+        properties: [],
+        events: []
+    },
+    vpnProvider: {
+        methods: [
+            'createConfig',
+            'destroyConfig',
+            'setParameters',
+            'sendPacket',
+            'notifyConnectionStateChanged'
+        ],
+        properties: [],
+        events: [
+            'onPlatformMessage',
+            'onPacketReceived',
+            'onConfigRemoved',
+            'onConfigCreated',
+            'onUIEvent'
+        ]
+    },
+    wallpaper: {
+        methods: ['setWallpaper'],
+        properties: [],
+        events: []
     }
 };

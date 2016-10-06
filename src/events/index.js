@@ -1,4 +1,9 @@
-import _ from 'lodash';
+/**
+ * @author https://github.com/acvetkov
+ * @overview ChromeEvent class
+ */
+
+import isFunction from 'lodash/isFunction';
 
 export default class ChromeEvent {
 
@@ -55,7 +60,7 @@ export default class ChromeEvent {
      * @param {Function} handler
      */
     addListener(handler) {
-        if (_.isFunction(handler)) {
+        if (isFunction(handler)) {
             this._listeners.push(handler);
         }
     }

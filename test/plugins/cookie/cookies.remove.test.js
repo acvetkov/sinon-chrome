@@ -3,11 +3,12 @@ import _ from 'lodash';
 
 import CookiesPlugin from '../../../src/plugins/cookies';
 import state from '../data/cookie-state.json';
-import createChromeApi from '../../../src/chrome-api';
+import config from '../../../config/stable-api.json';
+import Api from '../../../src/api';
 
 describe('plugins/cookies/remove', function () {
 
-    const chrome = createChromeApi();
+    const chrome = new Api(config).create();
 
     before(function () {
         chrome.registerPlugin(new CookiesPlugin());
@@ -27,9 +28,9 @@ describe('plugins/cookies/remove', function () {
             name: 'MEGA_COOKIE_NAME',
             domain: 'www.kraken.ru'
         };
-        assert.isObject(_.findWhere(chrome.cookies.state, findParams));
+        assert.isObject(_.find(chrome.cookies.state, findParams));
         chrome.cookies.remove(params, function (details) {
-            assert.isUndefined(_.findWhere(chrome.cookies.state, findParams));
+            assert.isUndefined(_.find(chrome.cookies.state, findParams));
             assert.equal(details.url, params.url);
             assert.equal(details.name, params.name);
             done();

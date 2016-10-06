@@ -1,3 +1,8 @@
+/**
+ * @author https://github.com/acvetkovk
+ * @overview Entry point
+ */
+
 import _ from 'lodash';
 import {assert} from 'chai';
 import * as is from '../helpers/is';
@@ -8,10 +13,11 @@ import sinon from 'sinon';
  * @param {Object} chrome
  * @param {Array<String>} events
  * @param {String} namespace
+ * @param {String} prefix
  */
-export default function generateEventsSuite(chrome, events, namespace) {
+export default function generateEventsSuite(chrome, events, namespace, prefix) {
     _.forEach(events, event => {
-        generateEventSuite(chrome, event, namespace);
+        generateEventSuite(chrome, event, namespace, prefix);
     });
 }
 
@@ -20,9 +26,10 @@ export default function generateEventsSuite(chrome, events, namespace) {
  * @param {Object} chrome
  * @param {String} event
  * @param {String} namespace
+ * @param {String} prefix
  */
-function generateEventSuite(chrome, event, namespace) {
-    describe(`chrome.${namespace}.${event}`, function () {
+function generateEventSuite(chrome, event, namespace, prefix) {
+    describe(`${prefix} chrome.${namespace}.${event}`, function () {
 
         before(function () {
             this.event = _.get(chrome, `${namespace}.${event}`);

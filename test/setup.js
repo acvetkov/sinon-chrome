@@ -1,3 +1,8 @@
+/**
+ * @author https://github.com/acvetkov
+ * @overview Test setup
+ */
+
 import chai from 'chai';
 import sinon from 'sinon';
 

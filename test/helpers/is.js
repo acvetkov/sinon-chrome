@@ -1,3 +1,8 @@
+/**
+ * @author https://github.com/acvetkov
+ * @overview Test helper
+ */
+
 import _ from 'lodash';
 import ChromeEvent from '../../src/events';
 

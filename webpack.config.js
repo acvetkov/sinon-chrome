@@ -1,28 +1,35 @@
+/**
+ * @author https://github.com/acvetkov
+ * @overview Webpack config
+ */
+
 const path = require('path');
 const webpack = require('webpack');
 
-const plugins = [];
-
-plugins.push(new webpack.DefinePlugin({
-    'process.env': {
-        NODE_ENV: 'production'
-    }
-}));
-
-plugins.push(new webpack.optimize.UglifyJsPlugin({
-    mangle: true,
-    compress: {
-        dead_code: true,
-        warnings: false,
-        drop_console: true
-    }
-}));
+const plugins = [
+    new webpack.DefinePlugin({
+        'process.env': {
+            NODE_ENV: 'production'
+        }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+        mangle: true,
+        compress: {
+            dead_code: true,
+            warnings: false,
+            drop_console: false
+        }
+    })
+];
 
 module.exports = {
-    entry: path.resolve(__dirname, './src/index.js'),
+    entry: {
+        'sinon-chrome': path.resolve(__dirname, './src/extensions/index.js'),
+        'sinon-chrome-apps': path.resolve(__dirname, './src/apps/index.js')
+    },
     output: {
         path: path.resolve(__dirname, './dist/'),
-        filename: 'sinon-chrome.latest.js',
+        filename: '[name].min.js',
         library: 'chrome',
         libraryTarget: 'umd'
     },
@@ -41,6 +48,10 @@ module.exports = {
                     presets: ['es2015'],
                     plugins: ['add-module-exports']
                 }
+            },
+            {
+                test: /\.json$/,
+                loader: 'json',
             }
         ],
         noParse: [

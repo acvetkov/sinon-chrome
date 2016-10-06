@@ -1,10 +1,12 @@
 import I18nPlugin from '../../../src/plugins/i18n';
-import createChromeApi from '../../../src/chrome-api';
 import * as is from '../../helpers/is';
 import mockTranslations from './translations.json';
+import config from '../../../config/stable-api.json';
+import Api from '../../../src/api';
 
 describe('plugins/i18n', function () {
-    const chrome = createChromeApi();
+
+    const chrome = new Api(config).create();
 
     before(function () {
         this.plugin = new I18nPlugin(mockTranslations);

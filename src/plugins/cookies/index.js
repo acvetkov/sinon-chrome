@@ -1,4 +1,12 @@
-import _ from 'lodash';
+/**
+ * @author https://github.com/acvetkov
+ * @overview ChromeCookies
+ */
+
+import find from 'lodash/find';
+import filter from 'lodash/filter';
+import findIndex from 'lodash/findIndex';
+import isFunction from 'lodash/isFunction';
 import URI from 'urijs';
 
 import ChromeCookie from './cookie';
@@ -40,7 +48,7 @@ export default class ChromeCookies {
             name: details.name,
             domain: new URI(details.url).hostname()
         };
-        return this._invokeResult(_.findWhere(this._state, params) || null, callback);
+        return this._invokeResult(find(this._state, params) || null, callback);
     }
 
     /**
@@ -56,7 +64,7 @@ export default class ChromeCookies {
             params.domain = new URI(details.url).hostname();
             delete params.url;
         }
-        return this._invokeResult(_.where(this._state, params), callback);
+        return this._invokeResult(filter(this._state, params), callback);
     }
 
     /**
@@ -85,9 +93,9 @@ export default class ChromeCookies {
             name: details.name,
             domain: (new URI(details.url)).hostname()
         };
-        const cookieInfo = _.findWhere(this._state, params);
+        const cookieInfo = find(this._state, params);
         if (cookieInfo) {
-            const index = _.findIndex(this._state, cookieInfo);
+            const index = find(this._state, cookieInfo);
             this._state.splice(index, 1);
             this._triggerChange({cause: 'explicit', removed: true, cookie: cookieInfo});
         }
@@ -100,7 +108,7 @@ export default class ChromeCookies {
      * @private
      */
     _appendCookie(cookieInfo) {
-        const index = _.findIndex(this._state, {
+        const index = findIndex(this._state, {
             name: cookieInfo.name,
             domain: cookieInfo.domain
         });
@@ -130,7 +138,7 @@ export default class ChromeCookies {
      * @private
      */
     _invokeResult(result, callback) {
-        if (_.isFunction(callback)) {
+        if (isFunction(callback)) {
             setTimeout(() => callback(result), 0);
         }
     }

@@ -1,3 +1,8 @@
+/**
+ * @author https://github.com/acvetkovk
+ * @overview Entry point
+ */
+
 import _ from 'lodash';
 import * as is from '../helpers/is';
 import {assert} from 'chai';
@@ -7,10 +12,11 @@ import {assert} from 'chai';
  * @param {Object} chrome
  * @param {Array<String>} methods
  * @param {String} namespace
+ * @param {String} prefix
  */
-export default function generateMethodsSuite(chrome, methods, namespace) {
+export default function generateMethodsSuite(chrome, methods, namespace, prefix) {
     _.forEach(methods, method => {
-        generateMethodSuite(chrome, method, namespace);
+        generateMethodSuite(chrome, method, namespace, prefix);
     });
 }
 
@@ -19,36 +25,51 @@ export default function generateMethodsSuite(chrome, methods, namespace) {
  * @param {Object} chrome
  * @param {String} method
  * @param {String} namespace
+ * @param {String} prefix
  */
-function generateMethodSuite(chrome, method, namespace) {
+function generateMethodSuite(chrome, method, namespace, prefix) {
 
-    describe(`chrome.${namespace}.${method}`, () => {
-
-        before(function () {
-            this.stub = _.get(chrome, `${namespace}.${method}`);
-        });
+    describe(`${prefix} chrome.${namespace}.${method}`, () => {
 
         it('should be defined', function () {
-            assert.ok(is.sinonStub(this.stub));
+            const stub = _.get(chrome, `${namespace}.${method}`);
+            assert.ok(is.sinonStub(stub));
         });
 
         it('should have stub sync behaviour', function () {
+            const stub = _.get(chrome, `${namespace}.${method}`);
             const a = 'a';
-            this.stub.reset();
-            this.stub.resetBehavior();
-            this.stub.returns(a);
-            assert.equal(this.stub(), a);
+            stub.reset();
+            stub.resetBehavior();
+            stub.returns(a);
+            assert.equal(stub(), a);
         });
 
         it('should have stub async behaviour', function () {
+            const stub = _.get(chrome, `${namespace}.${method}`);
             const spy = sinon.spy();
             assert.notCalled(spy);
 
-            this.stub.reset();
-            this.stub.resetBehavior();
-            this.stub.yields(spy);
-            this.stub(spy);
+            stub.reset();
+            stub.resetBehavior();
+            stub.yields(spy);
+            stub(spy);
             assert.calledOnce(spy);
+        });
+
+        it('should flush stub', function () {
+            let stub = _.get(chrome, `${namespace}.${method}`);
+            stub.reset();
+            stub.resetBehavior();
+            stub.yields([1, 2]);
+            const spy1 = sinon.spy();
+            const spy2 = sinon.spy();
+            stub(spy1);
+            assert.calledOnce(spy1.withArgs([1, 2]));
+            stub.flush();
+            stub = _.get(chrome, `${namespace}.${method}`);
+            stub(spy2);
+            assert.notCalled(spy2);
         });
     });
 }

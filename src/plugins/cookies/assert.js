@@ -1,9 +1,11 @@
 /**
- * @overview
- * Assertation module for chrome.cookies.* methods
+ * @author https://github.com/acvetkov
+ * @overview Assertation module for chrome.cookies.* methods
  */
 
-import _ from 'lodash';
+import isString from 'lodash/isString';
+import isFunction from 'lodash/isFunction';
+import isPlainObject from 'lodash/isPlainObject';
 
 /**
  * assert chrome.cookies.get arguments
@@ -12,15 +14,15 @@ import _ from 'lodash';
  * @throws TypeError
  */
 export function get(details, callback) {
-    if (!_.isString(details.name)) {
+    if (!isString(details.name)) {
         throwError('name');
     }
 
-    if (!_.isString(details.url)) {
+    if (!isString(details.url)) {
         throwError('url');
     }
 
-    if (!_.isFunction(callback)) {
+    if (!isFunction(callback)) {
         throwError('callback');
     }
 }
@@ -31,10 +33,10 @@ export function get(details, callback) {
  * @param {Function} callback
  */
 export function getAll(details, callback) {
-    if (!_.isPlainObject(details)) {
+    if (!isPlainObject(details)) {
         throwError('details');
     }
-    if (!_.isFunction(callback)) {
+    if (!isFunction(callback)) {
         throwError('callback');
     }
 }
@@ -44,7 +46,7 @@ export function getAll(details, callback) {
  * @param {AllCookieCriteria} details
  */
 export function set(details) {
-    if (!_.isString(details.url)) {
+    if (!isString(details.url)) {
         throwError('url');
     }
 }
@@ -54,10 +56,10 @@ export function set(details) {
  * @param {Object} details
  */
 export function remove(details) {
-    if (!_.isString(details.url)) {
+    if (!isString(details.url)) {
         throwError('url');
     }
-    if (!_.isString(details.name)) {
+    if (!isString(details.name)) {
         throwError('name');
     }
 }

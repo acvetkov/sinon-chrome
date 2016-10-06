@@ -1,6 +1,6 @@
 {
   "name": "sinon-chrome",
-  "version": "2.0.0",
+  "version": "2.0.3",
   "description": "Mock of chrome extensions API for unit testing under nodejs",
   "homepage": "https://github.com/acvetkov/sinon-chrome",
   "author": {
@@ -33,17 +33,18 @@
   },
   "main": "out/index.js",
   "scripts": {
-    "clean": "rm -rf ./out/ && rm -rf ./coverage/",
+    "clean": "rm -rf ./out/",
     "lint": "eslint ./src ./test",
     "test": "mocha --recursive --compilers js:babel-register --require ./test/setup.js",
     "test-navigate": "mocha --compilers js:babel-register examples/navigate.test.js",
     "test-events": "mocha --compilers js:babel-register examples/events.test.js",
     "test-then": "mocha --compilers js:babel-register examples/then-chrome.test.js",
     "transpile": "babel ./src --out-dir ./out",
-    "build": "npm run clean && npm run transpile && webpack",
-    "prepublish": "npm run lint && npm test && npm run build",
+    "build": "npm run clean && npm run transpile && webpack && cp -R ./src/config out/config",
+    "predeploy": "npm run clean && npm run lint && npm test && npm run build && npm run copy2out",
     "bundle": "webpack",
-    "bundle-dev": "webpack --watch --progress"
+    "bundle-dev": "webpack --watch --progress",
+    "copy2out": "cp ./README.md ./out/README.md && cp ./package.json ./out/package.json"
   },
   "license": "ISC",
   "dependencies": {

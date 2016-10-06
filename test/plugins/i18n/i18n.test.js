@@ -1,7 +1,7 @@
 import I18nPlugin from '../../../src/plugins/i18n';
 import * as is from '../../helpers/is';
 import mockTranslations from './translations.json';
-import config from '../../../config/stable-api.json';
+import config from '../../../src/config/stable-api.json';
 import Api from '../../../src/api';
 
 describe('plugins/i18n', function () {

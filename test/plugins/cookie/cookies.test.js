@@ -1,6 +1,6 @@
 import CookiesPlugin from '../../../src/plugins/cookies';
 import * as is from '../../helpers/is';
-import config from '../../../config/stable-api.json';
+import config from '../../../src/config/stable-api.json';
 import Api from '../../../src/api';
 
 describe('plugins/cookies', function () {

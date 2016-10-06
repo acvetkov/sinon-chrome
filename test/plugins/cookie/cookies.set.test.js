@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import CookiesPlugin from '../../../src/plugins/cookies';
 import state from '../data/cookie-state.json';
-import config from '../../../config/stable-api.json';
+import config from '../../../src/config/stable-api.json';
 import Api from '../../../src/api';
 
 describe('plugins/cookies/set', function () {

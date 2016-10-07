@@ -150,7 +150,7 @@ describe('extensions', function () {
  */
 function checkChromeObject() {
     _.forEach(apiConfig, (data, namespace) => {
-        checkNamespace(data, namespace, 'extensions');
+        checkNamespace(data, namespace, 'extensions chrome');
     });
 }
 

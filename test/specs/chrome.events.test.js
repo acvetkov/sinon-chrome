@@ -29,7 +29,7 @@ export default function generateEventsSuite(chrome, events, namespace, prefix) {
  * @param {String} prefix
  */
 function generateEventSuite(chrome, event, namespace, prefix) {
-    describe(`${prefix} chrome.${namespace}.${event}`, function () {
+    describe(`${prefix}.${namespace}.${event}`, function () {
 
         before(function () {
             this.event = _.get(chrome, `${namespace}.${event}`);

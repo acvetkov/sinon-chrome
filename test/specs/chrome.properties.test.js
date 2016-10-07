@@ -28,7 +28,7 @@ export default function generatePropertiesSuite(chrome, properties, namespace, p
  */
 function generatePropSuite(chrome, prop, namespace, prefix) {
 
-    describe(`${prefix} chrome.${namespace}.${prop}`, function () {
+    describe(`${prefix}.${namespace}.${prop}`, function () {
 
         function getProp() {
             return _.get(chrome, `${namespace}.${prop}`);

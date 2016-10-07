@@ -5,8 +5,8 @@
 
 import _ from 'lodash';
 
-import apiConfig from '../apps-config';
-import chrome from '../../src/apps';
+import apiConfig from '../ff-config';
+import browser from '../../src/webextensions';
 
 import generateMethodsSuite from './chrome.methods.test';
 import generateEventsSuite from './chrome.events.test';
@@ -15,7 +15,7 @@ import generatePropertiesSuite from './chrome.properties.test';
 /**
  * Root suite
  */
-describe('apps', function () {
+describe('webextensions', function () {
     checkChromeObject();
 });
 
@@ -24,7 +24,7 @@ describe('apps', function () {
  */
 function checkChromeObject() {
     _.forEach(apiConfig, (data, namespace) => {
-        checkNamespace(data, namespace, 'apps chrome');
+        checkNamespace(data, namespace, 'webextensions browser');
     });
 }
 
@@ -37,9 +37,9 @@ function checkChromeObject() {
  * @param {String} prefix
  */
 function checkNamespace({methods, properties, events}, namespace, prefix) {
-    describe(`apps chrome.${namespace}`, function () {
-        generateMethodsSuite(chrome, methods, namespace, prefix);
-        generateEventsSuite(chrome, events, namespace, prefix);
-        generatePropertiesSuite(chrome, properties, namespace, prefix);
+    describe(`webextensions browser.${namespace}`, function () {
+        generateMethodsSuite(browser, methods, namespace, prefix);
+        generateEventsSuite(browser, events, namespace, prefix);
+        generatePropertiesSuite(browser, properties, namespace, prefix);
     });
 }

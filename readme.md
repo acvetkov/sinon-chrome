@@ -3,10 +3,10 @@
 
 # Sinon-chrome
 
-Sinon-chrome is helper tool for unit-testing chromium extensions and apps. It mocks all extensions api with sinon stubs that allows you to run tests in Node.js without actual browser.
+Sinon-chrome is helper tool for unit-testing chromium and Firefox extensions and apps. It mocks all extensions api with sinon stubs that allows you to run tests in Node.js without actual browser.
 
 # Schema support
-API mocks are generated using official chromium extensions API schemas that ensures consistency with real API. Actual schemas are taken from Chrome 53.
+API mocks are generated using official chromium extensions API (Firefox webextensions) schemas that ensures consistency with real API. Actual schemas are taken from Chrome 53 and Firefox 49.
 
 # How it works
 
@@ -379,6 +379,34 @@ chrome.registerPlugin(new CookiePlugin());
 * [chrome.fileSystemProvider](https://developer.chrome.com/apps/fileSystemProvider)
 * [chrome.vpnProvider](https://developer.chrome.com/apps/vpnProvider)
 * [chrome.wallpaper](https://developer.chrome.com/apps/wallpaper)
+
+## Webextensions API
+
+* [browser.alarms](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/alarms)
+* [browser.cookies](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/cookies)
+* [browser.downloads](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/downloads)
+* [browser.events](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/events)
+* [browser.manifest](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/manifest)
+* [browser.extensionTypes](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/extensionTypes)
+* [browser.extension](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/extension)
+* [browser.i18n](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/i18n)
+* [browser.idle](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/idle)
+* [browser.management](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/management)
+* [browser.notifications](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/notifications)
+* [browser.runtime](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/runtime)
+* [browser.storage](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/storage)
+* [browser.test](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/test)
+* [browser.webNavigation](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/webNavigation)
+* [browser.webRequest](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/webRequest)
+* [browser.bookmarks](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/bookmarks)
+* [browser.browserAction](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/browserAction)
+* [browser.commands](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/commands)
+* [browser.contextMenusInternal](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/contextMenusInternal)
+* [browser.contextMenus](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/contextMenus)
+* [browser.history](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/history)
+* [browser.pageAction](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/pageAction)
+* [browser.tabs](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/tabs)
+* [browser.windows](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/windows)
 
 # Any questions?
 

@@ -29,7 +29,7 @@ export default function generateMethodsSuite(chrome, methods, namespace, prefix)
  */
 function generateMethodSuite(chrome, method, namespace, prefix) {
 
-    describe(`${prefix} chrome.${namespace}.${method}`, () => {
+    describe(`${prefix}.${namespace}.${method}`, () => {
 
         it('should be defined', function () {
             const stub = _.get(chrome, `${namespace}.${method}`);

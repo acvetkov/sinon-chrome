@@ -25,7 +25,8 @@ const plugins = [
 module.exports = {
     entry: {
         'sinon-chrome': path.resolve(__dirname, './src/extensions/index.js'),
-        'sinon-chrome-apps': path.resolve(__dirname, './src/apps/index.js')
+        'sinon-chrome-apps': path.resolve(__dirname, './src/apps/index.js'),
+        'sinon-chrome-webextensions': path.resolve(__dirname, './src/webextensions/index.js')
     },
     output: {
         path: path.resolve(__dirname, './dist/'),

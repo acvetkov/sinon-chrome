@@ -22,4 +22,5 @@ deploy:
     file:
         - "./dist/sinon-chrome.min.js"
         - "./dist/sinon-chrome-apps.min.js"
+        - "./dist/sinon-chrome-webextensions.min.js"
 

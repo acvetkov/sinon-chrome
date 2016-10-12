@@ -1,6 +1,6 @@
 {
   "name": "sinon-chrome",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "Mock of chrome extensions API for unit testing under nodejs",
   "homepage": "https://github.com/acvetkov/sinon-chrome",
   "author": {
@@ -31,6 +31,17 @@
   "bugs": {
     "url": "https://github.com/acvetkov/sinon-chrome/issues"
   },
+  "keywords": [
+    "chrome",
+    "firefox",
+    "extensions",
+    "apps",
+    "test",
+    "tdd",
+    "webextensions",
+    "chrome api",
+    "sinon"
+  ],
   "main": "out/index.js",
   "scripts": {
     "clean": "rm -rf ./out/",
@@ -44,7 +55,7 @@
     "predeploy": "npm run clean && npm run lint && npm test && npm run build && npm run copy2out",
     "bundle": "webpack",
     "bundle-dev": "webpack --watch --progress",
-    "copy2out": "cp ./README.md ./out/README.md && cp ./package.json ./out/package.json"
+    "copy2out": "cp ./README.md ./out/README.md && cp ./package.json ./out/package.json && cp -R ./dist out/bundle"
   },
   "license": "ISC",
   "dependencies": {

@@ -52,6 +52,10 @@ describe('plugins/i18n', function () {
         it('replace unknown message placeholders with "undefined', function () {
             assert.equal(chrome.i18n.getMessage('two', 'John'), 'Hi John undefined!');
         });
+
+        it('replace message placeholders after unfolding substitutions', function () {
+            assert.equal(chrome.i18n.getMessage('two', ['John'], 'Doe'), 'Hi John Doe!');
+        });
     });
 
     describe('getAcceptLanguages', function () {

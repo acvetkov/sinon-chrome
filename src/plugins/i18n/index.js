@@ -1,4 +1,4 @@
-import {isEmpty} from 'lodash';
+import {isEmpty, flatten} from 'lodash';
 
 export default class ChromeI18n {
     /**
@@ -36,7 +36,9 @@ export default class ChromeI18n {
             placeholders = {}
         } = this._translations[messageName] || {};
 
-        if (isEmpty(substitutions) || isEmpty(placeholders)) {
+        const flattenSubstitutions = flatten(substitutions);
+
+        if (isEmpty(flattenSubstitutions) || isEmpty(placeholders)) {
             return String(message);
         }
 
@@ -49,7 +51,7 @@ export default class ChromeI18n {
 
             const index = Math.max(parseInt(content.replace('$', ''), 10) - 1, 0);
 
-            return substitutions[index];
+            return flattenSubstitutions[index];
         });
     }
 

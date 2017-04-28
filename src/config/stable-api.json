@@ -3897,6 +3897,139 @@
   {
     "types": [
       {
+        "id": "DialDevice",
+        "type": "object",
+        "properties": {
+          "deviceLabel": {
+            "type": "string"
+          },
+          "deviceDescriptionUrl": {
+            "type": "string"
+          },
+          "configId": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      {
+        "id": "DialDeviceDescription",
+        "type": "object",
+        "properties": {
+          "deviceLabel": {
+            "type": "string"
+          },
+          "appUrl": {
+            "type": "string"
+          },
+          "deviceDescription": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "id": "DialErrorCode",
+        "type": "string",
+        "enum": [
+          "no_listeners",
+          "no_valid_network_interfaces",
+          "network_disconnected",
+          "cellular_network",
+          "socket_error",
+          "unknown"
+        ]
+      },
+      {
+        "id": "DialError",
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "DialErrorCode"
+          }
+        }
+      }
+    ],
+    "functions": [
+      {
+        "name": "discoverNow",
+        "type": "function",
+        "parameters": [
+          {
+            "optional": false,
+            "name": "callback",
+            "type": "function",
+            "parameters": [
+              {
+                "type": "boolean",
+                "optional": false,
+                "name": "result"
+              }
+            ]
+          }
+        ],
+        "static": true
+      },
+      {
+        "name": "fetchDeviceDescription",
+        "type": "function",
+        "parameters": [
+          {
+            "type": "string",
+            "optional": false,
+            "name": "deviceLabel"
+          },
+          {
+            "optional": false,
+            "name": "callback",
+            "type": "function",
+            "parameters": [
+              {
+                "$ref": "DialDeviceDescription",
+                "optional": false,
+                "name": "result"
+              }
+            ]
+          }
+        ],
+        "static": true
+      }
+    ],
+    "events": [
+      {
+        "name": "onDeviceList",
+        "type": "function",
+        "parameters": [
+          {
+            "type": "array",
+            "items": {
+              "$ref": "DialDevice"
+            },
+            "optional": false,
+            "name": "result"
+          }
+        ]
+      },
+      {
+        "name": "onError",
+        "type": "function",
+        "parameters": [
+          {
+            "$ref": "DialError",
+            "optional": false,
+            "name": "error"
+          }
+        ]
+      }
+    ],
+    "namespace": "dial",
+    "description": "Use the <code>chrome.dial</code> API to discover devices that support DIAL. Protocol specification: http://www.dial-multiscreen.org/",
+    "dependencies": [
+      "permission:dial"
+    ]
+  },
+  {
+    "types": [
+      {
         "id": "HeaderNameValuePair",
         "type": "object",
         "properties": {

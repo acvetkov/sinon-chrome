@@ -345,6 +345,17 @@ export default {
             'onSelectionChanged'
         ]
     },
+    dial: {
+        methods: [
+            'discoverNow',
+            'fetchDeviceDescription'
+        ],
+        properties: [],
+        events: [
+            'onDeviceList',
+            'onError'
+        ]
+    },
     downloads: {
         methods: [
             'download',

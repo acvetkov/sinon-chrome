@@ -303,6 +303,7 @@ chrome.registerPlugin(new CookiePlugin());
 * [chrome.declarativeContent](https://developer.chrome.com/extensions/declarativeContent)
 * [chrome.desktopCapture](https://developer.chrome.com/extensions/desktopCapture)
 * [chrome.devtools](https://developer.chrome.com/extensions/devtools)
+* [chrome.dial](https://chromium.googlesource.com/chromium/src.git/+/master/chrome/common/extensions/api/dial.idl) (undocumented API for communication with DIAL-capable devices)
 * [chrome.downloads](https://developer.chrome.com/extensions/downloads)
 * [chrome.extension](https://developer.chrome.com/extensions/extension)
 * [chrome.extensionTypes](https://developer.chrome.com/extensions/extensionTypes)

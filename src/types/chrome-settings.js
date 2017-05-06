@@ -15,14 +15,17 @@ export default class ChromeSettings {
         this.stub = stubs;
         this.events = events;
         this.namespace = namespace;
+
+        const result = {
+            onChange: this.events.get('onChange', this.namespace),
+        };
+        ['get', 'set', 'clear'].forEach(methodName =>
+            this.stub.defineMethod(result, methodName, this.namespace)
+        );
+        this._private = result;
     }
 
     get() {
-        return {
-            get: this.stub.get('get', this.namespace),
-            set: this.stub.get('set', this.namespace),
-            clear: this.stub.get('clear', this.namespace),
-            onChange: this.events.get('onChange', this.namespace)
-        };
+        return this._private;
     }
 }

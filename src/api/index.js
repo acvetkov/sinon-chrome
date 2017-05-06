@@ -30,7 +30,7 @@ export default class Api {
      * @param {Array<Object>} config
      */
     constructor(config) {
-        this.NS_RULE = /^(.+)\.(.+)$/;
+        this.NS_RULE = /^([^.]+)(.*)\.([^.]+)$/;
         this.config = config;
         this.stubs = new Stubs();
         this.events = new Events();
@@ -106,30 +106,31 @@ export default class Api {
      */
     createProps(obj, data) {
         const namespace = data.namespace;
-        const nsProps = getAll(data.properties || {});
+        const nsProps = getAll(data.properties || {}, namespace);
 
         Object.keys(nsProps).forEach(key => {
             const value = nsProps[key];
             const matches = key.match(this.NS_RULE);
 
             let prop = key;
-            let ns = namespace;
             let propNS = namespace;
 
             if (matches) {
-                [, ns, prop] = matches;
-                propNS = `${namespace}.${ns}`;
-                const result = {};
-                this.appendProp(result, prop, propNS, value);
-                const localObject = get(obj, ns);
-                if (!localObject) {
-                    set(obj, ns, result);
-                } else {
+                let rootNS, middleNS;
+                [, rootNS, middleNS, prop] = matches;
+                middleNS = middleNS.replace(/(?:^\.|\.$)/g,'');
+                propNS = `${rootNS}.${middleNS}`;
+                if (middleNS) {
+                    let localObject = get(obj, middleNS);
+                    if (!localObject) {
+                        const result = {};
+                        localObject = set(obj, middleNS, result);
+                    }
                     this.appendProp(localObject, prop, propNS, value);
+                    return;
                 }
-            } else {
-                this.appendProp(obj, prop, namespace, value);
             }
+            this.appendProp(obj, prop, propNS, value);
         });
 
         return obj;

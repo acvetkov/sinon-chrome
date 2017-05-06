@@ -24,7 +24,7 @@ export default class StubsCache extends BaseCache {
             get: () => {
                 return this.get(methodName, namespace);
             },
-            set: (newFunc) => {
+            set: newFunc => {
                 return this.set(methodName, namespace, newFunc);
             }
         });
@@ -73,7 +73,10 @@ export default class StubsCache extends BaseCache {
      * @returns {Function}
      */
     create(key, funcToSpy) {
-        const stub = funcToSpy ? sinon.spy(funcToSpy) : sinon.stub();
+        const stub = sinon.stub();
+        if (funcToSpy) {
+          stub.callsFake(funcToSpy);
+        }
         stub.flush = () => {
             this.deleteStub(key);
         };

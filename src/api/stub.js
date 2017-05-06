@@ -14,6 +14,36 @@ export default class StubsCache extends BaseCache {
     }
 
     /**
+     * @param {Object} obj
+     * @param {String} methodName
+     * @param {String} namespace
+     * @returns {Object}
+     */
+    defineMethod(obj, methodName, namespace) {
+        return Object.defineProperty(obj, methodName, {
+            get: () => {
+                return this.get(methodName, namespace);
+            },
+            set: (newFunc) => {
+                return this.set(methodName, namespace, newFunc);
+            }
+        });
+    }
+
+    /**
+     * @param {String} method
+     * @param {String} namespace
+     * @param {String} newFunc
+     * @returns {Function}
+     */
+    set(method, namespace, newFunc) {
+        const key = this.getKey(method, namespace);
+        const stub = this.create(key, newFunc);
+        this.store(key, stub);
+        return stub;
+    }
+
+    /**
      * @param {String} method
      * @param {String} namespace
      * @returns {Function}
@@ -39,10 +69,11 @@ export default class StubsCache extends BaseCache {
 
     /**
      * @param {String} key
+     * @param {Function} [funcToSpy]
      * @returns {Function}
      */
-    create(key) {
-        const stub = sinon.stub();
+    create(key, funcToSpy) {
+        const stub = funcToSpy ? sinon.spy(funcToSpy) : sinon.stub();
         stub.flush = () => {
             this.deleteStub(key);
         };

@@ -73,12 +73,11 @@ function generateMethodSuite(chrome, method, namespace, prefix) {
         });
 
         it('should be overridable', function () {
-            const originalStub  = _.get(chrome, `${namespace}.${method}`);
-            console.log(`${namespace}.${method}`, originalStub);
+            const originalStub = _.get(chrome, `${namespace}.${method}`);
             _.set(chrome, `${namespace}.${method}`, function () {
-              return originalStub();
+                return originalStub();
             });
-            const newStub       = _.get(chrome, `${namespace}.${method}`);
+            const newStub = _.get(chrome, `${namespace}.${method}`);
             assert.notEqual(newStub, originalStub);
         });
     });

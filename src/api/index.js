@@ -30,7 +30,7 @@ export default class Api {
      * @param {Array<Object>} config
      */
     constructor(config) {
-        this.NS_RULE = /^(.+)\.(.+)$/;
+        this.NS_RULE = /^(?:([^.]+)\.)?([^.]+)$/;
         this.config = config;
         this.stubs = new Stubs();
         this.events = new Events();
@@ -75,14 +75,10 @@ export default class Api {
      */
     createFunctions(obj, functions, namespace) {
         const stubs = this.stubs;
-        return reduce(functions, (result, func) => {
-            Object.defineProperty(result, func.name, {
-                get: function () {
-                    return stubs.get(func.name, namespace);
-                }
-            });
-            return obj;
-        }, obj);
+        functions.forEach(func =>
+            stubs.defineMethod(obj, func.name, namespace)
+        );
+        return obj;
     }
 
     /**
@@ -110,30 +106,25 @@ export default class Api {
      */
     createProps(obj, data) {
         const namespace = data.namespace;
-        const nsProps = getAll(data.properties || {});
+        const nsProps = getAll(data.properties || {}, namespace);
 
         Object.keys(nsProps).forEach(key => {
             const value = nsProps[key];
-            const matches = key.match(this.NS_RULE);
 
-            let prop = key;
-            let ns = namespace;
             let propNS = namespace;
+            let mount = obj;
 
-            if (matches) {
-                [, ns, prop] = matches;
-                propNS = `${namespace}.${ns}`;
-                const result = {};
-                this.appendProp(result, prop, propNS, value);
-                const localObject = get(obj, ns);
-                if (!localObject) {
-                    set(obj, ns, result);
-                } else {
-                    this.appendProp(localObject, prop, propNS, value);
+            const matches = key.substr(namespace.length + 1).match(this.NS_RULE);
+            const [, middleNS, prop] = matches;
+            if (middleNS) {
+                propNS = `${namespace}.${middleNS}`;
+                mount = get(obj, middleNS);
+                if (!mount) {
+                    mount = {};
+                    set(obj, middleNS, mount);
                 }
-            } else {
-                this.appendProp(obj, prop, namespace, value);
             }
+            this.appendProp(mount, prop, propNS, value);
         });
 
         return obj;
@@ -153,7 +144,7 @@ export default class Api {
             return Object.defineProperty(obj, prop, {
                 get() {
                     return instance.get();
-                }
+                },
             });
         }
         const property = this.props.get(prop, `${namespace}`, value);

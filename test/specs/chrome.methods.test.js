@@ -71,5 +71,17 @@ function generateMethodSuite(chrome, method, namespace, prefix) {
             stub(spy2);
             assert.notCalled(spy2);
         });
+
+        it('should be overridable', function () {
+            const a = 'a';
+            const originalStub = _.get(chrome, `${namespace}.${method}`).returns(a);
+            _.set(chrome, `${namespace}.${method}`, function () {
+                return `${originalStub()}b`;
+            });
+            const newStub = _.get(chrome, `${namespace}.${method}`);
+            assert.ok(is.sinonStub(newStub));
+            assert.notEqual(newStub, originalStub);
+            assert.equal(newStub(), `${a}b`);
+        });
     });
 }

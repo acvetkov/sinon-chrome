@@ -75,10 +75,10 @@ export default class Api {
      */
     createFunctions(obj, functions, namespace) {
         const stubs = this.stubs;
-        return reduce(functions, (result, func) => {
-            stubs.defineMethod(result, func.name, namespace);
-            return obj; // TODO: hard to understand.
-        }, obj);
+        functions.forEach(func =>
+            stubs.defineMethod(obj, func.name, namespace)
+        );
+        return obj;
     }
 
     /**

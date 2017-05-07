@@ -3,7 +3,9 @@
  * @overview SourcePanel
  */
 
-export default class SourcePanel {
+import BaseType from './base-type';
+
+export default class SourcePanel extends BaseType {
 
     /**
      * @param {StubsCache} stubs
@@ -11,16 +13,13 @@ export default class SourcePanel {
      * @param {PropsCache} props
      * @param {String} namespace
      */
-    constructor(stubs, events, props, namespace) {
-        this.stub = stubs;
-        this.events = events;
-        this.namespace = namespace;
-    }
-
-    get() {
-        return {
-            createSidebarPane: this.stub.get('createSidebarPane', this.namespace),
-            onSelectionChanged: this.events.get('onSelectionChanged', this.namespace)
-        };
+    constructor(...args) {
+        super(
+            {
+                methodsNames: ['createSidebarPane'],
+                eventsNames: ['onSelectionChanged']
+            },
+            ...args
+        );
     }
 }

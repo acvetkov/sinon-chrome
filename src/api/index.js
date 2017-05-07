@@ -123,8 +123,8 @@ export default class Api {
                 if (middleNS) {
                     let localObject = get(obj, middleNS);
                     if (!localObject) {
-                        const result = {};
-                        localObject = set(obj, middleNS, result);
+                        localObject = {};
+                        set(obj, middleNS, localObject);
                     }
                     this.appendProp(localObject, prop, propNS, value);
                     return;
@@ -150,7 +150,7 @@ export default class Api {
             return Object.defineProperty(obj, prop, {
                 get() {
                     return instance.get();
-                }
+                },
             });
         }
         const property = this.props.get(prop, `${namespace}`, value);

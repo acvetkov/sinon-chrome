@@ -3,7 +3,9 @@
  * @overview types#ChromeSettings
  */
 
-export default class ChromeSettings {
+import BaseType from './base-type';
+
+export default class ChromeSettings extends BaseType {
 
     /**
      * @param {StubsCache} stubs
@@ -11,21 +13,13 @@ export default class ChromeSettings {
      * @param {PropsCache} props
      * @param {String} namespace
      */
-    constructor(stubs, events, props, namespace) {
-        this.stub = stubs;
-        this.events = events;
-        this.namespace = namespace;
-
-        const result = {
-            onChange: this.events.get('onChange', this.namespace),
-        };
-        ['get', 'set', 'clear'].forEach(methodName =>
-            this.stub.defineMethod(result, methodName, this.namespace)
+    constructor(...args) {
+        super(
+            {
+                methodsNames: ['get', 'set', 'clear'],
+                eventsNames: ['onChange']
+            },
+            ...args
         );
-        this._private = result;
-    }
-
-    get() {
-        return this._private;
     }
 }

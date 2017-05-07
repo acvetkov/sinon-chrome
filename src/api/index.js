@@ -114,6 +114,7 @@ export default class Api {
 
             let prop = key;
             let propNS = namespace;
+            let mount = obj;
 
             if (matches) {
                 let rootNS, middleNS;
@@ -121,16 +122,14 @@ export default class Api {
                 middleNS = middleNS.replace(/(?:^\.|\.$)/g,'');
                 propNS = `${rootNS}.${middleNS}`;
                 if (middleNS) {
-                    let localObject = get(obj, middleNS);
-                    if (!localObject) {
-                        localObject = {};
-                        set(obj, middleNS, localObject);
+                    mount = get(obj, middleNS);
+                    if (!mount) {
+                        mount = {};
+                        set(obj, middleNS, mount);
                     }
-                    this.appendProp(localObject, prop, propNS, value);
-                    return;
                 }
             }
-            this.appendProp(obj, prop, propNS, value);
+            this.appendProp(mount, prop, propNS, value);
         });
 
         return obj;

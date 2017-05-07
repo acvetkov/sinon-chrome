@@ -30,7 +30,7 @@ export default class Api {
      * @param {Array<Object>} config
      */
     constructor(config) {
-        this.NS_RULE = /^([^.]+)(.*)\.([^.]+)$/;
+        this.NS_RULE = /^(?:([^.]+)\.)?([^.]+)$/;
         this.config = config;
         this.stubs = new Stubs();
         this.events = new Events();
@@ -111,16 +111,13 @@ export default class Api {
         Object.keys(nsProps).forEach(key => {
             const value = nsProps[key];
 
-            let prop = key;
             let propNS = namespace;
             let mount = obj;
 
-            const matches = key.match(this.NS_RULE);
-            let rootNS, middleNS;
-            [, rootNS, middleNS, prop] = matches;
-            middleNS = middleNS.replace(/(?:^\.|\.$)/g,'');
-            propNS = `${rootNS}.${middleNS}`;
+            const matches = key.substr(namespace.length + 1).match(this.NS_RULE);
+            const [, middleNS, prop] = matches;
             if (middleNS) {
+                propNS = `${namespace}.${middleNS}`;
                 mount = get(obj, middleNS);
                 if (!mount) {
                     mount = {};

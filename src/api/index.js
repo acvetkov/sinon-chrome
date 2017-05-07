@@ -110,23 +110,21 @@ export default class Api {
 
         Object.keys(nsProps).forEach(key => {
             const value = nsProps[key];
-            const matches = key.match(this.NS_RULE);
 
             let prop = key;
             let propNS = namespace;
             let mount = obj;
 
-            if (matches) {
-                let rootNS, middleNS;
-                [, rootNS, middleNS, prop] = matches;
-                middleNS = middleNS.replace(/(?:^\.|\.$)/g,'');
-                propNS = `${rootNS}.${middleNS}`;
-                if (middleNS) {
-                    mount = get(obj, middleNS);
-                    if (!mount) {
-                        mount = {};
-                        set(obj, middleNS, mount);
-                    }
+            const matches = key.match(this.NS_RULE);
+            let rootNS, middleNS;
+            [, rootNS, middleNS, prop] = matches;
+            middleNS = middleNS.replace(/(?:^\.|\.$)/g,'');
+            propNS = `${rootNS}.${middleNS}`;
+            if (middleNS) {
+                mount = get(obj, middleNS);
+                if (!mount) {
+                    mount = {};
+                    set(obj, middleNS, mount);
                 }
             }
             this.appendProp(mount, prop, propNS, value);

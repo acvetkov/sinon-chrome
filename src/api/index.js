@@ -149,7 +149,7 @@ export default class Api {
     appendProp(obj, prop, namespace, value) {
         if (value && value in typeMap) {
             const TypeClass = typeMap[value];
-            const instance = new TypeClass(this.stubs, this.events, this.props, namespace);
+            const instance = new TypeClass(this.stubs, this.events, this.props, `${namespace}.${prop}`);
             return Object.defineProperty(obj, prop, {
                 get() {
                     return instance.get();

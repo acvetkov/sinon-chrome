@@ -1,6 +1,6 @@
 {
   "name": "sinon-chrome",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "Mock of chrome extensions API for unit testing under nodejs",
   "homepage": "https://github.com/acvetkov/sinon-chrome",
   "author": {

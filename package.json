@@ -42,7 +42,7 @@
     "chrome api",
     "sinon"
   ],
-  "main": "out/index.js",
+  "main": "index.js",
   "scripts": {
     "clean": "rm -rf ./out/",
     "lint": "eslint ./src ./test",

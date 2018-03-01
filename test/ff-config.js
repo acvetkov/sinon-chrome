@@ -49,6 +49,7 @@ export default {
             'getBadgeText',
             'getPopup',
             'getTitle',
+            'openPopup',
             'setBadgeBackgroundColor',
             'setBadgeText',
             'setIcon',
@@ -60,6 +61,41 @@ export default {
             'onClicked'
         ]
     },
+    browserSettings: {
+        methods: [],
+        properties: [
+            'allowPopupsForUserEvents',
+            'cacheEnabled',
+            'homepageOverride',
+            'imageAnimationBehavior',
+            'newTabPageOverride',
+            'webNotificationsDisabled'
+        ],
+        events: []
+    },
+    browsingData: {
+        methods: [
+            'remove',
+            'removeCache',
+            'removeCookies',
+            'removeDownloads',
+            'removeFormData',
+            'removeHistory',
+            'removeLocalStorage',
+            'removePasswords',
+            'removePluginData',
+            'settings'
+        ],
+        properties: [],
+        events: []
+    },
+    clipboard: {
+        methods: [
+            'setImageData'
+        ],
+        properties: [],
+        events: []
+    },
     commands: {
         methods: [
             'getAll'
@@ -69,18 +105,19 @@ export default {
             'onCommand'
         ]
     },
-    contextMenus: {
+    contextualIdentities: {
         methods: [
             'create',
+            'get',
+            'query',
             'remove',
-            'removeAll',
             'update'
         ],
-        properties: [
-            'ACTION_MENU_TOP_LEVEL_LIMIT'
-        ],
+        properties: [],
         events: [
-            'onClicked'
+            'onCreated',
+            'onRemoved',
+            'onUpdated'
         ]
     },
     cookies: {
@@ -94,6 +131,34 @@ export default {
         properties: [],
         events: [
             'onChanged'
+        ]
+    },
+    'devtools.inspectedWindow': {
+        methods: [
+            'eval',
+            'reload'
+        ],
+        properties: [
+            'tabId'
+        ],
+        events: []
+    },
+    'devtools.network': {
+        methods: [],
+        properties: [],
+        events: [
+            'onNavigated'
+        ]
+    },
+    'devtools.panels': {
+        methods: [
+            'create'
+        ],
+        properties: [
+            'themeName'
+        ],
+        events: [
+            'onThemeChanged'
         ]
     },
     downloads: {
@@ -138,6 +203,15 @@ export default {
             'onRequestExternal'
         ]
     },
+    find: {
+        methods: [
+            'find',
+            'highlightResults',
+            'removeHighlighting'
+        ],
+        properties: [],
+        events: []
+    },
     history: {
         methods: [
             'addUrl',
@@ -149,6 +223,7 @@ export default {
         ],
         properties: [],
         events: [
+            'onTitleChanged',
             'onVisitRemoved',
             'onVisited'
         ]
@@ -159,6 +234,14 @@ export default {
             'getAcceptLanguages',
             'getMessage',
             'getUILanguage'
+        ],
+        properties: [],
+        events: []
+    },
+    identity: {
+        methods: [
+            'getRedirectURL',
+            'launchWebAuthFlow'
         ],
         properties: [],
         events: []
@@ -175,13 +258,33 @@ export default {
     },
     management: {
         methods: [
-            'getAll',
             'get',
+            'getAll',
             'getSelf',
+            'setEnabled',
             'uninstallSelf'
         ],
         properties: [],
-        events: []
+        events: [
+            'onDisabled',
+            'onEnabled',
+            'onInstalled',
+            'onUninstalled'
+        ]
+    },
+    menus: {
+        methods: [
+            'create',
+            'remove',
+            'removeAll',
+            'update'
+        ],
+        properties: [
+            'ACTION_MENU_TOP_LEVEL_LIMIT'
+        ],
+        events: [
+            'onClicked'
+        ]
     },
     notifications: {
         methods: [
@@ -194,7 +297,20 @@ export default {
         events: [
             'onButtonClicked',
             'onClicked',
-            'onClosed'
+            'onClosed',
+            'onShown'
+        ]
+    },
+    omnibox: {
+        methods: [
+            'setDefaultSuggestion'
+        ],
+        properties: [],
+        events: [
+            'onInputCancelled',
+            'onInputChanged',
+            'onInputEntered',
+            'onInputStarted'
         ]
     },
     pageAction: {
@@ -202,6 +318,7 @@ export default {
             'getPopup',
             'getTitle',
             'hide',
+            'openPopup',
             'setIcon',
             'setPopup',
             'setTitle',
@@ -212,11 +329,74 @@ export default {
             'onClicked'
         ]
     },
+    permissions: {
+        methods: [
+            'contains',
+            'getAll',
+            'remove',
+            'request'
+        ],
+        properties: [],
+        events: [
+            'onAdded',
+            'onRemoved'
+        ]
+    },
+    pkcs11: {
+        methods: [
+            'getModuleSlots',
+            'installModule',
+            'isModuleInstalled',
+            'uninstallModule'
+        ],
+        properties: [],
+        events: []
+    },
+    'privacy.network': {
+        methods: [],
+        properties: [
+            'networkPredictionEnabled',
+            'peerConnectionEnabled',
+            'webRTCIPHandlingPolicy'
+        ],
+        events: []
+    },
+    'privacy.services': {
+        methods: [],
+        properties: [
+            'passwordSavingEnabled'
+        ],
+        events: []
+    },
+    'privacy.websites': {
+        methods: [],
+        properties: [
+            'firstPartyIsolate',
+            'hyperlinkAuditingEnabled',
+            'protectedContentEnabled',
+            'referrersEnabled',
+            'resistFingerprinting',
+            'thirdPartyCookiesAllowed',
+            'trackingProtectionMode'
+        ],
+        events: []
+    },
+    proxy: {
+        methods: [
+            'register',
+            'unregister'
+        ],
+        properties: [],
+        events: [
+            'onProxyError'
+        ]
+    },
     runtime: {
         methods: [
             'connect',
             'connectNative',
             'getBackgroundPage',
+            'getBrowserInfo',
             'getManifest',
             'getPackageDirectoryEntry',
             'getPlatformInfo',
@@ -245,6 +425,39 @@ export default {
             'onSuspendCanceled',
             'onUpdateAvailable'
         ]
+    },
+    sessions: {
+        methods: [
+            'forgetClosedTab',
+            'forgetClosedWindow',
+            'getRecentlyClosed',
+            'getTabValue',
+            'getWindowValue',
+            'removeTabValue',
+            'removeWindowValue',
+            'restore',
+            'setTabValue',
+            'setWindowValue'
+        ],
+        properties: [
+            'MAX_SESSION_RESULTS'
+        ],
+        events: [
+            'onChanged'
+        ]
+    },
+    sidebarAction: {
+        methods: [
+            'close',
+            'getPanel',
+            'getTitle',
+            'open',
+            'setIcon',
+            'setPanel',
+            'setTitle'
+        ],
+        properties: [],
+        events: []
     },
     storage: {
         methods: [],
@@ -293,21 +506,24 @@ export default {
             'duplicate',
             'executeScript',
             'get',
-            'getAllInWindow',
             'getCurrent',
-            'getSelected',
             'getZoom',
             'getZoomSettings',
             'highlight',
             'insertCSS',
             'move',
+            'print',
+            'printPreview',
             'query',
             'reload',
             'remove',
+            'removeCSS',
+            'saveAsPDF',
             'sendMessage',
             'sendRequest',
             'setZoom',
             'setZoomSettings',
+            'toggleReaderMode',
             'update'
         ],
         properties: [
@@ -315,19 +531,34 @@ export default {
         ],
         events: [
             'onActivated',
-            'onActiveChanged',
             'onAttached',
             'onCreated',
             'onDetached',
-            'onHighlightChanged',
             'onHighlighted',
             'onMoved',
             'onRemoved',
             'onReplaced',
-            'onSelectionChanged',
             'onUpdated',
             'onZoomChange'
         ]
+    },
+    theme: {
+        methods: [
+            'getCurrent',
+            'reset',
+            'update'
+        ],
+        properties: [],
+        events: [
+            'onUpdated'
+        ]
+    },
+    topSites: {
+        methods: [
+            'get'
+        ],
+        properties: [],
+        events: []
     },
     webNavigation: {
         methods: [
@@ -349,9 +580,12 @@ export default {
     },
     webRequest: {
         methods: [
+            'filterResponseData',
             'handlerBehaviorChanged'
         ],
-        properties: ['MAX_HANDLER_BEHAVIOR_CHANGED_CALLS_PER_10_MINUTES'],
+        properties: [
+            'MAX_HANDLER_BEHAVIOR_CHANGED_CALLS_PER_10_MINUTES'
+        ],
         events: [
             'onAuthRequired',
             'onBeforeRedirect',
@@ -367,6 +601,7 @@ export default {
     windows: {
         methods: [
             'create',
+            'get',
             'getAll',
             'getCurrent',
             'getLastFocused',

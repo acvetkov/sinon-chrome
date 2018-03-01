@@ -39,7 +39,7 @@ function generateMethodSuite(chrome, method, namespace, prefix) {
         it('should have stub sync behaviour', function () {
             const stub = _.get(chrome, `${namespace}.${method}`);
             const a = 'a';
-            stub.reset();
+            stub.resetHistory();
             stub.resetBehavior();
             stub.returns(a);
             assert.equal(stub(), a);
@@ -50,7 +50,7 @@ function generateMethodSuite(chrome, method, namespace, prefix) {
             const spy = sinon.spy();
             assert.notCalled(spy);
 
-            stub.reset();
+            stub.resetHistory();
             stub.resetBehavior();
             stub.yields(spy);
             stub(spy);
@@ -59,7 +59,7 @@ function generateMethodSuite(chrome, method, namespace, prefix) {
 
         it('should flush stub', function () {
             let stub = _.get(chrome, `${namespace}.${method}`);
-            stub.reset();
+            stub.resetHistory();
             stub.resetBehavior();
             stub.yields([1, 2]);
             const spy1 = sinon.spy();

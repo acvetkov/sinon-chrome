@@ -69,6 +69,9 @@ export default class StubsCache extends BaseCache {
      * Reset sinon stubs
      */
     reset() {
-        Object.keys(this.stubs).forEach(key => this.stubs[key].reset());
+        Object.keys(this.stubs).forEach(key => {
+          this.stubs[key].resetHistory();
+          this.stubs[key].resetBehavior();
+        });
     }
 }

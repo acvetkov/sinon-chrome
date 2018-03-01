@@ -35,7 +35,8 @@ export default class EventsCache extends BaseCache {
      * Remove all listeners
      */
     reset() {
-        this.sandbox.reset();
+        this.sandbox.resetHistory();
+        this.sandbox.resetBehavior();
         forEach(this.events, event => {
             event.removeListeners();
         });

@@ -22,12 +22,12 @@ describe('extensions', function () {
     describe('chrome.reset', function () {
 
         before(function () {
-            chrome.runtime.sendMessage.reset();
+            chrome.runtime.sendMessage.resetHistory();
             chrome.runtime.sendMessage.resetBehavior();
         });
 
         after(function () {
-            chrome.runtime.sendMessage.reset();
+            chrome.runtime.sendMessage.resetHistory();
             chrome.runtime.sendMessage.resetBehavior();
         });
 
@@ -74,14 +74,14 @@ describe('extensions', function () {
     describe('chrome.flush', function () {
 
         before(function () {
-            chrome.runtime.sendMessage.reset();
+            chrome.runtime.sendMessage.resetHistory();
             chrome.runtime.sendMessage.resetBehavior();
             chrome.runtime.getURL.resetBehavior();
-            chrome.runtime.getURL.reset();
+            chrome.runtime.getURL.resetHistory();
         });
 
         after(function () {
-            chrome.runtime.sendMessage.reset();
+            chrome.runtime.sendMessage.resetHistory();
             chrome.runtime.sendMessage.resetBehavior();
             chrome.runtime.getURL.resetBehavior();
         });

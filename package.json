@@ -55,12 +55,12 @@
     "predeploy": "npm run clean && npm run lint && npm test && npm run build && npm run copy2out",
     "bundle": "webpack",
     "bundle-dev": "webpack --watch --progress",
-    "copy2out": "cp ./README.md ./out/README.md && cp ./package.json ./out/package.json && cp -R ./dist out/bundle"
+    "copy2out": "cp ./readme.md ./out/readme.md && cp ./package.json ./out/package.json && cp -R ./dist out/bundle"
   },
   "license": "ISC",
   "dependencies": {
     "lodash": "^4.16.3",
-    "sinon": "^2.1.0",
+    "sinon": "^4.4.2",
     "urijs": "^1.18.2"
   },
   "devDependencies": {

@@ -3,14 +3,14 @@
  * @overview Subs cache
  */
 
-import sinon from 'sinon';
 import BaseCache from './cache';
 
 export default class StubsCache extends BaseCache {
 
-    constructor() {
+    constructor(sinon) {
         super();
         this.stubs = Object.create(null);
+        this.sinon = sinon;
     }
 
     /**
@@ -42,7 +42,7 @@ export default class StubsCache extends BaseCache {
      * @returns {Function}
      */
     create(key) {
-        const stub = sinon.stub();
+        const stub = this.sinon.stub();
         stub.flush = () => {
             this.deleteStub(key);
         };

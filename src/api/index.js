@@ -4,6 +4,7 @@
  */
 
 import {set, get, reduce, assign} from 'lodash';
+import sinon from 'sinon';
 import Stubs from './stub';
 import Events from './events';
 import Props from './props';
@@ -29,11 +30,12 @@ export default class Api {
     /**
      * @param {Array<Object>} config
      */
-    constructor(config) {
+    constructor(config, options = {}) {
+        this.sinon = options.sinon ? options.sinon : sinon;
         this.NS_RULE = /^(.+)\.(.+)$/;
         this.config = config;
-        this.stubs = new Stubs();
-        this.events = new Events();
+        this.stubs = new Stubs(this.sinon);
+        this.events = new Events(this.sinon);
         this.props = new Props();
         this.manager = new Manager(this.stubs, this.events, this.props);
     }

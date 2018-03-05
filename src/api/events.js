@@ -4,13 +4,12 @@
  */
 
 import {forEach} from 'lodash';
-import sinon from 'sinon';
 import ChromeEvent from '../events/index';
 import BaseCache from './cache';
 
 export default class EventsCache extends BaseCache {
 
-    constructor() {
+    constructor(sinon) {
         super();
         this.events = Object.create(null);
         this.sandbox = sinon.sandbox.create();

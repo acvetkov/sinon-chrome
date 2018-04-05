@@ -81,7 +81,9 @@ export default class Api {
             Object.defineProperty(result, func.name, {
                 get: function () {
                     return stubs.get(func.name, namespace);
-                }
+                },
+                enumerable: true,
+                configurable: true
             });
             return obj;
         }, obj);
@@ -99,7 +101,9 @@ export default class Api {
             Object.defineProperty(result, event.name, {
                 get: function () {
                     return ev.get(event.name, namespace);
-                }
+                },
+                enumerable: true,
+                configurable: true
             });
             return obj;
         }, obj);
@@ -155,7 +159,9 @@ export default class Api {
             return Object.defineProperty(obj, prop, {
                 get() {
                     return instance.get();
-                }
+                },
+                enumerable: true,
+                configurable: true
             });
         }
         const property = this.props.get(prop, `${namespace}`, value);
@@ -165,7 +171,9 @@ export default class Api {
             },
             set(newValue) {
                 property.current = newValue;
-            }
+            },
+            enumerable: true,
+            configurable: true
         });
     }
 }

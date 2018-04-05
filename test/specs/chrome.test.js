@@ -129,3 +129,45 @@ describe('chrome/flush', function () {
         assert.isNull(chrome.runtime.id);
     });
 });
+
+describe.only('chrome api', function () {
+
+    describe('functions', function () {
+
+        it('should be enumerable', function () {
+            const descriptor = Object.getOwnPropertyDescriptor(chrome.tabs, 'create');
+            assert(descriptor.enumerable);
+        });
+
+        it('should be configurable', function () {
+            const descriptor = Object.getOwnPropertyDescriptor(chrome.tabs, 'create');
+            assert(descriptor.configurable);
+        });
+    });
+
+    describe('props', function () {
+
+        it('should be enumerable', function () {
+            const descriptor = Object.getOwnPropertyDescriptor(chrome.runtime, 'id');
+            assert(descriptor.enumerable);
+        });
+
+        it('should be configurable', function () {
+            const descriptor = Object.getOwnPropertyDescriptor(chrome.runtime, 'id');
+            assert(descriptor.configurable);
+        });
+    });
+
+    describe('events', function () {
+
+        it('should be enumerable', function () {
+            const descriptor = Object.getOwnPropertyDescriptor(chrome.tabs, 'onCreated');
+            assert(descriptor.enumerable);
+        });
+
+        it('should be configurable', function () {
+            const descriptor = Object.getOwnPropertyDescriptor(chrome.tabs, 'onCreated');
+            assert(descriptor.configurable);
+        });
+    });
+});

@@ -130,7 +130,7 @@ describe('chrome/flush', function () {
     });
 });
 
-describe.only('chrome api', function () {
+describe('chrome api', function () {
 
     describe('functions', function () {
 

@@ -12,7 +12,7 @@ export default class EventsCache extends BaseCache {
     constructor(sinon) {
         super();
         this.events = Object.create(null);
-        this.sandbox = sinon.sandbox.create();
+        this.sandbox = sinon.createSandbox();
     }
 
     /**

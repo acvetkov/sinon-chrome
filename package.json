@@ -60,7 +60,7 @@
   "license": "ISC",
   "dependencies": {
     "lodash": "^4.16.3",
-    "sinon": "^4.4.2",
+    "sinon": "^7.2.3",
     "urijs": "^1.18.2"
   },
   "devDependencies": {

@@ -63,6 +63,7 @@ export default class StubsCache extends BaseCache {
      */
     flush() {
         this.stubs = Object.create(null);
+        this.sinon.restore();
     }
 
     /**
@@ -73,5 +74,6 @@ export default class StubsCache extends BaseCache {
           this.stubs[key].resetHistory();
           this.stubs[key].resetBehavior();
         });
+        this.sinon.restore();
     }
 }

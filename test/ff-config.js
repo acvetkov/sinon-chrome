@@ -47,11 +47,13 @@ export default {
             'enable',
             'getBadgeBackgroundColor',
             'getBadgeText',
+            'getBadgeTextColor',
             'getPopup',
             'getTitle',
             'openPopup',
             'setBadgeBackgroundColor',
             'setBadgeText',
+            'setBadgeTextColor',
             'setIcon',
             'setPopup',
             'setTitle'
@@ -66,9 +68,17 @@ export default {
         properties: [
             'allowPopupsForUserEvents',
             'cacheEnabled',
+            'closeTabsByDoubleClick',
+            'contextMenuShowEvent',
             'homepageOverride',
             'imageAnimationBehavior',
             'newTabPageOverride',
+            'newTabPosition',
+            'openBookmarksInNewTabs',
+            'openSearchResultsInNewTabs',
+            'openUrlbarResultsInNewTabs',
+            'overrideDocumentColors',
+            'useDocumentFonts',
             'webNotificationsDisabled'
         ],
         events: []
@@ -104,6 +114,11 @@ export default {
         events: [
             'onCommand'
         ]
+    },
+    contentScripts: {
+       methods: [
+           'register'
+       ]
     },
     contextualIdentities: {
         methods: [
@@ -155,6 +170,7 @@ export default {
             'create'
         ],
         properties: [
+            'elements',
             'themeName'
         ],
         events: [
@@ -275,6 +291,9 @@ export default {
     menus: {
         methods: [
             'create',
+            'getTargetElement',
+            'overrideContext',
+            'refresh',
             'remove',
             'removeAll',
             'update'
@@ -283,7 +302,9 @@ export default {
             'ACTION_MENU_TOP_LEVEL_LIMIT'
         ],
         events: [
-            'onClicked'
+            'onClicked',
+            'onHidden',
+            'onShown'
         ]
     },
     notifications: {
@@ -371,6 +392,7 @@ export default {
     'privacy.websites': {
         methods: [],
         properties: [
+            'cookieConfig',
             'firstPartyIsolate',
             'hyperlinkAuditingEnabled',
             'protectedContentEnabled',
@@ -424,6 +446,12 @@ export default {
             'onSuspend',
             'onSuspendCanceled',
             'onUpdateAvailable'
+        ]
+    },
+    search: {
+        methods: [
+            'get',
+            'search'
         ]
     },
     sessions: {
@@ -499,6 +527,7 @@ export default {
     },
     tabs: {
         methods: [
+            'captureTab',
             'captureVisibleTab',
             'connect',
             'create',
@@ -509,9 +538,11 @@ export default {
             'getCurrent',
             'getZoom',
             'getZoomSettings',
+            'hide',
             'highlight',
             'insertCSS',
             'move',
+            'moveInSuccession',
             'print',
             'printPreview',
             'query',
@@ -523,6 +554,7 @@ export default {
             'sendRequest',
             'setZoom',
             'setZoomSettings',
+            'show',
             'toggleReaderMode',
             'update'
         ],
@@ -560,6 +592,17 @@ export default {
         properties: [],
         events: []
     },
+    'types.BrowserSetting': {
+        methods: [
+            'get',
+            'set',
+            'clear'
+        ],
+        properties: [],
+        events: [
+            'onChange'
+        ]
+    },
     webNavigation: {
         methods: [
             'getAllFrames',
@@ -580,8 +623,9 @@ export default {
     },
     webRequest: {
         methods: [
+            'handlerBehaviorChanged',
             'filterResponseData',
-            'handlerBehaviorChanged'
+            'getSecurityInfo'
         ],
         properties: [
             'MAX_HANDLER_BEHAVIOR_CHANGED_CALLS_PER_10_MINUTES'

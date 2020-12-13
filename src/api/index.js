@@ -19,7 +19,9 @@ import StorageArea from '../types/storage-area';
 
 const typeMap = {
     'types.ChromeSetting': ChromeSettings,
+    'types.Setting': ChromeSettings,
     'StorageArea': StorageArea,
+    'StorageAreaSync': StorageArea,
     'SourcesPanel': SourcePanel,
     'ElementsPanel': ElementsPanel,
     'ContentSetting': ContentSettings

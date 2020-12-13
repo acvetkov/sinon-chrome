@@ -50,6 +50,7 @@ export default {
             'getBadgeTextColor',
             'getPopup',
             'getTitle',
+            'isEnabled',
             'openPopup',
             'setBadgeBackgroundColor',
             'setBadgeText',
@@ -70,6 +71,7 @@ export default {
             'cacheEnabled',
             'closeTabsByDoubleClick',
             'contextMenuShowEvent',
+            'ftpProtocolEnabled',
             'homepageOverride',
             'imageAnimationBehavior',
             'newTabPageOverride',
@@ -79,7 +81,9 @@ export default {
             'openUrlbarResultsInNewTabs',
             'overrideDocumentColors',
             'useDocumentFonts',
-            'webNotificationsDisabled'
+            'webNotificationsDisabled',
+            'zoomFullPage',
+            'zoomSiteSpecific',
         ],
         events: []
     },
@@ -339,6 +343,7 @@ export default {
             'getPopup',
             'getTitle',
             'hide',
+            'isShown',
             'openPopup',
             'setIcon',
             'setPopup',
@@ -404,13 +409,9 @@ export default {
         events: []
     },
     proxy: {
-        methods: [
-            'register',
-            'unregister'
-        ],
         properties: [],
         events: [
-            'onProxyError'
+            'onError'
         ]
     },
     runtime: {
@@ -479,10 +480,12 @@ export default {
             'close',
             'getPanel',
             'getTitle',
+            'isOpen',
             'open',
             'setIcon',
             'setPanel',
-            'setTitle'
+            'setTitle',
+            'toggle'
         ],
         properties: [],
         events: []
@@ -532,12 +535,15 @@ export default {
             'connect',
             'create',
             'detectLanguage',
+            'discard',
             'duplicate',
             'executeScript',
             'get',
             'getCurrent',
             'getZoom',
             'getZoomSettings',
+            'goBack',
+            'goForward',
             'hide',
             'highlight',
             'insertCSS',
@@ -551,12 +557,12 @@ export default {
             'removeCSS',
             'saveAsPDF',
             'sendMessage',
-            'sendRequest',
             'setZoom',
             'setZoomSettings',
             'show',
             'toggleReaderMode',
-            'update'
+            'update',
+            'warmup'
         ],
         properties: [
             'TAB_ID_NONE'
@@ -592,15 +598,13 @@ export default {
         properties: [],
         events: []
     },
-    'types.BrowserSetting': {
+    userScripts: {
         methods: [
-            'get',
-            'set',
-            'clear'
+            'register'
         ],
         properties: [],
         events: [
-            'onChange'
+            'onBeforeScript'
         ]
     },
     webNavigation: {

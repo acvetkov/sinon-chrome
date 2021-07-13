@@ -47,11 +47,14 @@ export default {
             'enable',
             'getBadgeBackgroundColor',
             'getBadgeText',
+            'getBadgeTextColor',
             'getPopup',
             'getTitle',
+            'isEnabled',
             'openPopup',
             'setBadgeBackgroundColor',
             'setBadgeText',
+            'setBadgeTextColor',
             'setIcon',
             'setPopup',
             'setTitle'
@@ -66,10 +69,21 @@ export default {
         properties: [
             'allowPopupsForUserEvents',
             'cacheEnabled',
+            'closeTabsByDoubleClick',
+            'contextMenuShowEvent',
+            'ftpProtocolEnabled',
             'homepageOverride',
             'imageAnimationBehavior',
             'newTabPageOverride',
-            'webNotificationsDisabled'
+            'newTabPosition',
+            'openBookmarksInNewTabs',
+            'openSearchResultsInNewTabs',
+            'openUrlbarResultsInNewTabs',
+            'overrideDocumentColors',
+            'useDocumentFonts',
+            'webNotificationsDisabled',
+            'zoomFullPage',
+            'zoomSiteSpecific',
         ],
         events: []
     },
@@ -104,6 +118,11 @@ export default {
         events: [
             'onCommand'
         ]
+    },
+    contentScripts: {
+       methods: [
+           'register'
+       ]
     },
     contextualIdentities: {
         methods: [
@@ -155,6 +174,7 @@ export default {
             'create'
         ],
         properties: [
+            'elements',
             'themeName'
         ],
         events: [
@@ -275,6 +295,9 @@ export default {
     menus: {
         methods: [
             'create',
+            'getTargetElement',
+            'overrideContext',
+            'refresh',
             'remove',
             'removeAll',
             'update'
@@ -283,7 +306,9 @@ export default {
             'ACTION_MENU_TOP_LEVEL_LIMIT'
         ],
         events: [
-            'onClicked'
+            'onClicked',
+            'onHidden',
+            'onShown'
         ]
     },
     notifications: {
@@ -318,6 +343,7 @@ export default {
             'getPopup',
             'getTitle',
             'hide',
+            'isShown',
             'openPopup',
             'setIcon',
             'setPopup',
@@ -371,6 +397,7 @@ export default {
     'privacy.websites': {
         methods: [],
         properties: [
+            'cookieConfig',
             'firstPartyIsolate',
             'hyperlinkAuditingEnabled',
             'protectedContentEnabled',
@@ -382,13 +409,9 @@ export default {
         events: []
     },
     proxy: {
-        methods: [
-            'register',
-            'unregister'
-        ],
         properties: [],
         events: [
-            'onProxyError'
+            'onError'
         ]
     },
     runtime: {
@@ -426,6 +449,12 @@ export default {
             'onUpdateAvailable'
         ]
     },
+    search: {
+        methods: [
+            'get',
+            'search'
+        ]
+    },
     sessions: {
         methods: [
             'forgetClosedTab',
@@ -451,10 +480,12 @@ export default {
             'close',
             'getPanel',
             'getTitle',
+            'isOpen',
             'open',
             'setIcon',
             'setPanel',
-            'setTitle'
+            'setTitle',
+            'toggle'
         ],
         properties: [],
         events: []
@@ -499,19 +530,25 @@ export default {
     },
     tabs: {
         methods: [
+            'captureTab',
             'captureVisibleTab',
             'connect',
             'create',
             'detectLanguage',
+            'discard',
             'duplicate',
             'executeScript',
             'get',
             'getCurrent',
             'getZoom',
             'getZoomSettings',
+            'goBack',
+            'goForward',
+            'hide',
             'highlight',
             'insertCSS',
             'move',
+            'moveInSuccession',
             'print',
             'printPreview',
             'query',
@@ -520,11 +557,12 @@ export default {
             'removeCSS',
             'saveAsPDF',
             'sendMessage',
-            'sendRequest',
             'setZoom',
             'setZoomSettings',
+            'show',
             'toggleReaderMode',
-            'update'
+            'update',
+            'warmup'
         ],
         properties: [
             'TAB_ID_NONE'
@@ -560,6 +598,15 @@ export default {
         properties: [],
         events: []
     },
+    userScripts: {
+        methods: [
+            'register'
+        ],
+        properties: [],
+        events: [
+            'onBeforeScript'
+        ]
+    },
     webNavigation: {
         methods: [
             'getAllFrames',
@@ -580,8 +627,9 @@ export default {
     },
     webRequest: {
         methods: [
+            'handlerBehaviorChanged',
             'filterResponseData',
-            'handlerBehaviorChanged'
+            'getSecurityInfo'
         ],
         properties: [
             'MAX_HANDLER_BEHAVIOR_CHANGED_CALLS_PER_10_MINUTES'
